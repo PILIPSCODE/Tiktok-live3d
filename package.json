@@ -4,13 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --experimental-debug-memory-usage",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/bundle-analyzer": "^15.0.3",
     "@react-three/drei": "^9.117.0",
     "@react-three/fiber": "^8.17.10",
+    "@react-three/offscreen": "^0.0.8",
     "next": "14.2.2",
     "react": "^18",
     "react-dom": "^18",

@@ -5,20 +5,21 @@ import { AppProvider } from "./AppProvider";
 import BubleChat from "@/components/UiForChat/BubleChat";
 import Toast from "@/components/Toast";
 
-const Scene = dynamic(() => import("@/components/Scene"), { ssr: false })
+
+const AvatarRenderer = dynamic(() => import("@/components/AvatarRender"), { ssr: false })
 
 export default function Home() {
 
 
 
   return (
-    <AppProvider>
     <main className="h-screen flex justify-center items-center  ">
-      <Toast/>
-      <Scene />
-      <Connection />
-      <BubleChat/>
+      <AppProvider>
+        <Toast />
+        <AvatarRenderer />
+        <Connection />
+        <BubleChat />
+      </AppProvider>
     </main>
-    </AppProvider>
   )
 }

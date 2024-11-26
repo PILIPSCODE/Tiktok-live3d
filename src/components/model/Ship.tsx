@@ -4,7 +4,7 @@ import { useFrame } from "@react-three/fiber"
 import { useEffect, useRef } from "react"
 import { Group } from "three"
 
-useGLTF.preload("/3d/bangunan/satelit_moon.glb")
+// useGLTF.preload("/3d/bangunan/satelit_moon.glb")
 
 export default function Model7() {
     const group = useRef<Group>(null)
