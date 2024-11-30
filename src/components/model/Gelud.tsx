@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react"
 import { Group } from "three"
 import { useTiktok } from "@/app/AppProvider"
 
-// useGLTF.preload("/3d/Gelud.glb")
+useGLTF.preload("/3d/Gelud.glb")
 export default function ModelGelud() {
     const group = useRef<Group>(null)
     const { Animation,SetAnimation } = useTiktok();

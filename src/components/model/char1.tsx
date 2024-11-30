@@ -3,26 +3,25 @@ import { useAnimations, useGLTF, useScroll } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { useEffect, useRef } from "react"
 import { Group } from "three"
-// import { useTiktok } from "@/app/AppProvider"
+import { useTiktok } from "@/app/AppProvider"
 
-// useGLTF.preload("/3d/Pilbot.glb")
+useGLTF.preload("/3d/PilKun.glb")
 export default function Model1() {
     const group = useRef<Group>(null)
-    // const { Animation,SetAnimation } = useTiktok();
-    const Animation = ""
+    const { Animation,SetAnimation } = useTiktok();
     const animate  = Animation !== ""? Animation:"Idle"
     const {scene, animations} = useGLTF(
-        "/3d/Pilbot.glb"
+        "/3d/PilKun.glb"
     )
     const { actions, mixer } = useAnimations(animations, scene)
     useEffect(() => {
         if (actions[animate]) {
             actions[animate].reset().fadeIn(0.5).play();
-            // if(Animation === "BackFlip") {
-            //     setTimeout(() => {
-            //         SetAnimation("Idle");
-            //     }, actions[animate].getClip().duration * 1000); 
-            // }
+            if(Animation === "BackFlip") {
+                setTimeout(() => {
+                    SetAnimation("Idle");
+                }, actions[animate].getClip().duration * 1000); 
+            }
         }
         return () => {
             if (actions[animate]) {

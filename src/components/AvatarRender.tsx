@@ -18,10 +18,10 @@ const worker = new Worker(new URL("./worker.tsx", import.meta.url), {
 export default function AvatarRenderer() {
     return (
         // <Suspense fallback={<Loader />}>
+  
             <Canvas
                 worker={worker}
                 fallback={<Scene/>}
-                shadows="basic"
                 gl={{ antialias: true }}
                 camera={{ position: [0, -1, 0], fov: 65 }}
                 dpr={[1, 4]}

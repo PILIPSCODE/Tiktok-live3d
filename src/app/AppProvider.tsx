@@ -5,9 +5,14 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 
 const TiktokContext = createContext<any>(null);
+const AnimationContext = createContext<any>(null);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [Toast, SetToast] = useState({text:"",uniqueId:""})
+
+    const [UserName, SetUserName] = useState("")
+    const [ChatEnd, SetChatEnd] = useState(false)
+
     const [isConnected, setIsConnected] = useState(false);
     const [mode,SetMode] = useState<string>("");
     const [MainChar,SetMainChar] = useState<string>("");
@@ -87,8 +92,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }, []);
     // State untuk User
 
+    useEffect(() => {
+        socket.emit("username",UserName)
+    },[UserName])
+    useEffect(() => {
+        socket.emit("callback",ChatEnd)
+    },[ChatEnd])
+
     return (
-        <TiktokContext.Provider value={{ Gift,Animation,Share,Join,Toast,SetToast, Follow, isConnected, Airesponse, SetAnimation}}>
+        <TiktokContext.Provider value={{ SetUserName,SetChatEnd,Gift,Animation,Share,Join,Toast,SetToast, Follow, isConnected, Airesponse, SetAnimation}}>
             {children}
         </TiktokContext.Provider>
     );

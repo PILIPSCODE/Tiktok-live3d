@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react"
 import { Group } from "three"
 
 
-// useGLTF.preload("/3d/bangunan/Kursi_Angkasa.glb")
+useGLTF.preload("/3d/bangunan/Kursi_Angkasa.glb")
 export default function Model9() {
     const group = useRef<Group>(null)
     const { scene } = useGLTF(

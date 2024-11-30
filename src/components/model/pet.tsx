@@ -4,7 +4,7 @@ import { useFrame } from "@react-three/fiber"
 import { useEffect, useRef } from "react"
 import { Group } from "three"
 
-// useGLTF.preload("/3d/pet/model_Animation_Walking_withSkin.glb")
+useGLTF.preload("/3d/pet/model_Animation_Walking_withSkin.glb")
 
 export default function Model6() {
     const group = useRef<Group>(null)

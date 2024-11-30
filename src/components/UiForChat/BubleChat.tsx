@@ -4,9 +4,10 @@ import Image from 'next/image'
 import { ReactTyped } from 'react-typed'
 import { useTiktok } from "../../app/AppProvider";
 import { ResponseAi } from '../../../interface';
+import { socket } from '@/socket';
 
 export default function BubleChat() {
-    const { Airesponse, SetAnimation } = useTiktok();
+    const { Airesponse, SetAnimation, SetChatEnd} = useTiktok();
     console.log(Airesponse)
 
     const data = {
@@ -50,7 +51,8 @@ export default function BubleChat() {
             SetAnimation("Idle")
             setTimeout(() => {
                 handleMessage()
-            }, 1000)
+            }, 3000)
+            SetChatEnd(true)
         };
         synth.current.speak(utterance);
     };

@@ -7,7 +7,7 @@ type prop = {
     position:number[],
 }
 
-// useGLTF.preload("/3d/bangunan/Buildi.glb")
+useGLTF.preload("/3d/bangunan/Buildi.glb")
 export default function Model6(props:prop) {
     const group = useRef<Group>(null)
     const {scene } = useGLTF(
