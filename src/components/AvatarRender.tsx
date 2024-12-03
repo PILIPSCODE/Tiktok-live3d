@@ -6,7 +6,7 @@ import { Canvas } from "@react-three/offscreen"
 function Loader() {
     const { progress} = useProgress()
 
-    return <Html center>{progress.toFixed(1)} % loaded</Html>
+    return <div className="flex gap-3"><span>{progress.toFixed(1)} %</span><span> loaded</span></div>
 }
 
 const Scene = lazy(() => import("./Scene"));

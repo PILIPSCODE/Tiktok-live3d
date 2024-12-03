@@ -5,7 +5,7 @@ import { useTiktok } from "../../app/AppProvider";
 
 
 export default function Connection() {
-    const { isConnected, SetUserName} = useTiktok();
+    const { isConnected} = useTiktok();
     const audioRef = useRef<HTMLAudioElement | null>(null); 
 
     useEffect(() => {
@@ -30,7 +30,7 @@ export default function Connection() {
     };
   
     return (
-        <div  onClick={() => {handlePlayAudio(),SetUserName("mobilelegends_id") }}  className="absolute left-2 bottom-2">
+        <div  onClick={() => {handlePlayAudio() }}  className="absolute left-2 bottom-2">
                 {
                     isConnected ?
                         <div className="h-5 w-5 rounded-full bg-green-500"></div>

@@ -4,12 +4,9 @@ import Image from 'next/image'
 import { ReactTyped } from 'react-typed'
 import { useTiktok } from "../../app/AppProvider";
 import { ResponseAi } from '../../../interface';
-import { socket } from '@/socket';
 
 export default function BubleChat() {
     const { Airesponse, SetAnimation, SetChatEnd} = useTiktok();
-    console.log(Airesponse)
-
     const data = {
         comment: "",
         prev: false,
@@ -35,6 +32,7 @@ export default function BubleChat() {
 
     const speak = (text: string) => {
         if (isSpeaking.current || !synth.current) return;
+        SetChatEnd(false)
         isSpeaking.current = true;
 
         const utterance = new SpeechSynthesisUtterance(text);
@@ -51,7 +49,7 @@ export default function BubleChat() {
             SetAnimation("Idle")
             setTimeout(() => {
                 handleMessage()
-            }, 3000)
+            }, 3500)
             SetChatEnd(true)
         };
         synth.current.speak(utterance);
@@ -67,7 +65,6 @@ export default function BubleChat() {
 
     if (message.response !== "")
         return (
-
             <div className='absolute  w-96 mx-auto rounded-lg   bg-black/60'>
                 <div className='w-full h-10 -translate-y-5 top-0 relative'>
                     <Image fill src={'/Border3.png'} alt='Border' />
