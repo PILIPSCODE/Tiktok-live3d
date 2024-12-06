@@ -1,11 +1,11 @@
 "use client"
 
 import { useEffect, useRef } from "react";
-import { useTiktok } from "../../app/AppProvider";
+import {  useTiktokConnection } from "../../app/AppProvider";
 
 
 export default function Connection() {
-    const { isConnected} = useTiktok();
+    const { isConnected} = useTiktokConnection();
     const audioRef = useRef<HTMLAudioElement | null>(null); 
 
     useEffect(() => {

@@ -2,11 +2,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { ReactTyped } from 'react-typed'
-import { useTiktok } from "../../app/AppProvider";
+import { useInteraction, useTiktokConnection } from "../../app/AppProvider";
 import { ResponseAi } from '../../../interface';
 
 export default function BubleChat() {
-    const { Airesponse, SetAnimation, SetChatEnd} = useTiktok();
+    const {SetChatEnd} = useTiktokConnection();
+    const {Airesponse, SetAnimation, } = useInteraction();
     const data = {
         comment: "",
         prev: false,

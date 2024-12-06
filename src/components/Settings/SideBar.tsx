@@ -7,108 +7,131 @@ import { TbApi, TbBackground } from "react-icons/tb";
 import { IoAccessibilityOutline } from "react-icons/io5";
 import { GiCharacter } from "react-icons/gi";
 import { IoChatbox } from 'react-icons/io5';
-import { useTiktok } from '@/app/AppProvider';
+import { useTiktokConnection } from '@/app/AppProvider';
+import Console from '../SideBarItems/Console';
+import Prompt from '../SideBarItems/Prompt';
+import Character from '../SideBarItems/Character';
+import ApiKey from '../SideBarItems/ApiKey';
+import ChatDisplay from '../SideBarItems/ChatDisplay';
+import BackGround from '../SideBarItems/BackGround';
+import Voice from '../SideBarItems/Voice';
+import Music from '../SideBarItems/Music';
+import AnimationSettings from '../SideBarItems/AnimationSettings';
+import Input from '../Ui/input';
 
 
 type prop = {
-    open:boolean,
-    setOpen:Dispatch<SetStateAction<boolean>>
+    open: boolean,
+    setOpen: Dispatch<SetStateAction<boolean>>
 }
 type list = {
     value: string;
     icons: React.JSX.Element
+    JSX: React.JSX.Element
 }
-function Navbar(props:prop) {
-    const { SetUserName, TiktokConnection, setConnection} = useTiktok();
+function Navbar(props: prop) {
+    const { SetUserConnection, TiktokConnection, SetUserNameDisconnected, UserConncetion } = useTiktokConnection();
     const [inputUser, setInputUser] = useState("")
-    const handleClick = () => {
-        if(inputUser == "") return;
+    const [loading, setLoading] = useState(false)
+    const text = TiktokConnection === "Connected" ? "Disconnect" : "Connect"
 
-        if(TiktokConnection === "Connected"){
-            setConnection(true)
-        }else{
-            SetUserName(inputUser)
+    const handleClick = () => {
+        setLoading(true)
+        if (TiktokConnection === "Connected") {
+            SetUserNameDisconnected(inputUser)
+            setTimeout(() => {
+                setLoading(false)
+            }, 3000)
+        } else {
+            SetUserConnection({ ...UserConncetion, username: inputUser })
+            setTimeout(() => {
+                setLoading(false)
+            }, 3000)
         }
     }
 
-    
+
     const [itemNav, setitemNav] = useState<string>("")
 
-    const nav_list:list[] = [
+    const nav_list: list[] = [
         {
             value: "Console",
-            icons: <GoTerminal/>
+            icons: <GoTerminal />,
+            JSX: <Console />
         },
         {
             value: "Prompt",
-            icons: <RiFilePaper2Line/>
+            icons: <RiFilePaper2Line />,
+            JSX: <Prompt />
         },
         {
             value: "Character",
-            icons: <GiCharacter/> 
+            icons: <GiCharacter />,
+            JSX: <Character />
         },
         {
             value: "Api Key",
-            icons: <TbApi/> 
+            icons: <TbApi />,
+            JSX: <ApiKey />
         },
         {
             value: "Chat Display",
-            icons: <IoChatbox/> 
+            icons: <IoChatbox />,
+            JSX: <ChatDisplay />
         },
         {
             value: "Background",
-            icons: <TbBackground/> 
+            icons: <TbBackground />,
+            JSX: <BackGround />
         },
         {
             value: "Voice (TTS)",
-            icons: <RiUserVoiceFill/> 
+            icons: <RiUserVoiceFill />,
+            JSX: <Voice />
         },
         {
             value: "Music",
-            icons: <RiMusic2Fill/> 
+            icons: <RiMusic2Fill />,
+            JSX: <Music />
         },
         {
             value: "Animation Setting",
-            icons: <IoAccessibilityOutline/> 
+            icons: <IoAccessibilityOutline />,
+            JSX: <AnimationSettings />
         },
     ]
 
     return (
-        <section className={`relative ${props.open? "w-96":"w-0"}   flex-grow h-screen transition-all duration-300`}>
-        <label onClick={() => props.setOpen(!props.open)} className={`${props.open?"max-md:text-black":"text-white"} absolute top-3 right-3  md:-left-10 text-4xl`}><IoIosSettings/></label>
-        <div className={`h-screen bg-white overflow-y-scroll text-xl p-8 flex flex-col  text-black`}>
-            <label className='text-4xl mb-4'>
-                <h1>Settings</h1>
-            </label>
-            <div className='flex text-white w-full gap-4 max-md:text-sm'>
-              <input onChange={(e) => setInputUser(e.target.value) }  type="text" className='flex-grow bg-transparent text-black border-b-2  border-black p-2 max-md:w-32 max-md:h-12 focus:outline-none' placeholder='@Tiktok Username'/>
-              <button onClick={handleClick} className='bg-black text-white p-3 rounded-md transition-transform duration-300 transform hover:scale-105'>{TiktokConnection === "Connected"?"Disconnect":"Connect"}</button>
+        <section className={`relative ${props.open ? "w-96" : "w-0"}   flex-grow h-screen transition-all duration-300`}>
+            <label onClick={() => props.setOpen(!props.open)} className={`${props.open ? "max-md:text-black" : "text-white"} absolute top-3 right-3  md:-left-10 text-4xl`}><IoIosSettings /></label>
+            <div className={`h-screen bg-white overflow-y-scroll text-xl p-8 flex flex-col  text-black`}>
+                <label className='text-4xl mb-4'>
+                    <h1>Settings</h1>
+                </label>
+                <div className='flex text-white w-full gap-4 max-md:text-sm'>
+                    <Input
+                        onChange={(e) => setInputUser(e.target.value)}
+                        value={inputUser} type="text"
+                        Inputsize={"sm"}
+                        className='flex-grow ' placeholder='@Tiktok Username
+                    '/>
+                    <button onClick={handleClick} className='bg-black text-white p-3 rounded-md transition-transform duration-300 transform hover:scale-105'>{text}</button>
+                </div>
+                <p className='font-sans mb-8  text-sm'>{loading ? `${text}ing...` : TiktokConnection}</p>
+                <ul className='flex flex-col gap-6'>
+                    {
+                        nav_list.map((item: list, index) => (
+                            <li className="flex flex-col" key={index}>
+                                <span className='flex gap-2 items-center' onClick={() => setitemNav(itemNav === item.value ? "" : item.value)}>{item.icons}{item.value}</span>
+                                <div className={`flex-grow ${itemNav === item.value ? "max-h-96 opacity-100  bg-gray-200" : "max-h-0 opacity-0 "}   rounded-md transition-all duration-300 overflow-y-scroll `}>
+                                    {item.JSX}
+                                </div>
+                            </li>
+                        ))
+                    }
+
+                </ul>
             </div>
-            <p className='font-sans mb-8 text-sm'>{TiktokConnection}</p>
-            <ul className='flex flex-col gap-6'>
-                {
-                    nav_list.map((item:list, index) => (
-                        <li className="flex flex-col" key={index}>
-                            <span className='flex gap-2 items-center' onClick={() => setitemNav(itemNav === item.value?"":item.value)}>{item.icons}{item.value}</span>
-                            <div className={`flex-grow ${itemNav === item.value? "max-h-96 opacity-100 p-3 bg-gray-200" :"max-h-0 opacity-0 "}   rounded-md transition-all duration-300 overflow-y-scroll `}> 
-                                <h1>items</h1>
-                                <h1>items</h1>
-                                <h1>items</h1>
-                                <h1>items</h1>
-                                <h1>items</h1>
-                                <h1>items</h1>
-                                <h1>items</h1>
-                                <h1>items</h1>
-                                <h1>items</h1>
-                                <h1>items</h1>
-                                <h1>items</h1>
-                            </div>
-                        </li>
-                    ))
-                }
-                
-            </ul>
-        </div>
         </section>
     )
 }

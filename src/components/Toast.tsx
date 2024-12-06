@@ -1,9 +1,9 @@
-import { useTiktok } from '@/app/AppProvider'
+import { useInteraction} from '@/app/AppProvider'
 import React, { useEffect, useState } from 'react'
 import { FaPlusCircle, FaShare } from 'react-icons/fa'
 
 const Toast = () => {
-   const {Toast,SetToast} = useTiktok()
+   const {Toast,SetToast} = useInteraction()
    const [visible, setVisible] = useState(false)
    
    useEffect(() => {

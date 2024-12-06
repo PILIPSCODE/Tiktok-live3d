@@ -3,12 +3,12 @@ import { useAnimations, useGLTF, useScroll } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { useEffect, useRef } from "react"
 import { Group } from "three"
-import { useTiktok } from "@/app/AppProvider"
+import { useInteraction } from "@/app/AppProvider"
 
 useGLTF.preload("/3d/PilKun.glb")
 export default function Model1() {
     const group = useRef<Group>(null)
-    const { Animation,SetAnimation } = useTiktok();
+    const { Animation,SetAnimation } = useInteraction();
     const animate  = Animation !== ""? Animation:"Idle"
     const {scene, animations} = useGLTF(
         "/3d/PilKun.glb"
