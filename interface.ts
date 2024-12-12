@@ -15,3 +15,10 @@ export interface Hooks {
     isConnected:boolean,
 }
 
+
+export interface BubbleSettings {
+    TypeBorder:string,
+    CommentPosition:string,
+    usernamePosition:string,
+    ResponsePosition:string,
+}

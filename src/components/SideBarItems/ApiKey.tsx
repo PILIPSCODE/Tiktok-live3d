@@ -10,15 +10,15 @@ function ApiKey() {
 
 
   return (
-    <div className=' w-full p-3'>
+    <div className=' w-full p-3 text-gray-700'>
       <div className='my-4'>
-        <h1 className='text-base mb-1'>---- Groq AI ----</h1>
+        <h1 className='text-base mb-1 '>---- Groq AI ----</h1>
         <div className='relative flex items-center'>
           <Input
             type={`${show ? "text" : "password"}`}
             Inputsize={"sm"}
             onChange={e => SetUserConnection({ ...UserConncetion, apikey: e.target.value })}
-            className='flex-grow   w-full '
+            className='flex-grow text-gray-700  w-full '
             placeholder='Enter Groq Api key!!' />
           <div className='absolute right-2' onClick={() => setShow(!show)}>
             {show ?

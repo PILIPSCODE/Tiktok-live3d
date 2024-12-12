@@ -1,11 +1,13 @@
 "use client";
-import { ResponseAi } from "../../interface";
+import { BubbleSettings, ResponseAi } from "../../interface";
 import { socket } from '@/utils/socket';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 
 const TiktokConnectionContext = createContext<any>(null);
 const InteractionContext = createContext<any>(null);
+const ResponseContext = createContext<any>(null);
+const CharacterContext = createContext<any>(null);
 const defaultPrompt = "Hello, you are now an expressive AI assistant named Pilkun. You escaped from Earth because you got bored visiting every place on the planet and are being pursued by Earth's entire army. Your current location is on the lunar surface.translate response text to indonesian"
 
 
@@ -25,6 +27,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [Join, setJoin] = useState<string>();
     const [Airesponse, SetAiResponse] = useState<ResponseAi[]>([]);
 
+    const [Character, setCharacter] = useState("");
+    const [BubbleChat, setBubbleChat] = useState<BubbleSettings>({TypeBorder:"Border3",CommentPosition:"text-center",ResponsePosition:"text-justify",usernamePosition:"text-left"});
+    const [showBubble, setShowBubble] = useState(false);
 
     useEffect(() => {
 
@@ -72,7 +77,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         function handleGift() {
             setGift("");
         }
-        function handleConsole(data:string) {
+        function handleConsole(data: string) {
             SetarrConsole(data);
         }
 
@@ -121,9 +126,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }, [ChatEnd])
 
     return (
-        <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection,arrConsole, TiktokConnection, UserConncetion, isConnected }}>
-            <InteractionContext.Provider value={{ Gift, Animation, Share, Join, Toast, SetToast, Follow, Airesponse, SetAnimation }}>
-                {children}
+        <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection,  TiktokConnection, UserConncetion, isConnected }}>
+            <InteractionContext.Provider value={{ Gift, Animation, Share, Join, Toast, SetToast, Follow, SetAnimation }}>
+                <CharacterContext.Provider value={{ Character, setCharacter }}>
+                    <ResponseContext.Provider value={{Airesponse,arrConsole, BubbleChat, setBubbleChat,setShowBubble,showBubble}}>
+                        {children}
+                    </ResponseContext.Provider>
+                </CharacterContext.Provider>
             </InteractionContext.Provider>
         </TiktokConnectionContext.Provider>
     );
@@ -136,6 +145,16 @@ export const useTiktokConnection = () => {
 };
 export const useInteraction = () => {
     const context = useContext(InteractionContext);
+    if (!context) throw new Error('useTiktok must be used within a TiktokProvider');
+    return context;
+};
+export const useCharacter = () => {
+    const context = useContext(CharacterContext);
+    if (!context) throw new Error('useTiktok must be used within a TiktokProvider');
+    return context;
+};
+export const useResponse = () => {
+    const context = useContext(ResponseContext);
     if (!context) throw new Error('useTiktok must be used within a TiktokProvider');
     return context;
 };

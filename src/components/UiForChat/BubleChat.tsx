@@ -2,12 +2,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { ReactTyped } from 'react-typed'
-import { useInteraction, useTiktokConnection } from "../../app/AppProvider";
+import { useInteraction, useResponse, useTiktokConnection } from "../../app/AppProvider";
 import { ResponseAi } from '../../../interface';
 
 export default function BubleChat() {
     const {SetChatEnd} = useTiktokConnection();
-    const {Airesponse, SetAnimation, } = useInteraction();
+    const { SetAnimation, } = useInteraction();
+    const { Airesponse, showBubble, BubbleChat} = useResponse();
     const data = {
         comment: "",
         prev: false,
@@ -37,7 +38,6 @@ export default function BubleChat() {
         isSpeaking.current = true;
 
         const utterance = new SpeechSynthesisUtterance(text);
-        // utterance.lang = "en-US";
         utterance.lang = "id-ID";
         utterance.rate = 1.5;
         utterance.volume = 1;
@@ -64,23 +64,23 @@ export default function BubleChat() {
         handleMessage();
     }, [Airesponse])
 
-    if (message.response !== "")
+    if (message.response !== "" || showBubble)
         return (
             <div className='absolute  w-96 mx-auto rounded-lg   bg-black/60'>
                 <div className='w-full h-10 -translate-y-5 top-0 relative'>
-                    <Image fill src={'/Border3.png'} alt='Border' />
+                    <Image fill src={`/border/${BubbleChat.TypeBorder}.png`} alt='Border' />
                 </div>
-                <div className='p-4 w-full break-before-auto'>
-                    <h1 className='text-white text-center mb-2'>{message.comment}</h1>
-                    <h1 className='text-orange-200  mb-2'>username :{message.user}</h1>
+                <div className={`p-4 w-full break-before-auto  ${BubbleChat.ResponsePosition}`}>
+                    <h1 className={`text-white text-lg ${BubbleChat.CommentPosition} mb-4`}>{message.comment || "hello world"}</h1>
+                    <h1 className={`text-orange-200 ${BubbleChat.usernamePosition}  mb-2`}>{message.user || "pilcotech"}</h1>
                     <ReactTyped
-                        strings={[message.response]}
+                        strings={["response: "+ (message.response || "lorem ipsum dolor siamet constrectur, dolor siamet constrectur dolor, siamet constrectur dolor siamet constrectur, dolor siamet constrectur")]}
                         typeSpeed={10}
                     >
                     </ReactTyped>
                 </div>
                 <div className='w-full h-10 rotate-180 translate-y-5 bottom-0 relative'>
-                    <Image fill src={'/Border3.png'} alt='Border' />
+                    <Image fill src={`/border/${BubbleChat.TypeBorder}.png`}  alt='Border' />
                 </div>
             </div>
         )

@@ -4,7 +4,7 @@ import Connection from "../components/UiForChat/ConectionStatus"
 import { AppProvider } from "./AppProvider";
 import BubleChat from "@/components/UiForChat/BubleChat";
 import Toast from "@/components/Toast";
-import Navbar from "@/components/Settings/SideBar";
+import Navbar from "@/components/SideBar";
 import { useState } from "react";
 
 

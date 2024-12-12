@@ -1,9 +1,9 @@
 "use client";
-import { useTiktokConnection } from "@/app/AppProvider";
+import { useResponse, useTiktokConnection } from "@/app/AppProvider";
 import React, { useEffect, useRef, useState } from "react";
 
 function Console() {
-  const { arrConsole } = useTiktokConnection(); 
+  const { arrConsole } = useResponse(); 
   const [consoleLogs, setConsoleLogs] = useState<string[]>([]); 
   const consoleRef = useRef<HTMLDivElement>(null);
 
@@ -19,14 +19,14 @@ function Console() {
       consoleRef.current.scrollTop = consoleRef.current.scrollHeight;
     }
   }, [consoleLogs]);
-
   return (
     <div
       ref={consoleRef}
-      className="h-52 bg-black text-white text-xs overflow-y-auto p-2 rounded"
+      className="h-52 bg-black text-white text-xs  overflow-y-auto p-2 rounded"
     >
+      <div>Console</div>
       {consoleLogs.map((log, index) => (
-        <div key={index}>{String(log)}</div>
+         <div key={index}>{String(log)}</div>
       ))}
     </div>
   );
