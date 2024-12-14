@@ -113,7 +113,7 @@ function Navbar(props: prop) {
 
     return (
         <section className={`relative ${props.open ? "w-96" : "w-0"}   flex-grow h-screen transition-all duration-300`}>
-            <label onClick={() => props.setOpen(!props.open)} className={`${props.open ? "max-md:text-black" : "text-white"} absolute top-3 right-3  md:-left-10 text-4xl`}><IoIosSettings /></label>
+            <label onClick={() => props.setOpen(!props.open)} className={`${props.open ? "max-md:text-black " : "text-white"} absolute top-3 right-3 z-50  md:-left-10 text-4xl`}><IoIosSettings className={`${props.open?"max-md:bg-white rounded-md shadow-md":""}`}/></label>
             <div className={`h-screen bg-white overflow-y-scroll text-xl p-8 flex flex-col  text-black`}>
                 <label className='text-4xl mb-4'>
                     <h1>Settings</h1>

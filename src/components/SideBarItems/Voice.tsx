@@ -43,7 +43,7 @@ function Voice() {
   return (
     <div className='p-4  text-base '>
       <div className='w-full relative '>
-        <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder='Selest Your Google TTs' onFocus={() => setShow(true)} Inputsize={"sm"} className='w-full' />
+        <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder='Selest Your Google TTs' onFocus={() => setShow(true)} Inputsize={"sm"} className='w-full max-md:w-full' />
         <div className={`${show ? "h-32 opacity-100" : "z-0 h-0 opacity-0"} w-full mt-2 p-2 bg-white border overflow-y-scroll duration-300 absolute z-50`}>
           {voices.filter((e) => e.voiceURI.includes(input)).map((e, index) => (
             <div onClick={() => handleClickVoice(e)} key={index}>{e.voiceURI}</div>

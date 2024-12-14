@@ -30,7 +30,7 @@ export default function Connection() {
     };
   
     return (
-        <div  onClick={() => {handlePlayAudio() }}  className="absolute left-2 bottom-2">
+        <div  onClick={() => {handlePlayAudio() }}  className="absolute left-2 bottom-8">
                 {
                     isConnected ?
                         <div className="h-5 w-5 rounded-full bg-green-500"></div>
