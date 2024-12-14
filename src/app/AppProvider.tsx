@@ -1,5 +1,5 @@
 "use client";
-import { BubbleSettings, ResponseAi } from "../../interface";
+import { BubbleSettings, ResponseAi,VoiceSettings } from "../../interface";
 import { socket } from '@/utils/socket';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
@@ -30,6 +30,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [Character, setCharacter] = useState("");
     const [BubbleChat, setBubbleChat] = useState<BubbleSettings>({TypeBorder:"Border3",CommentPosition:"text-center",ResponsePosition:"text-justify",usernamePosition:"text-left"});
     const [showBubble, setShowBubble] = useState(false);
+    const [voiceSettings, setVoiceSettings] = useState<VoiceSettings>({voice:"",rate:"1",pitch:"1",volume:"1"});
+
+
 
     useEffect(() => {
 
@@ -92,6 +95,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         socket.on("join", handleJoin);
         socket.on("console", handleConsole);
 
+
         return () => {
             socket.off("chat response", handleChatResponse);
             socket.off("gift", handleGift);
@@ -128,7 +132,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return (
         <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection,  TiktokConnection, UserConncetion, isConnected }}>
             <InteractionContext.Provider value={{ Gift, Animation, Share, Join, Toast, SetToast, Follow, SetAnimation }}>
-                <CharacterContext.Provider value={{ Character, setCharacter }}>
+                <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings,setVoiceSettings}}>
                     <ResponseContext.Provider value={{Airesponse,arrConsole, BubbleChat, setBubbleChat,setShowBubble,showBubble}}>
                         {children}
                     </ResponseContext.Provider>

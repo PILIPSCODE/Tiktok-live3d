@@ -22,3 +22,9 @@ export interface BubbleSettings {
     usernamePosition:string,
     ResponsePosition:string,
 }
+export interface VoiceSettings {
+    voice:string,
+    volume:string,
+    rate:string,
+    pitch:string,
+}

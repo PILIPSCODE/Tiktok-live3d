@@ -2,7 +2,7 @@ import React from 'react'
 
 function AnimationSettings() {
   return (
-    <div></div>
+    <div className='p-4'>Comming Soon</div>
   )
 }
 

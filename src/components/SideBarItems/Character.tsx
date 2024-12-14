@@ -14,9 +14,9 @@ function Character() {
   }
   const arrChar = [
     {
-      name: "PilBot",
+      name: "Pilbot",
       img: "/imgChar/PilBot.png",
-      glb: "/PilBot.glb",
+      glb: "/Pilbot.glb",
     },
     {
       name: "PilGirl",
@@ -29,9 +29,9 @@ function Character() {
       glb: "/PilKun.glb",
     },
     {
-      name: "PilKia",
+      name: "Pilkia",
       img: "/imgChar/PilKia.png",
-      glb: "/PilKia.glb",
+      glb: "/Pilkia.glb",
     },
   ]
   return (
