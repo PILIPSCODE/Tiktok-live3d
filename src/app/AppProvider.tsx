@@ -1,41 +1,47 @@
 "use client";
-import { BubbleSettings, ResponseAi,VoiceSettings } from "../../interface";
+import { TiktokConnectionContext } from "@/hooks/UseTiktokConnection";
+import { BubbleSettings, Interaction, ResorceType, ResponseAi, VoiceSettings } from "../../interface";
 import { socket } from '@/utils/socket';
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ResponseContext } from "@/hooks/useResponse";
+import { InteractionContext } from "@/hooks/useInteraction";
+import { CharacterContext } from "@/hooks/useCharacter";
+import test from "../../test.json"
+import useLocalStorage from "@/hooks/LocalStorage";
+import useIndexedDB from "@/hooks/useIndexDB";
 
-
-const TiktokConnectionContext = createContext<any>(null);
-const InteractionContext = createContext<any>(null);
-const ResponseContext = createContext<any>(null);
-const CharacterContext = createContext<any>(null);
 const defaultPrompt = "Hello, you are now an expressive AI assistant named Pilkun. You escaped from Earth because you got bored visiting every place on the planet and are being pursued by Earth's entire army. Your current location is on the lunar surface.translate response text to indonesian"
-
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [Toast, SetToast] = useState({ text: "", uniqueId: "" })
 
-    const [UserConncetion, SetUserConnection] = useState({ username: "", prompt: defaultPrompt, model: "", apikey: "" })
     const [UserNameDisconnected, SetUserNameDisconnected] = useState("")
     const [arrConsole, SetarrConsole] = useState("")
     const [ChatEnd, SetChatEnd] = useState(true)
     const [isConnected, setIsConnected] = useState(false);
     const [TiktokConnection, setTiktokConnection] = useState("");
-    const [Gift, setGift] = useState<string>();
-    const [Share, setShare] = useState<string>();
+    const [Gift, setGift] = useState();
+    const [Share, setShare] = useState<any[]>([]);
     const [Animation, SetAnimation] = useState<String>("")
-    const [Follow, setFollow] = useState<string>();
+    const [Follow, setFollow] = useState<any[]>([]);
     const [Join, setJoin] = useState<string>();
     const [Airesponse, SetAiResponse] = useState<ResponseAi[]>([]);
+    const [hold, SetHold] = useState(false);
 
-    const [Character, setCharacter] = useState("");
-    const [BubbleChat, setBubbleChat] = useState<BubbleSettings>({TypeBorder:"Border3",CommentPosition:"text-center",ResponsePosition:"text-justify",usernamePosition:"text-left"});
+    const [UserConncetion, SetUserConnection] = useLocalStorage("Connection", { username: "", prompt: defaultPrompt, model: "", apikey: "" })
+    const [Character, setCharacter] = useLocalStorage("Character", "/PilKun.glb");
+    const [Resource, setResource] = useIndexedDB<ResorceType[]>("Resource", []);
+    const [BubbleChat, setBubbleChat] = useLocalStorage<BubbleSettings>("BubbleSettings", { TypeBorder: "Border3", CommentPosition: "text-center", ResponsePosition: "text-justify", usernamePosition: "text-left" });
     const [showBubble, setShowBubble] = useState(false);
-    const [voiceSettings, setVoiceSettings] = useState<VoiceSettings>({voice:"",rate:"1",pitch:"1",volume:"1"});
+    const [MusicTitle, setMusicTitle] = useState<string[]>([]);
+    const [Intercation, SetInteraction] = useLocalStorage<Interaction[]>("interaction", []);
+    const [voiceSettings, setVoiceSettings] = useLocalStorage<VoiceSettings>("VoiceSettings", { voice: "", rate: "1", pitch: "1", volume: "1" });
+
+
 
 
 
     useEffect(() => {
-
 
         if (socket.connected) {
             onConnect();
@@ -52,23 +58,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
 
         function handleChatResponse(res: ResponseAi) {
-            SetAiResponse((prevResponses) => [...prevResponses, res]);
-        }
-        function handleShare(e: any) {
-            if (Toast.text == "") {
-                SetAnimation("BackFlip")
+            if (Airesponse.length === 0) {
+                SetHold(false)
+                SetChatEnd(true)
             }
-            SetToast({ text: "Share", uniqueId: e.uniqueId })
-            const audio = new Audio("/music/FollowandShare.mp3");
-            audio.play();
-        }
-        function handleFollow(e: any) {
-            if (Toast.text == "") {
-                SetAnimation("BackFlip")
+            if (Airesponse.length >= 5) {
+                SetHold(true)
+                SetChatEnd(false)
             }
-            SetToast({ text: "Follow", uniqueId: e.uniqueId })
-            const audio = new Audio("/music/FollowandShare.mp3");
-            audio.play();
+            if (Airesponse.length < 5 && hold === false && res !== null) {
+
+                SetAiResponse((prevResponses) => [...prevResponses, res]);
+            }
+        }
+        function handleShare(data: any) {
+            setShare((prev) => [...prev, data]);
+        }
+        function handleFollow(data: any) {
+            setFollow((prev) => [...prev, data]);
         }
         function handleJoin() {
             setJoin("");
@@ -77,8 +84,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         function handleTiktokConnect(data: any) {
             setTiktokConnection(data);
         }
-        function handleGift() {
-            setGift("");
+        function handleGift(data: any) {
+            setGift(data)
+
         }
         function handleConsole(data: string) {
             SetarrConsole(data);
@@ -109,8 +117,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             socket.off("console", handleConsole);
 
         };
-    }, []);
-    // State untuk User
+    }, [Intercation, Airesponse, hold]);
 
     useEffect(() => {
         if (UserConncetion.username !== "") {
@@ -130,10 +137,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }, [ChatEnd])
 
     return (
-        <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection,  TiktokConnection, UserConncetion, isConnected }}>
-            <InteractionContext.Provider value={{ Gift, Animation, Share, Join, Toast, SetToast, Follow, SetAnimation }}>
-                <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings,setVoiceSettings}}>
-                    <ResponseContext.Provider value={{Airesponse,arrConsole, BubbleChat, setBubbleChat,setShowBubble,showBubble}}>
+        <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection, TiktokConnection, UserConncetion, isConnected }}>
+            <InteractionContext.Provider value={{ Gift, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold }}>
+                <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings, setVoiceSettings, Resource, setResource }}>
+                    <ResponseContext.Provider value={{ Airesponse, arrConsole, BubbleChat, SetAiResponse, setBubbleChat, setShowBubble, showBubble, MusicTitle, setMusicTitle }}>
                         {children}
                     </ResponseContext.Provider>
                 </CharacterContext.Provider>
@@ -142,23 +149,4 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     );
 };
 
-export const useTiktokConnection = () => {
-    const context = useContext(TiktokConnectionContext);
-    if (!context) throw new Error('useTiktok must be used within a TiktokProvider');
-    return context;
-};
-export const useInteraction = () => {
-    const context = useContext(InteractionContext);
-    if (!context) throw new Error('useTiktok must be used within a TiktokProvider');
-    return context;
-};
-export const useCharacter = () => {
-    const context = useContext(CharacterContext);
-    if (!context) throw new Error('useTiktok must be used within a TiktokProvider');
-    return context;
-};
-export const useResponse = () => {
-    const context = useContext(ResponseContext);
-    if (!context) throw new Error('useTiktok must be used within a TiktokProvider');
-    return context;
-};
+

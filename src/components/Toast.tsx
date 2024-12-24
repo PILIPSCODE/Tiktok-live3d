@@ -1,4 +1,4 @@
-import { useInteraction} from '@/app/AppProvider'
+import { useInteraction } from '@/hooks/useInteraction'
 import React, { useEffect, useState } from 'react'
 import { FaPlusCircle, FaShare } from 'react-icons/fa'
 

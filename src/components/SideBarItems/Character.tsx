@@ -1,16 +1,19 @@
-import { useCharacter } from '@/app/AppProvider'
+"use client"
+import { useCharacter } from '@/hooks/useCharacter'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 function Character() {
-  const { setCharacter, Character} = useCharacter()
+  const { setCharacter, Character } = useCharacter()
+  const [CharacterMap, setCharacterMap] = useState("")
 
+
+  useEffect(() => {
+    setCharacterMap(Character)
+  }, [Character])
 
   const handleClick = (e: any) => {
-    setCharacter(`/3d/renderAnim${e.glb}`)
-    setTimeout(() => {
-      setCharacter(`/3d${e.glb}`)
-    }, 1000)
+    setCharacter(`${e.glb}`)
   }
   const arrChar = [
     {
@@ -40,7 +43,7 @@ function Character() {
         arrChar.map((e, index) => (
           <div key={index}>
             <div className='h-32 w-32   relative' onClick={() => handleClick(e)}>
-              <Image fill alt='img-char' className={`${Character === `/3d${e.glb}`? " blur-sm":""} duration-300 rounded-lg object-cover`} src={e.img} />
+              <Image fill alt='img-char' className={`${CharacterMap === `/3d${e.glb}` ? " blur-sm" : ""} duration-300 rounded-lg object-cover`} src={e.img} />
             </div>
           </div>
         ))

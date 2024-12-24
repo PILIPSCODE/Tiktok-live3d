@@ -1,5 +1,5 @@
 "use client";
-import { useResponse, useTiktokConnection } from "@/app/AppProvider";
+import { useResponse } from "@/hooks/useResponse";
 import React, { useEffect, useRef, useState } from "react";
 
 function Console() {

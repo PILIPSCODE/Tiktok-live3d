@@ -1,8 +1,8 @@
 "use client"
-import { useTiktokConnection } from '@/app/AppProvider';
 import React, { useState } from 'react'
 import { FaEye, FaRegEyeSlash } from 'react-icons/fa';
 import Input from '../Ui/input';
+import { useTiktokConnection } from '@/hooks/UseTiktokConnection';
 
 function ApiKey() {
   const { SetUserConnection, UserConncetion } = useTiktokConnection();
@@ -17,6 +17,7 @@ function ApiKey() {
           <Input
             type={`${show ? "text" : "password"}`}
             Inputsize={"sm"}
+            value={UserConncetion.apikey}
             onChange={e => SetUserConnection({ ...UserConncetion, apikey: e.target.value })}
             className='flex-grow text-gray-700  w-full '
             placeholder='Enter Groq Api key!!' />
@@ -28,11 +29,11 @@ function ApiKey() {
             }
           </div>
         </div>
-          <select onChange={e => SetUserConnection({ ...UserConncetion, model: e.target.value })} defaultValue={"Select Model"} className="select border-2 border-black bg-white  w-full mt-2">
-            <option disabled>Select Model</option>
-            <option>llama3-70b-8192</option>
-            <option>llama3-8b-8192</option>
-          </select>
+        <select onChange={e => SetUserConnection({ ...UserConncetion, model: e.target.value })} defaultValue={UserConncetion.model} className="select border-2 border-black bg-white  w-full mt-2">
+          <option disabled>Select Model</option>
+          <option>llama3-70b-8192</option>
+          <option>llama3-8b-8192</option>
+        </select>
       </div>
 
     </div>

@@ -4,10 +4,9 @@ import { IoIosSettings } from "react-icons/io";
 import { GoTerminal } from "react-icons/go";
 import { RiFilePaper2Line, RiMusic2Fill, RiUserVoiceFill } from "react-icons/ri";
 import { TbApi, TbBackground } from "react-icons/tb";
-import { IoAccessibilityOutline } from "react-icons/io5";
+import { IoFlower } from "react-icons/io5";
 import { GiCharacter } from "react-icons/gi";
 import { IoChatbox } from 'react-icons/io5';
-import { useResponse, useTiktokConnection } from '@/app/AppProvider';
 import Console from './SideBarItems/Console';
 import Prompt from './SideBarItems/Prompt';
 import Character from './SideBarItems/Character';
@@ -16,8 +15,12 @@ import ChatDisplay from './SideBarItems/ChatDisplay';
 import BackGround from './SideBarItems/Place';
 import Voice from './SideBarItems/Voice';
 import Music from './SideBarItems/Music';
-import AnimationSettings from './SideBarItems/AnimationSettings';
+import AnimationSettings from './SideBarItems/InteractionSettings';
 import Input from './Ui/input';
+import { useTiktokConnection } from '@/hooks/UseTiktokConnection';
+import { useResponse } from '@/hooks/useResponse';
+import Resource from './SideBarItems/Resource';
+import { FaFolder } from 'react-icons/fa';
 
 
 type prop = {
@@ -31,7 +34,7 @@ type list = {
 }
 function Navbar(props: prop) {
     const { SetUserConnection, TiktokConnection, SetUserNameDisconnected, UserConncetion } = useTiktokConnection();
-    const { setShowBubble,showBubble } = useResponse();
+    const { setShowBubble, showBubble } = useResponse();
     const [inputUser, setInputUser] = useState("")
     const [loading, setLoading] = useState(false)
     const text = TiktokConnection === "Connected" ? "Disconnect" : "Connect"
@@ -76,7 +79,12 @@ function Navbar(props: prop) {
             JSX: <ApiKey />
         },
         {
-            value: "Chat Display",
+            value: "Resource",
+            icons: <FaFolder />,
+            JSX: <Resource />
+        },
+        {
+            value: "Chat Settings",
             icons: <IoChatbox />,
             JSX: <ChatDisplay />
         },
@@ -96,34 +104,35 @@ function Navbar(props: prop) {
             JSX: <Music />
         },
         {
-            value: "Animation Setting",
-            icons: <IoAccessibilityOutline />,
+            value: "Interaction Setting",
+            icons: <IoFlower />,
             JSX: <AnimationSettings />
         },
     ]
 
-    const handleClickItems = (item:any) => {
+    const handleClickItems = (item: any) => {
         setitemNav(itemNav === item.value ? "" : item.value)
-        if(item.value === "Chat Display"){
+        if (item.value === "Chat Display") {
             setShowBubble(!showBubble)
-        }else{
+        } else {
             setShowBubble(false)
         }
     }
 
     return (
-        <section className={`relative ${props.open ? "w-96" : "w-0"}   flex-grow h-screen transition-all duration-300`}>
-            <label onClick={() => props.setOpen(!props.open)} className={`${props.open ? "max-md:text-black " : "text-white"} absolute top-3 right-3 z-50  md:-left-10 text-4xl`}><IoIosSettings className={`${props.open?"max-md:bg-white rounded-md shadow-md":""}`}/></label>
+        <section className={`relative ${props.open ? "w-96 max-xl:w-screen" : "w-0"}   flex-grow h-screen  duration-1000`}>
+            <label className={`${props.open ? "max-xl:text-black " : "text-white"} absolute top-3 right-3 z-50  xl:-left-10 text-4xl`}><IoIosSettings onClick={() => props.setOpen(!props.open)} className={`${props.open ? "max-xl:bg-white rounded-md shadow-md" : ""}`} /></label>
             <div className={`h-screen bg-white overflow-y-scroll text-xl p-8 flex flex-col  text-black`}>
                 <label className='text-4xl mb-4'>
                     <h1>Settings</h1>
                 </label>
-                <div className='flex text-white w-full gap-4 max-md:text-sm'>
+                <div className='flex text-white w-full gap-2 max-md:text-xs'>
                     <Input
                         onChange={(e) => setInputUser(e.target.value)}
                         value={inputUser} type="text"
                         Inputsize={"sm"}
-                        className='flex-grow ' placeholder='@Tiktok Username
+                        className='w-full'
+                        placeholder='@Tiktok Username
                     '/>
                     <button onClick={handleClick} className='bg-black text-white p-3 rounded-md transition-transform duration-300 transform hover:scale-105'>{text}</button>
                 </div>
@@ -132,7 +141,7 @@ function Navbar(props: prop) {
                     {
                         nav_list.map((item: list, index) => (
                             <li className="flex flex-col" key={index}>
-                                <span className='flex gap-2 items-center' onClick={() =>  handleClickItems(item)}>{item.icons}{item.value}</span>
+                                <span className='flex gap-2 items-center' onClick={() => handleClickItems(item)}>{item.icons}{item.value}</span>
                                 <div className={`flex-grow ${itemNav === item.value ? "max-h-96 opacity-100  bg-gray-200" : "max-h-0 opacity-0 "} text-gray-700  rounded-md transition-all duration-300 overflow-y-scroll `}>
                                     {item.JSX}
                                 </div>

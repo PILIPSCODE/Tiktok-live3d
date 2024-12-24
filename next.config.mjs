@@ -27,6 +27,9 @@ const nextConfig = {
       experimental: {
         optimizePackageImports: ['icon-library'],
       },
+      images:{
+        domains:["i.ytimg.com"]
+      }
 };
 
 export default nextConfig;

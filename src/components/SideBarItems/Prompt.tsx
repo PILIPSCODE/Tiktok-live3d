@@ -1,5 +1,6 @@
 "use client"
-import { useTiktokConnection } from '@/app/AppProvider';
+
+import { useTiktokConnection } from '@/hooks/UseTiktokConnection';
 import React from 'react'
 
 function Prompt() {

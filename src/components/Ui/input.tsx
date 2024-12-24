@@ -24,7 +24,7 @@ const InputVariant = cva("rounded-md border-2", {
         info: "btn btn-info ",
         danger: "btn-danger",
         succes: "btn-succes",
-        default: "text-black border-b-2 bg-white max-md:w-32 max-md:h-12  border-black p-2 focus:outline-none"
+        default: "text-black border-b-2 bg-white  max-md:h-12  border-black p-2 focus:outline-none"
       },
       Inputsize: {
         sm: "text-sm p-3",

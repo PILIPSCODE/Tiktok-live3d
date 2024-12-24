@@ -2,16 +2,19 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { ReactTyped } from 'react-typed'
-import { useCharacter, useInteraction, useResponse, useTiktokConnection } from "../../app/AppProvider";
-import { ResponseAi } from '../../../interface';
-import Voice from '../SideBarItems/Voice';
+import { ResponseAi, VoiceSettings } from '../../interface';
+import { useTiktokConnection } from '@/hooks/UseTiktokConnection';
+import { useInteraction } from '@/hooks/useInteraction';
+import { useResponse } from '@/hooks/useResponse';
+import { useCharacter } from '@/hooks/useCharacter';
 
 export default function BubleChat() {
     const { SetChatEnd } = useTiktokConnection();
-    const { SetAnimation, } = useInteraction();
+    const { SetAnimation, Animation, hold } = useInteraction();
     const { Airesponse, showBubble, BubbleChat } = useResponse();
     const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
     const { voiceSettings } = useCharacter()
+    const [voiceSettingsLocal, setvoiceSettingsLocal] = useState<VoiceSettings>({ voice: "", rate: "1", pitch: "1", volume: "1" })
 
     const data = {
         comment: "",
@@ -26,53 +29,53 @@ export default function BubleChat() {
     const isSpeaking = useRef<boolean>(false);
 
     const handleMessage = () => {
-        if (isSpeaking.current) return;
         const msg = Airesponse.shift()
         if (msg) {
             setMessage(msg);
             speak(msg.response);
+            if (Animation !== "Idle") return
             SetAnimation(msg.animation)
         }
 
     }
 
     const speak = (text: string) => {
-        if (isSpeaking.current || !synth.current) return;
-        SetChatEnd(false)
+        if (!synth.current) return
 
         isSpeaking.current = true;
-
-        console.log(voiceSettings)
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.rate = Number(voiceSettings.rate);
-        utterance.volume = Number(voiceSettings.volume);
-        utterance.pitch = Number(voiceSettings.pitch);
-        const TTS = voices.find(voice => voice.voiceURI === voiceSettings.voice);
+        utterance.rate = Number(voiceSettingsLocal.rate);
+        utterance.volume = Number(voiceSettingsLocal.volume);
+        utterance.pitch = Number(voiceSettingsLocal.pitch);
+        const TTS = voices.find(voice => voice.voiceURI === voiceSettingsLocal.voice);
 
         utterance.voice = TTS || null;
-
 
         utterance.onend = () => {
             isSpeaking.current = false;
             setMessage(data)
-            SetAnimation("Idle")
-            handleMessage()
-            SetChatEnd(true)
+            handleMessage();
         };
         synth.current.speak(utterance);
     };
 
- 
+    useEffect(() => {
+        setvoiceSettingsLocal(voiceSettings)
+
+    }, [voiceSettings])
+
 
     useEffect(() => {
-        
+
         if (typeof window !== "undefined") {
             synth.current = window.speechSynthesis;
         }
-        if (!isSpeaking.current){
-            handleMessage();
-        }
-    }, [Airesponse])
+        console.log(Airesponse)
+        if (isSpeaking.current || hold === false) return;
+        handleMessage();
+        console.log("speech")
+
+    }, [Airesponse, hold])
 
     useEffect(() => {
         if (typeof window !== "undefined" && speechSynthesis) {
@@ -81,7 +84,7 @@ export default function BubleChat() {
 
             speechSynthesis.onvoiceschanged = loadVoices;
         }
-    },[voiceSettings.voice, voiceSettings.rate, voiceSettings.volume, voiceSettings.pitch])
+    }, [voiceSettingsLocal.voice, voiceSettingsLocal.rate, voiceSettingsLocal.volume, voiceSettingsLocal.pitch])
 
     if (message.response !== "" || showBubble)
         return (
@@ -93,8 +96,7 @@ export default function BubleChat() {
                     <h1 className={`text-white text-lg ${BubbleChat.CommentPosition} mb-4`}>{message.comment || "hello world"}</h1>
                     <h1 className={`text-orange-200 ${BubbleChat.usernamePosition}  mb-2`}>{message.user || "pilcotech"}</h1>
                     <ReactTyped
-                        strings={["response: " + (message.response || "lorem ipsum dolor siamet constrectur, dolor siamet constrectur dolor, siamet constrectur dolor siamet constrectur, dolor siamet constrectur")]}
-                        typeSpeed={10}
+                        strings={[(message.response || "lorem ipsum dolor siamet constrectur, dolor siamet constrectur dolor, siamet constrectur dolor siamet constrectur, dolor siamet constrectur")]}
                     >
                     </ReactTyped>
                 </div>
