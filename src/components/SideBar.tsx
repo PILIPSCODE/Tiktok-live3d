@@ -112,7 +112,7 @@ function Navbar(props: prop) {
 
     const handleClickItems = (item: any) => {
         setitemNav(itemNav === item.value ? "" : item.value)
-        if (item.value === "Chat Display") {
+        if (item.value === "Chat Settings") {
             setShowBubble(!showBubble)
         } else {
             setShowBubble(false)

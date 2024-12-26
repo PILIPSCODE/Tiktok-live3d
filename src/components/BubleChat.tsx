@@ -10,7 +10,7 @@ import { useCharacter } from '@/hooks/useCharacter';
 
 export default function BubleChat() {
     const { SetChatEnd } = useTiktokConnection();
-    const { SetAnimation, Animation, hold } = useInteraction();
+    const { SetAnimation, Animation, hold, SetHold } = useInteraction();
     const { Airesponse, showBubble, BubbleChat } = useResponse();
     const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
     const { voiceSettings } = useCharacter()
@@ -43,7 +43,7 @@ export default function BubleChat() {
         if (!synth.current) return
 
         isSpeaking.current = true;
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(text.slice(0, 300));
         utterance.rate = Number(voiceSettingsLocal.rate);
         utterance.volume = Number(voiceSettingsLocal.volume);
         utterance.pitch = Number(voiceSettingsLocal.pitch);
@@ -54,7 +54,13 @@ export default function BubleChat() {
         utterance.onend = () => {
             isSpeaking.current = false;
             setMessage(data)
+
             handleMessage();
+
+            if (Airesponse.length < 2) {
+                SetChatEnd(true)
+                SetHold(false)
+            }
         };
         synth.current.speak(utterance);
     };
@@ -70,8 +76,9 @@ export default function BubleChat() {
         if (typeof window !== "undefined") {
             synth.current = window.speechSynthesis;
         }
-        console.log(Airesponse)
-        if (isSpeaking.current || hold === false) return;
+        if (isSpeaking.current || hold === false) {
+            return
+        }
         handleMessage();
         console.log("speech")
 

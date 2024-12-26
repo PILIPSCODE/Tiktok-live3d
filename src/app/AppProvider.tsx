@@ -58,15 +58,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
 
         function handleChatResponse(res: ResponseAi) {
-            if (Airesponse.length === 0) {
-                SetHold(false)
-                SetChatEnd(true)
-            }
-            if (Airesponse.length >= 5) {
+            if (Airesponse.length > 2) {
                 SetHold(true)
                 SetChatEnd(false)
             }
-            if (Airesponse.length < 5 && hold === false && res !== null) {
+            if (Airesponse.length < 3 && hold === false && res !== null) {
 
                 SetAiResponse((prevResponses) => [...prevResponses, res]);
             }
@@ -138,7 +134,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     return (
         <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection, TiktokConnection, UserConncetion, isConnected }}>
-            <InteractionContext.Provider value={{ Gift, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold }}>
+            <InteractionContext.Provider value={{ Gift, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold, SetHold }}>
                 <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings, setVoiceSettings, Resource, setResource }}>
                     <ResponseContext.Provider value={{ Airesponse, arrConsole, BubbleChat, SetAiResponse, setBubbleChat, setShowBubble, showBubble, MusicTitle, setMusicTitle }}>
                         {children}

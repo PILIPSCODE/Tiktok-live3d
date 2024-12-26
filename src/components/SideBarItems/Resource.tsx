@@ -76,7 +76,7 @@ export default function UploadToLocalStorage(): JSX.Element {
 
     return (
         <div className='p-6 relative flex flex-wrap items-center gap-10'>
-            {Resource.map((e: ResorceType, index: number) => (
+            {ResourceMap.map((e: ResorceType, index: number) => (
                 <div key={index} className='relative'>
                     <FaCircleXmark onClick={() => handleDelete(e)} className='absolute z-50 -right-1 -top-2' />
                     <div onClick={() => setCurrentTrack(e)} data-tip={`${e.name.slice(0, 7)}...`} className='tooltip-bottom text-sm tooltip-open tooltip h-14 w-14 relative bg-slate-500'>
