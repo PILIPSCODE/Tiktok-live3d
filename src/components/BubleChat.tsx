@@ -8,21 +8,23 @@ import { useInteraction } from '@/hooks/useInteraction';
 import { useResponse } from '@/hooks/useResponse';
 import { useCharacter } from '@/hooks/useCharacter';
 
+
+const data = {
+    comment: "",
+    prev: false,
+    response: "",
+    animation: "",
+    user: "",
+}
+const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F\uDE80-\uDEFF]|[\u2600-\u27BF]/g;
 export default function BubleChat() {
     const { SetChatEnd } = useTiktokConnection();
-    const { SetAnimation, Animation, hold, SetHold } = useInteraction();
-    const { Airesponse, showBubble, BubbleChat } = useResponse();
+    const { SetAnimation, Animation, hold, SetHold, Intercation, isGiftAnimation } = useInteraction();
+    const { Airesponse, showBubble, BubbleChat, SetAiResponse } = useResponse();
     const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
     const { voiceSettings } = useCharacter()
     const [voiceSettingsLocal, setvoiceSettingsLocal] = useState<VoiceSettings>({ voice: "", rate: "1", pitch: "1", volume: "1" })
 
-    const data = {
-        comment: "",
-        prev: false,
-        response: "",
-        animation: "",
-        user: "",
-    }
     const [message, setMessage] = useState<ResponseAi>(data);
 
     const synth = useRef<SpeechSynthesis | null>(null);
@@ -31,19 +33,24 @@ export default function BubleChat() {
     const handleMessage = () => {
         const msg = Airesponse.shift()
         if (msg) {
-            setMessage(msg);
-            speak(msg.response);
+            if (msg.comment !== "") {
+                setMessage(msg);
+            }
+            speak(msg.response, msg.animation, msg.comment);
             if (Animation !== "Idle") return
             SetAnimation(msg.animation)
         }
 
     }
 
-    const speak = (text: string) => {
+
+
+    const speak = (text: string, animation: string, comment: string) => {
         if (!synth.current) return
 
+
         isSpeaking.current = true;
-        const utterance = new SpeechSynthesisUtterance(text.slice(0, 300));
+        const utterance = new SpeechSynthesisUtterance(text.slice(0, 300).replace(emojiRegex, ''));
         utterance.rate = Number(voiceSettingsLocal.rate);
         utterance.volume = Number(voiceSettingsLocal.volume);
         utterance.pitch = Number(voiceSettingsLocal.pitch);
@@ -57,6 +64,17 @@ export default function BubleChat() {
 
             handleMessage();
 
+
+            if (Intercation.length === 0 && isGiftAnimation === false) {
+                SetAnimation("Idle");
+            }
+            Intercation.map((e: any) => {
+                if (animation !== e.animation && isGiftAnimation === false) {
+                    SetAnimation("Idle");
+                }
+            })
+
+
             if (Airesponse.length < 2) {
                 SetChatEnd(true)
                 SetHold(false)
@@ -64,6 +82,8 @@ export default function BubleChat() {
         };
         synth.current.speak(utterance);
     };
+
+
 
     useEffect(() => {
         setvoiceSettingsLocal(voiceSettings)
@@ -79,10 +99,11 @@ export default function BubleChat() {
         if (isSpeaking.current || hold === false) {
             return
         }
+
         handleMessage();
-        console.log("speech")
 
     }, [Airesponse, hold])
+
 
     useEffect(() => {
         if (typeof window !== "undefined" && speechSynthesis) {
@@ -93,7 +114,7 @@ export default function BubleChat() {
         }
     }, [voiceSettingsLocal.voice, voiceSettingsLocal.rate, voiceSettingsLocal.volume, voiceSettingsLocal.pitch])
 
-    if (message.response !== "" || showBubble)
+    if (message.comment !== "" || showBubble)
         return (
             <div className='absolute  w-96 mx-auto rounded-lg   bg-black/60'>
                 <div className='w-full h-10 -translate-y-5 top-0 relative'>

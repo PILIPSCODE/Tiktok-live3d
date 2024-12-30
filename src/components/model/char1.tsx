@@ -8,7 +8,7 @@ import { Group } from "three"
 
 export default function Model1() {
     const group = useRef<Group>(null)
-    const { Animation, SetAnimation } = useInteraction();
+    const { Animation, SetAnimation, Intercation, setIsGiftAnimation } = useInteraction();
     const animate = Animation !== "" ? Animation : "Idle"
 
     const { Character } = useCharacter();
@@ -35,25 +35,31 @@ export default function Model1() {
 
     useEffect(() => {
         useGLTF.preload(Char)
-        if (actions[animate]) {
-            actions[animate].reset().fadeIn(0.5).play();
-            setTimeout(() => {
-                SetAnimation("Idle");
-            }, actions[animate].getClip().duration * 1000);
-        }
+        actions[animate]?.reset().fadeIn(0.5).play();
+        Intercation?.map((e: any) => {
+            if (animate === e.animation) {
+                setIsGiftAnimation(true)
+                setTimeout(() => {
+                    setIsGiftAnimation(false)
+                    SetAnimation("Idle");
+                }, actions[animate] ? actions[animate].getClip().duration * 1000 : 9000);
+            }
+        })
+
+
         return () => {
             if (actions[animate]) {
                 actions[animate].fadeOut(0.5);
             }
         };
-    }, [Animation, CharacterMap]);
+    }, [Animation, animate, CharacterMap, Intercation, actions]);
 
 
 
     return (
         <>
             <group position={[0, -1, 0]} ref={group}>
-                <primitive object={scene} scale={[0.8, 0.8, 0.8]} position={[-0.3, 1, 1]} />
+                <primitive object={scene} scale={[0.9, 0.9, 0.9]} position={[-0.3, 1, 1]} />
             </group>
         </>
     )

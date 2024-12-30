@@ -10,6 +10,21 @@ import test from "../../test.json"
 import useLocalStorage from "@/hooks/LocalStorage";
 import useIndexedDB from "@/hooks/useIndexDB";
 
+const data = [{
+    comment: "",
+    prev: false,
+    response: "apakah ada yang mau ditanyakan? langsung tanyakan saja ya!!",
+    animation: "Talking",
+    user: "",
+},
+{
+    comment: "",
+    prev: false,
+    response: "hallo semuanya jangan lupa follow share dan tap-tapnya ya",
+    animation: "Waving",
+    user: "",
+}
+]
 const defaultPrompt = "Hello, you are now an expressive AI assistant named Pilkun. You escaped from Earth because you got bored visiting every place on the planet and are being pursued by Earth's entire army. Your current location is on the lunar surface.translate response text to indonesian"
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -22,7 +37,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [TiktokConnection, setTiktokConnection] = useState("");
     const [Gift, setGift] = useState();
     const [Share, setShare] = useState<any[]>([]);
-    const [Animation, SetAnimation] = useState<String>("")
+    const [Animation, SetAnimation] = useState<String>("Idle")
     const [Follow, setFollow] = useState<any[]>([]);
     const [Join, setJoin] = useState<string>();
     const [Airesponse, SetAiResponse] = useState<ResponseAi[]>([]);
@@ -33,12 +48,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [Resource, setResource] = useIndexedDB<ResorceType[]>("Resource", []);
     const [BubbleChat, setBubbleChat] = useLocalStorage<BubbleSettings>("BubbleSettings", { TypeBorder: "Border3", CommentPosition: "text-center", ResponsePosition: "text-justify", usernamePosition: "text-left" });
     const [showBubble, setShowBubble] = useState(false);
+    const [isGiftAnimation, setIsGiftAnimation] = useState(false);
     const [MusicTitle, setMusicTitle] = useState<string[]>([]);
     const [Intercation, SetInteraction] = useLocalStorage<Interaction[]>("interaction", []);
     const [voiceSettings, setVoiceSettings] = useLocalStorage<VoiceSettings>("VoiceSettings", { voice: "", rate: "1", pitch: "1", volume: "1" });
-
-
-
 
 
     useEffect(() => {
@@ -58,12 +71,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
 
         function handleChatResponse(res: ResponseAi) {
-            if (Airesponse.length > 2) {
+            if (Airesponse.length > 0) {
                 SetHold(true)
                 SetChatEnd(false)
             }
-            if (Airesponse.length < 3 && hold === false && res !== null) {
-
+            if (Airesponse.length < 2 && hold === false && res !== null) {
                 SetAiResponse((prevResponses) => [...prevResponses, res]);
             }
         }
@@ -132,9 +144,30 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         socket.emit("callback", ChatEnd)
     }, [ChatEnd])
 
+    useEffect(() => {
+
+        const interval = setInterval(() => {
+            const check = Airesponse.find((item) => item.comment === "")
+            if (check) {
+                SetHold(true)
+                return
+            }
+            SetAiResponse((prev: any) => {
+                const random = Math.round(Math.random() * (data.length - 1));
+                SetHold(true)
+                return [...prev, data[random]];
+            });
+        }, 13000)
+
+        return () => clearInterval(interval)
+
+    }, [Airesponse])
+
+
+
     return (
         <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection, TiktokConnection, UserConncetion, isConnected }}>
-            <InteractionContext.Provider value={{ Gift, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold, SetHold }}>
+            <InteractionContext.Provider value={{ Gift, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold, SetHold, isGiftAnimation, setIsGiftAnimation }}>
                 <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings, setVoiceSettings, Resource, setResource }}>
                     <ResponseContext.Provider value={{ Airesponse, arrConsole, BubbleChat, SetAiResponse, setBubbleChat, setShowBubble, showBubble, MusicTitle, setMusicTitle }}>
                         {children}
