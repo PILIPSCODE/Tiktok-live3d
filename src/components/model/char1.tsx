@@ -59,7 +59,7 @@ export default function Model1() {
     return (
         <>
             <group position={[0, -1, 0]} ref={group}>
-                <primitive object={scene} scale={[0.9, 0.9, 0.9]} position={[-0.3, 1, 1]} />
+                <primitive object={scene} scale={[0.9, 0.9, 0.9]} position={[0, 1, 1.7]} />
             </group>
         </>
     )

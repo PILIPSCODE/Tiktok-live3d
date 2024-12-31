@@ -29,7 +29,7 @@ function ApiKey() {
             }
           </div>
         </div>
-        <select onChange={e => SetUserConnection({ ...UserConncetion, model: e.target.value })} defaultValue={UserConncetion.model} className="select border-2 border-black bg-white  w-full mt-2">
+        <select onChange={e => SetUserConnection({ ...UserConncetion, model: e.target.value })} defaultValue={"Select Model"} className="select border-2 border-black bg-white  w-full mt-2">
           <option disabled>Select Model</option>
           <option>llama3-70b-8192</option>
           <option>llama3-8b-8192</option>
@@ -39,5 +39,5 @@ function ApiKey() {
     </div>
   )
 }
-// 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
+// 
 export default ApiKey

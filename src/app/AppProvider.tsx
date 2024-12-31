@@ -6,25 +6,10 @@ import React, { useState, useEffect } from 'react';
 import { ResponseContext } from "@/hooks/useResponse";
 import { InteractionContext } from "@/hooks/useInteraction";
 import { CharacterContext } from "@/hooks/useCharacter";
-import test from "../../test.json"
 import useLocalStorage from "@/hooks/LocalStorage";
 import useIndexedDB from "@/hooks/useIndexDB";
+import data from "../../defaultspeak.json"
 
-const data = [{
-    comment: "",
-    prev: false,
-    response: "apakah ada yang mau ditanyakan? langsung tanyakan saja ya!!",
-    animation: "Talking",
-    user: "",
-},
-{
-    comment: "",
-    prev: false,
-    response: "hallo semuanya jangan lupa follow share dan tap-tapnya ya",
-    animation: "Waving",
-    user: "",
-}
-]
 const defaultPrompt = "Hello, you are now an expressive AI assistant named Pilkun. You escaped from Earth because you got bored visiting every place on the planet and are being pursued by Earth's entire army. Your current location is on the lunar surface.translate response text to indonesian"
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -51,6 +36,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [isGiftAnimation, setIsGiftAnimation] = useState(false);
     const [MusicTitle, setMusicTitle] = useState<string[]>([]);
     const [Intercation, SetInteraction] = useLocalStorage<Interaction[]>("interaction", []);
+    const [DefaultSpeak, SetDefaultSpeak] = useLocalStorage<ResponseAi[]>("DefaultSpeak", []);
     const [voiceSettings, setVoiceSettings] = useLocalStorage<VoiceSettings>("VoiceSettings", { voice: "", rate: "1", pitch: "1", volume: "1" });
 
 
@@ -71,20 +57,31 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
 
         function handleChatResponse(res: ResponseAi) {
-            if (Airesponse.length > 0) {
+            if (Airesponse.length >= 0) {
                 SetHold(true)
                 SetChatEnd(false)
             }
-            if (Airesponse.length < 2 && hold === false && res !== null) {
+            if (Airesponse.length < 1 && hold === false && res !== null) {
                 SetAiResponse((prevResponses) => [...prevResponses, res]);
             }
         }
         function handleShare(data: any) {
-            setShare((prev) => [...prev, data]);
+            if (Toast.text == "") {
+                SetAnimation("BackFlip")
+            }
+            SetToast({ text: "Share", uniqueId: data.uniqueId })
+            const audio = new Audio("/music/FollowandShare.mp3");
+            audio.play();
         }
         function handleFollow(data: any) {
-            setFollow((prev) => [...prev, data]);
+            if (Toast.text == "") {
+                SetAnimation("BackFlip")
+            }
+            SetToast({ text: "Follow", uniqueId: data.uniqueId })
+            const audio = new Audio("/music/FollowandShare.mp3");
+            audio.play();
         }
+
         function handleJoin() {
             setJoin("");
         }
@@ -145,7 +142,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }, [ChatEnd])
 
     useEffect(() => {
-
+        if (data.length === 0) return
         const interval = setInterval(() => {
             const check = Airesponse.find((item) => item.comment === "")
             if (check) {
@@ -154,10 +151,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             }
             SetAiResponse((prev: any) => {
                 const random = Math.round(Math.random() * (data.length - 1));
-                SetHold(true)
                 return [...prev, data[random]];
             });
-        }, 13000)
+        }, 8000)
 
         return () => clearInterval(interval)
 

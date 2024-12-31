@@ -28,11 +28,11 @@ const Scene = () => {
   return (
     <Canvas
       gl={{ antialias: true }}
-      camera={{ position: [-1.8, 2, 5], fov: 65 }}
+      camera={{ position: [0, 1.5, 5], fov: 65 }}
       dpr={[1, 4]}
       className="relative h-svh"
     >
-      <directionalLight position={[-70, 70, 180]} intensity={7} />
+      <directionalLight position={[0, 80, 180]} intensity={7} />
       <Suspense fallback={<Loader />}>
         {/* <Pet /> */}
         <Char1 />

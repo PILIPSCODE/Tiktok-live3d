@@ -6,6 +6,11 @@ import Image from 'next/image';
 import { useResponse } from '@/hooks/useResponse';
 import { MusicType } from '../../../interface';
 
+
+const port = process.env.NEXT_PUBLIC_IS_PRODUCTION === "production"
+  ? process.env.NEXT_PUBLIC_BACKEND
+  : "http://localhost:8000"
+
 function Music() {
   const { MusicTitle, setMusicTitle } = useResponse();
   const [inputMusic, setinputMusic] = useState("");
@@ -67,7 +72,7 @@ function Music() {
     const getMusic = async () => {
       try {
         const randomIP = generateRandomIP()
-        const res = await axios.get(`http://localhost:8000/reqMusic?title=${Queque}`, {
+        const res = await axios.get(`${port}/reqMusic?title=${Queque}`, {
           headers: {
             'X-Forwarded-For': randomIP,
           },
