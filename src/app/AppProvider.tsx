@@ -37,8 +37,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [MusicTitle, setMusicTitle] = useState<string[]>([]);
     const [Intercation, SetInteraction] = useLocalStorage<Interaction[]>("interaction", []);
     const [DefaultSpeak, SetDefaultSpeak] = useLocalStorage<ResponseAi[]>("DefaultSpeak", []);
-    const checkbox = useRef<HTMLInputElement>(null)
     const [voiceSettings, setVoiceSettings] = useLocalStorage<VoiceSettings>("VoiceSettings", { voice: "", rate: "1", pitch: "1", volume: "1" });
+    const checkbox = useRef<HTMLInputElement>(null)
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
 
     useEffect(() => {
@@ -144,19 +145,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     useEffect(() => {
         if (!checkbox.current?.checked) return
+
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+
         const interval = setInterval(() => {
             const check = Airesponse?.find((item) => item?.comment === "")
             if (check) {
-                SetHold(true)
-                return
+                SetHold(true);
+                clearInterval(interval);
+                intervalRef.current = null;
+                return;
             }
             SetAiResponse((prev: any) => {
                 const random = Math.round(Math.random() * ((DefaultSpeak).length - 1));
                 return [...prev, DefaultSpeak[random]];
             });
-        }, 8000)
 
-        return () => clearInterval(interval)
+        }, 9000)
+
+        intervalRef.current = interval;
+
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+            }
+        };
 
     }, [Airesponse, DefaultSpeak, checkbox.current?.checked])
 

@@ -142,7 +142,7 @@ function Navbar(props: prop) {
                         nav_list.map((item: list, index) => (
                             <li className="flex flex-col" key={index}>
                                 <span className='flex gap-2 items-center' onClick={() => handleClickItems(item)}>{item.icons}{item.value}</span>
-                                <div className={`flex-grow ${itemNav === item.value ? "max-h-96 opacity-100  bg-gray-200" : "max-h-0 opacity-0 "} text-gray-700  rounded-md transition-all duration-300 overflow-y-scroll `}>
+                                <div className={`flex-grow ${itemNav === item.value ? "max-h-96 opacity-100  bg-gray-200" : "max-h-0 opacity-0 "} text-gray-700  rounded-md transition-all duration-300 overflow-y-auto `}>
                                     {item.JSX}
                                 </div>
                             </li>
