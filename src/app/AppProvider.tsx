@@ -144,26 +144,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }, [ChatEnd])
 
     useEffect(() => {
-        if (!checkbox.current?.checked) return
+        if (!checkbox.current?.checked) return;
 
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
         }
 
         const interval = setInterval(() => {
-            const check = Airesponse?.find((item) => item?.comment === "")
-            if (check) {
-                SetHold(true);
-                clearInterval(interval);
-                intervalRef.current = null;
-                return;
-            }
             SetAiResponse((prev: any) => {
-                const random = Math.round(Math.random() * ((DefaultSpeak).length - 1));
+                const random = Math.round(Math.random() * (DefaultSpeak.length - 1));
                 return [...prev, DefaultSpeak[random]];
             });
-
-        }, 9000)
+        }, 14000);
 
         intervalRef.current = interval;
 
@@ -173,8 +165,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 intervalRef.current = null;
             }
         };
+    }, [DefaultSpeak, checkbox.current?.checked]);
 
-    }, [Airesponse, DefaultSpeak, checkbox.current?.checked])
+    useEffect(() => {
+        const check = Airesponse.find((item) => item?.comment === "");
+        if (check) {
+            SetHold(true);
+        }
+    }, [Airesponse]);
 
 
 
