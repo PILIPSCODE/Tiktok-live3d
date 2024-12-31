@@ -2,7 +2,7 @@
 import { TiktokConnectionContext } from "@/hooks/UseTiktokConnection";
 import { BubbleSettings, Interaction, ResorceType, ResponseAi, VoiceSettings } from "../../interface";
 import { socket } from '@/utils/socket';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ResponseContext } from "@/hooks/useResponse";
 import { InteractionContext } from "@/hooks/useInteraction";
 import { CharacterContext } from "@/hooks/useCharacter";
@@ -37,6 +37,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [MusicTitle, setMusicTitle] = useState<string[]>([]);
     const [Intercation, SetInteraction] = useLocalStorage<Interaction[]>("interaction", []);
     const [DefaultSpeak, SetDefaultSpeak] = useLocalStorage<ResponseAi[]>("DefaultSpeak", []);
+    const checkbox = useRef<HTMLInputElement>(null)
     const [voiceSettings, setVoiceSettings] = useLocalStorage<VoiceSettings>("VoiceSettings", { voice: "", rate: "1", pitch: "1", volume: "1" });
 
 
@@ -142,28 +143,28 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }, [ChatEnd])
 
     useEffect(() => {
-        if (data.length === 0) return
+        if (!checkbox.current?.checked) return
         const interval = setInterval(() => {
-            const check = Airesponse.find((item) => item.comment === "")
+            const check = Airesponse?.find((item) => item?.comment === "")
             if (check) {
                 SetHold(true)
                 return
             }
             SetAiResponse((prev: any) => {
-                const random = Math.round(Math.random() * (data.length - 1));
-                return [...prev, data[random]];
+                const random = Math.round(Math.random() * ((DefaultSpeak).length - 1));
+                return [...prev, DefaultSpeak[random]];
             });
         }, 8000)
 
         return () => clearInterval(interval)
 
-    }, [Airesponse])
+    }, [Airesponse, DefaultSpeak, checkbox.current?.checked])
 
 
 
     return (
         <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection, TiktokConnection, UserConncetion, isConnected }}>
-            <InteractionContext.Provider value={{ Gift, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold, SetHold, isGiftAnimation, setIsGiftAnimation }}>
+            <InteractionContext.Provider value={{ Gift, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold, SetHold, isGiftAnimation, setIsGiftAnimation, DefaultSpeak, SetDefaultSpeak, checkbox }}>
                 <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings, setVoiceSettings, Resource, setResource }}>
                     <ResponseContext.Provider value={{ Airesponse, arrConsole, BubbleChat, SetAiResponse, setBubbleChat, setShowBubble, showBubble, MusicTitle, setMusicTitle }}>
                         {children}
