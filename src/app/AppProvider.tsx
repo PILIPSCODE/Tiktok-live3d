@@ -155,6 +155,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 const random = Math.round(Math.random() * (DefaultSpeak.length - 1));
                 return [...prev, DefaultSpeak[random]];
             });
+            SetHold(true)
         }, 14000);
 
         intervalRef.current = interval;
@@ -166,14 +167,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             }
         };
     }, [DefaultSpeak, checkbox.current?.checked]);
-
-    useEffect(() => {
-        const check = Airesponse.find((item) => item?.comment === "");
-        if (check) {
-            SetHold(true);
-        }
-    }, [Airesponse]);
-
 
 
     return (

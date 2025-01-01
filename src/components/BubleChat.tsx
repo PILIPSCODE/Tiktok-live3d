@@ -75,7 +75,7 @@ export default function BubleChat() {
             })
 
 
-            if (Airesponse.length < 2) {
+            if (Airesponse.length < 1) {
                 SetChatEnd(true)
                 SetHold(false)
             }
@@ -99,6 +99,7 @@ export default function BubleChat() {
         if (isSpeaking.current || hold === false) {
             return
         }
+        console.log(Airesponse)
 
         handleMessage();
 
