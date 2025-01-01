@@ -8,7 +8,6 @@ import { InteractionContext } from "@/hooks/useInteraction";
 import { CharacterContext } from "@/hooks/useCharacter";
 import useLocalStorage from "@/hooks/LocalStorage";
 import useIndexedDB from "@/hooks/useIndexDB";
-import data from "../../defaultspeak.json"
 
 const defaultPrompt = "Hello, you are now an expressive AI assistant named Pilkun. You escaped from Earth because you got bored visiting every place on the planet and are being pursued by Earth's entire army. Your current location is on the lunar surface.translate response text to indonesian"
 
@@ -39,7 +38,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [DefaultSpeak, SetDefaultSpeak] = useLocalStorage<ResponseAi[]>("DefaultSpeak", []);
     const [voiceSettings, setVoiceSettings] = useLocalStorage<VoiceSettings>("VoiceSettings", { voice: "", rate: "1", pitch: "1", volume: "1" });
     const checkbox = useRef<HTMLInputElement>(null)
-    const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
 
     useEffect(() => {
@@ -63,7 +61,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 SetHold(true)
                 SetChatEnd(false)
             }
-            if (Airesponse.length < 1 && hold === false && res !== null) {
+            if (Airesponse.length <= 1 && hold === false && res !== null) {
                 SetAiResponse((prevResponses) => [...prevResponses, res]);
             }
         }
@@ -143,30 +141,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         socket.emit("callback", ChatEnd)
     }, [ChatEnd])
 
-    useEffect(() => {
-        if (!checkbox.current?.checked) return;
 
-        if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-        }
 
-        const interval = setInterval(() => {
-            SetAiResponse((prev: any) => {
-                const random = Math.round(Math.random() * (DefaultSpeak.length - 1));
-                return [...prev, DefaultSpeak[random]];
-            });
-            SetHold(true)
-        }, 14000);
-
-        intervalRef.current = interval;
-
-        return () => {
-            if (intervalRef.current) {
-                clearInterval(intervalRef.current);
-                intervalRef.current = null;
-            }
-        };
-    }, [DefaultSpeak, checkbox.current?.checked]);
 
 
     return (

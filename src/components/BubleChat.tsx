@@ -18,9 +18,9 @@ const data = {
 }
 const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F\uDE80-\uDEFF]|[\u2600-\u27BF]/g;
 export default function BubleChat() {
-    const { SetChatEnd } = useTiktokConnection();
-    const { SetAnimation, Animation, hold, SetHold, Intercation, isGiftAnimation } = useInteraction();
-    const { Airesponse, showBubble, BubbleChat, SetAiResponse } = useResponse();
+    const { SetChatEnd, TiktokConnection } = useTiktokConnection();
+    const { SetAnimation, Animation, hold, SetHold, Intercation, isGiftAnimation, checkbox, DefaultSpeak } = useInteraction();
+    const { Airesponse, showBubble, BubbleChat } = useResponse();
     const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
     const { voiceSettings } = useCharacter()
     const [voiceSettingsLocal, setvoiceSettingsLocal] = useState<VoiceSettings>({ voice: "", rate: "1", pitch: "1", volume: "1" })
@@ -29,6 +29,8 @@ export default function BubleChat() {
 
     const synth = useRef<SpeechSynthesis | null>(null);
     const isSpeaking = useRef<boolean>(false);
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
 
     const handleMessage = () => {
         const msg = Airesponse.shift()
@@ -48,7 +50,6 @@ export default function BubleChat() {
     const speak = (text: string, animation: string, comment: string) => {
         if (!synth.current) return
 
-
         isSpeaking.current = true;
         const utterance = new SpeechSynthesisUtterance(text.slice(0, 300).replace(emojiRegex, ''));
         utterance.rate = Number(voiceSettingsLocal.rate);
@@ -61,9 +62,9 @@ export default function BubleChat() {
         utterance.onend = () => {
             isSpeaking.current = false;
             setMessage(data)
-
-            handleMessage();
-
+            if (comment !== "") {
+                handleMessage();
+            }
 
             if (Intercation.length === 0 && isGiftAnimation === false) {
                 SetAnimation("Idle");
@@ -75,7 +76,7 @@ export default function BubleChat() {
             })
 
 
-            if (Airesponse.length < 1) {
+            if (Airesponse.length <= 1) {
                 SetChatEnd(true)
                 SetHold(false)
             }
@@ -84,6 +85,30 @@ export default function BubleChat() {
     };
 
 
+
+    useEffect(() => {
+        if (!checkbox.current?.checked || Airesponse.length > 1 || TiktokConnection !== "Connected") return;
+
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+
+        const interval = setInterval(() => {
+            const random = Math.round(Math.random() * (DefaultSpeak.length - 1));
+            speak(DefaultSpeak[random].response, DefaultSpeak[random].animation, DefaultSpeak[random].comment,);
+            SetAnimation(DefaultSpeak[random].animation)
+
+        }, 14000);
+
+        intervalRef.current = interval;
+
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+            }
+        };
+    }, [DefaultSpeak, checkbox.current?.checked, Airesponse, voiceSettingsLocal, TiktokConnection]);
 
     useEffect(() => {
         setvoiceSettingsLocal(voiceSettings)
@@ -99,7 +124,7 @@ export default function BubleChat() {
         if (isSpeaking.current || hold === false) {
             return
         }
-        console.log(Airesponse)
+        console.log(Airesponse.length)
 
         handleMessage();
 
