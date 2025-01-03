@@ -49,7 +49,7 @@ export default function BubleChat() {
 
     const speak = (text: string, animation: string, comment: string) => {
         if (!synth.current) return
-
+        SetChatEnd(false)
         isSpeaking.current = true;
         const utterance = new SpeechSynthesisUtterance(text.slice(0, 300).replace(emojiRegex, ''));
         utterance.rate = Number(voiceSettingsLocal.rate);
@@ -62,10 +62,6 @@ export default function BubleChat() {
         utterance.onend = () => {
             isSpeaking.current = false;
             setMessage(data)
-            if (comment !== "") {
-                handleMessage();
-            }
-
             if (Intercation.length === 0 && isGiftAnimation === false) {
                 SetAnimation("Idle");
             }

@@ -43,7 +43,7 @@ function Character() {
         arrChar.map((e, index) => (
           <div key={index}>
             <div className='h-32 w-32   relative' onClick={() => handleClick(e)}>
-              <Image fill alt='img-char' className={`${CharacterMap === `/3d${e.glb}` ? " blur-sm" : ""} duration-300 rounded-lg object-cover`} src={e.img} />
+              <Image fill alt='img-char' className={`${CharacterMap === `${e.glb}` ? " blur-sm" : ""} duration-300 rounded-lg object-cover`} src={e.img} />
             </div>
           </div>
         ))
