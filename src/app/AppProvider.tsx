@@ -8,15 +8,17 @@ import { InteractionContext } from "@/hooks/useInteraction";
 import { CharacterContext } from "@/hooks/useCharacter";
 import useLocalStorage from "@/hooks/LocalStorage";
 import useIndexedDB from "@/hooks/useIndexDB";
+import { FrameCommentDetector } from "@/utils/framerDetect";
 
 const defaultPrompt = "Hello, you are now an expressive AI assistant named Pilkun. You escaped from Earth because you got bored visiting every place on the planet and are being pursued by Earth's entire army. Your current location is on the lunar surface.translate response text to indonesian"
+const frammerDetection = new FrameCommentDetector(0, 1, 10000, 10000)
+frammerDetection.monitor()
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [Toast, SetToast] = useState({ text: "", uniqueId: "" })
 
     const [UserNameDisconnected, SetUserNameDisconnected] = useState("")
     const [arrConsole, SetarrConsole] = useState("")
-    const [ChatEnd, SetChatEnd] = useState(true)
     const [isConnected, setIsConnected] = useState(false);
     const [TiktokConnection, setTiktokConnection] = useState("");
     const [Gift, setGift] = useState();
@@ -26,6 +28,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [Join, setJoin] = useState<string>();
     const [Airesponse, SetAiResponse] = useState<ResponseAi[]>([]);
     const [hold, SetHold] = useState(false);
+    const [ChatEnd, SetChatEnd] = useState(true)
 
     const [UserConncetion, SetUserConnection] = useLocalStorage("Connection", { username: "", prompt: defaultPrompt, model: "", apikey: "" })
     const [Character, setCharacter] = useLocalStorage("Character", "/PilKun.glb");
@@ -57,14 +60,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
 
         function handleChatResponse(res: ResponseAi) {
-            if (Airesponse.length >= 0) {
-                SetHold(true)
-                SetChatEnd(false)
+            if (res !== null) {
+                frammerDetection.addComment()
             }
             if (Airesponse.length <= 1 && hold === false && res !== null) {
+                SetChatEnd(false)
+                SetHold(true)
                 SetAiResponse((prevResponses) => [...prevResponses, res]);
             }
         }
+
         function handleShare(data: any) {
             if (Toast.text == "") {
                 SetAnimation("BackFlip")
@@ -141,7 +146,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         socket.emit("callback", ChatEnd)
     }, [ChatEnd])
 
+    useEffect(() => {
+        if (!checkbox.current?.checked || TiktokConnection !== "Connected") return;
 
+        const handleStateChange = (newState: string) => {
+            if (newState === "active") return
+            const random = Math.floor(Math.random() * DefaultSpeak.length);
+            SetChatEnd(false)
+            SetHold(true)
+            SetAiResponse((prev: any) => [...prev, DefaultSpeak[random]])
+        }
+
+        frammerDetection.on("stateChange", handleStateChange);
+
+        return () => {
+            frammerDetection.off("stateChange", handleStateChange);
+        };
+
+    }, [DefaultSpeak, checkbox.current?.checked, TiktokConnection]);
 
 
 

@@ -29,16 +29,15 @@ export default function BubleChat() {
 
     const synth = useRef<SpeechSynthesis | null>(null);
     const isSpeaking = useRef<boolean>(false);
-    const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
 
     const handleMessage = () => {
         const msg = Airesponse.shift()
         if (msg) {
+            speak(msg.response, msg.animation, msg.comment);
             if (msg.comment !== "") {
                 setMessage(msg);
             }
-            speak(msg.response, msg.animation, msg.comment);
             if (Animation !== "Idle") return
             SetAnimation(msg.animation)
         }
@@ -71,40 +70,13 @@ export default function BubleChat() {
                 }
             })
 
-
-            if (Airesponse.length <= 1) {
-                SetChatEnd(true)
-                SetHold(false)
-            }
+            SetChatEnd(true)
+            SetHold(false)
         };
         synth.current.speak(utterance);
     };
 
 
-
-    useEffect(() => {
-        if (!checkbox.current?.checked || Airesponse.length > 1 || TiktokConnection !== "Connected") return;
-
-        if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-        }
-
-        const interval = setInterval(() => {
-            const random = Math.round(Math.random() * (DefaultSpeak.length - 1));
-            speak(DefaultSpeak[random].response, DefaultSpeak[random].animation, DefaultSpeak[random].comment,);
-            SetAnimation(DefaultSpeak[random].animation)
-
-        }, 14000);
-
-        intervalRef.current = interval;
-
-        return () => {
-            if (intervalRef.current) {
-                clearInterval(intervalRef.current);
-                intervalRef.current = null;
-            }
-        };
-    }, [DefaultSpeak, checkbox.current?.checked, Airesponse, voiceSettingsLocal, TiktokConnection]);
 
     useEffect(() => {
         setvoiceSettingsLocal(voiceSettings)
@@ -113,15 +85,12 @@ export default function BubleChat() {
 
 
     useEffect(() => {
-
         if (typeof window !== "undefined") {
             synth.current = window.speechSynthesis;
         }
         if (isSpeaking.current || hold === false) {
             return
         }
-        console.log(Airesponse.length)
-
         handleMessage();
 
     }, [Airesponse, hold])
