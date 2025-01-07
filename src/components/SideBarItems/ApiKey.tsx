@@ -12,7 +12,7 @@ function ApiKey() {
   return (
     <div className=' w-full p-3 text-gray-700'>
       <div className='my-4'>
-        <h1 className='text-base mb-1 '>---- Groq AI ----</h1>
+        <h1 className='text-base mb-1 '>-- Groq AI </h1>
         <div className='relative flex items-center'>
           <Input
             type={`${show ? "text" : "password"}`}

@@ -16,7 +16,6 @@ function ChatDisplay() {
   const { DefaultSpeak, SetDefaultSpeak, checkbox } = useInteraction()
   const [BubbleChatMap, setBubbleChatMap] = useState<BubbleSettings>()
   const [DefaultSpeakMap, setDefaultSpeakMap] = useState<ResponseAi[]>([])
-  const [isEdit, setEdit] = useState<number[]>([])
 
 
   useEffect(() => {
@@ -78,10 +77,10 @@ function ChatDisplay() {
 
   return (
     <div>
-      <div className='p-2'>
-        <div className='text-base bg-white p-2 mt-2 '>
+      <div className='p-3'>
+        <div className='text-base bg-white p-2 '>
           <p className='mb-3'>-- Chat Style</p>
-          <div className='flex gap-4'>
+          <div className='flex gap-4 overflow-x-scroll'>
             <div>
               <div className='my-2 flex  gap-2'>
                 {textPosition.map((e: any, index) => (
@@ -120,7 +119,7 @@ function ChatDisplay() {
           <div className={`${checkbox.current?.checked ? "min-h-40" : "min-h-0"} duration-300`}>
             {checkbox.current?.checked && (
               DefaultSpeakMap.map((e: ResponseAi, index: number) => (
-                <div key={index} className="flex gap-2 my-1 p-2 items-start rounded-md">
+                <div key={index} className="flex max-md:flex-col max-md:items-stretch gap-2 my-1 p-2 items-start rounded-md">
                   <Input Inputsize="sm" onChange={(el) => handleChange(e.response, index, el.target.value)} placeholder="Word" className='w-full' defaultValue={e.response} />
                   <CustomSelect
                     placeholder="Animation"
@@ -131,20 +130,11 @@ function ChatDisplay() {
                     onSelect={(selectedOption) => handleSelectAnimation(selectedOption, index)}
                   />
                   <button
-                    className={`${isEdit.includes(index) ? "bg-green-500" : "bg-blue-500"} mt-1 text-white p-2 rounded-md`}
-                    onClick={() =>
-                      isEdit.includes(index)
-                        ? setEdit((prev) => prev.filter((i) => i !== index))
-                        : setEdit((prev) => [...prev, index])
-                    }
-                  >
-                    {isEdit.includes(index) ? <FaCheck /> : <FaEdit />}
-                  </button>
-                  <button
-                    className="bg-red-500 text-white p-2 rounded-md mt-1"
+                    className="bg-red-500 text-white flex justify-center items-center gap-2 p-2 rounded-md mt-1"
                     onClick={() => handleDeleteInteraction(index)}
                   >
                     <FaTrash />
+                    <p className='md:hidden'>Delete</p>
                   </button>
                 </div>
               ))

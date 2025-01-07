@@ -36,17 +36,6 @@ export default function Model1() {
     useEffect(() => {
         useGLTF.preload(Char)
         actions[animate]?.reset().fadeIn(0.5).play();
-        Intercation?.map((e: any) => {
-            if (animate === e.animation) {
-                setIsGiftAnimation(true)
-                setTimeout(() => {
-                    setIsGiftAnimation(false)
-                    SetAnimation("Idle");
-                }, actions[animate] ? actions[animate].getClip().duration * 1000 : 9000);
-            }
-        })
-
-
         return () => {
             if (actions[animate]) {
                 actions[animate].fadeOut(0.5);

@@ -22,9 +22,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [isConnected, setIsConnected] = useState(false);
     const [TiktokConnection, setTiktokConnection] = useState("");
     const [Gift, setGift] = useState();
-    const [Share, setShare] = useState<any[]>([]);
+    const [Share, setShare] = useState();
     const [Animation, SetAnimation] = useState<String>("Idle")
-    const [Follow, setFollow] = useState<any[]>([]);
+    const [Follow, setFollow] = useState();
     const [Join, setJoin] = useState<string>();
     const [Airesponse, SetAiResponse] = useState<ResponseAi[]>([]);
     const [hold, SetHold] = useState(false);
@@ -60,7 +60,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
 
         function handleChatResponse(res: ResponseAi) {
-            if (res !== null) {
+            if (res.comment !== "") {
                 frammerDetection.addComment()
             }
             if (Airesponse.length <= 1 && hold === false && res !== null) {
@@ -71,32 +71,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
 
         function handleShare(data: any) {
-            if (Toast.text == "") {
-                SetAnimation("BackFlip")
-            }
-            SetToast({ text: "Share", uniqueId: data.uniqueId })
-            const audio = new Audio("/music/FollowandShare.mp3");
-            audio.play();
+            setShare(data)
         }
         function handleFollow(data: any) {
-            if (Toast.text == "") {
-                SetAnimation("BackFlip")
-            }
-            SetToast({ text: "Follow", uniqueId: data.uniqueId })
-            const audio = new Audio("/music/FollowandShare.mp3");
-            audio.play();
+            setFollow(data)
         }
 
+        function handleGift(data: any) {
+            setGift(data)
+
+        }
         function handleJoin() {
             setJoin("");
         }
 
         function handleTiktokConnect(data: any) {
             setTiktokConnection(data);
-        }
-        function handleGift(data: any) {
-            setGift(data)
-
         }
         function handleConsole(data: string) {
             SetarrConsole(data);
@@ -169,7 +159,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     return (
         <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection, TiktokConnection, UserConncetion, isConnected }}>
-            <InteractionContext.Provider value={{ Gift, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold, SetHold, isGiftAnimation, setIsGiftAnimation, DefaultSpeak, SetDefaultSpeak, checkbox }}>
+            <InteractionContext.Provider value={{ Gift, setShare, setFollow, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold, SetHold, isGiftAnimation, setIsGiftAnimation, DefaultSpeak, SetDefaultSpeak, checkbox }}>
                 <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings, setVoiceSettings, Resource, setResource }}>
                     <ResponseContext.Provider value={{ Airesponse, arrConsole, BubbleChat, SetAiResponse, setBubbleChat, setShowBubble, showBubble, MusicTitle, setMusicTitle }}>
                         {children}

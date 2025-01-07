@@ -38,7 +38,7 @@ function Character() {
     },
   ]
   return (
-    <div className='flex p-3 gap-2'>
+    <div className='flex p-3 gap-2 overflow-x-scroll'>
       {
         arrChar.map((e, index) => (
           <div key={index}>

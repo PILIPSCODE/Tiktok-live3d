@@ -34,7 +34,15 @@ export interface MusicType {
 }
 
 export interface Interaction {
+  type: string;
   animation: string;
+  audio: string;
+  gift: string;
+}
+export interface InteractionQueue {
+  type: string;
+  animation: string;
+  uniqueId: string;
   audio: string;
   gift: string;
 }
