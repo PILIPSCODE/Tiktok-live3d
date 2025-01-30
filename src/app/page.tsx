@@ -6,6 +6,7 @@ import BubleChat from "@/components/BubleChat";
 
 import Toast from "@/components/Toast";
 import Navbar from "@/components/SideBar";
+import RequestMusic from "@/components/RequsetMusic";
 import { useEffect, useState } from "react";
 
 
@@ -40,6 +41,9 @@ export default function Home() {
           <section className={`h-screen  relative ${open ? "w-96 max-xl:w-0" : "w-screen"} flex justify-center items-center  duration-500 flex-grow`}>
             <Toast />
             {showScene ? <Scene /> : "Loading..."}
+            <div className="bottom-16 z-10 absolute max-w-80">
+              <RequestMusic in="display" />
+            </div>
             <BubleChat />
             <Connection />
           </section>

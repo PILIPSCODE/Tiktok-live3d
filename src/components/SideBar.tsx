@@ -1,5 +1,5 @@
 "use client"
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { IoIosSettings } from "react-icons/io";
 import { GoTerminal } from "react-icons/go";
 import { RiFilePaper2Line, RiMusic2Fill, RiUserVoiceFill } from "react-icons/ri";
@@ -37,7 +37,10 @@ function Navbar(props: prop) {
     const { setShowBubble, showBubble } = useResponse();
     const [inputUser, setInputUser] = useState("")
     const [loading, setLoading] = useState(false)
+    const itemRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
     const text = TiktokConnection === "Connected" ? "Disconnect" : "Connect"
+    const [itemNav, setitemNav] = useState<string>("")
+    const activeItemRef = useRef<string | null>(null);
 
     const handleClick = () => {
         setLoading(true)
@@ -55,7 +58,8 @@ function Navbar(props: prop) {
     }
 
 
-    const [itemNav, setitemNav] = useState<string>("")
+
+
 
     const nav_list: list[] = [
         {
@@ -110,17 +114,36 @@ function Navbar(props: prop) {
         },
     ]
 
+
     const handleClickItems = (item: any) => {
-        setitemNav(itemNav === item.value ? "" : item.value)
+        const newItemNav = itemNav === item.value ? "" : item.value;
+        setitemNav(newItemNav);
+        activeItemRef.current = newItemNav;
+
         if (item.value === "Chat Settings") {
-            setShowBubble(!showBubble)
+            setShowBubble(!showBubble);
         } else {
-            setShowBubble(false)
+            setShowBubble(false);
         }
-    }
+    };
+
+    useEffect(() => {
+        if (activeItemRef.current) {
+            const targetElement = itemRefs.current[activeItemRef.current];
+            if (targetElement) {
+                setTimeout(() => {
+                    targetElement.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                    });
+                }, 300);
+            }
+        }
+    }, [itemNav]);
+
 
     return (
-        <section className={`relative ${props.open ? "w-96 max-xl:w-screen" : "w-0"}   flex-grow h-screen  duration-1000`}>
+        <section className={`relative z-50 ${props.open ? "w-96 max-xl:w-screen" : "w-0"}   flex-grow h-screen  duration-1000`}>
             <label className={`${props.open ? "max-xl:text-black " : "text-white"} absolute top-3 right-3 z-50  xl:-left-10 text-4xl`}><IoIosSettings onClick={() => props.setOpen(!props.open)} className={`${props.open ? "max-xl:bg-white rounded-md shadow-md" : ""}`} /></label>
             <div className={`h-screen bg-white overflow-y-scroll text-xl p-8 flex flex-col  text-black`}>
                 <label className='text-4xl mb-4'>
@@ -142,7 +165,11 @@ function Navbar(props: prop) {
                         nav_list.map((item: list, index) => (
                             <li className="flex flex-col" key={index}>
                                 <span className='flex gap-2 items-center' onClick={() => handleClickItems(item)}>{item.icons}{item.value}</span>
-                                <div className={`flex-grow ${itemNav === item.value ? " opacity-100  bg-gray-200" : "hidden opacity-0 "} text-gray-700  rounded-md transition-all duration-300`}>
+                                <div className={`flex-grow ${itemNav === item.value ? " opacity-100  bg-gray-200 max-h-96" : " max-h-0 opacity-0  overflow-hidden"} text-gray-700  rounded-md transition-all duration-700`}
+                                    ref={(el) => {
+                                        itemRefs.current[item.value] = el;
+                                    }}
+                                >
                                     {item.JSX}
                                 </div>
                             </li>

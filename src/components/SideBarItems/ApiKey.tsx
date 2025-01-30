@@ -12,7 +12,7 @@ function ApiKey() {
   return (
     <div className=' w-full p-3 text-gray-700'>
       <div className='my-4'>
-        <h1 className='text-base mb-1 '>-- Groq AI </h1>
+        <h1 className='text-base mb-1 '>Groq AI </h1>
         <div className='relative flex items-center'>
           <Input
             type={`${show ? "text" : "password"}`}
@@ -29,7 +29,7 @@ function ApiKey() {
             }
           </div>
         </div>
-        <select onChange={e => SetUserConnection({ ...UserConncetion, model: e.target.value })} defaultValue={"Select Model"} className="select border-2 border-black bg-white  w-full mt-2">
+        <select onChange={e => SetUserConnection({ ...UserConncetion, model: e.target.value })} defaultValue={"Select Model"} className="select border-2 border-black bg-white max-md:text-xs w-full mt-2">
           <option disabled>Select Model</option>
           <option>llama3-70b-8192</option>
           <option>llama3-8b-8192</option>

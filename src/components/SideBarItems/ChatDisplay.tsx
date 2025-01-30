@@ -78,8 +78,8 @@ function ChatDisplay() {
   return (
     <div>
       <div className='p-3'>
-        <div className='text-base bg-white p-2 '>
-          <p className='mb-3'>-- Chat Style</p>
+        <div className='text-base  p-2 '>
+          <p className='mb-3'>Chat Style</p>
           <div className='flex gap-4 overflow-x-scroll'>
             <div>
               <div className='my-2 flex  gap-2'>
@@ -105,21 +105,21 @@ function ChatDisplay() {
 
               {BorderStyle.map((e, index) => (
                 <button onClick={() => setBubbleChat({ ...BubbleChatMap, TypeBorder: e })}
-                  className={`${BubbleChatMap?.TypeBorder === e ? " rounded-md blur-sm" : ""} bg-white border-black border rounded-md h-full px-1`} key={index}>{e}</button>
+                  className={`${BubbleChatMap?.TypeBorder === e ? " rounded-md blur-sm" : ""} bg-white  rounded-md h-full px-1`} key={index}>{e}</button>
               ))}
             </div>
           </div>
         </div>
 
-        <div className=' bg-white'>
+        <div >
           <div className='flex p-2 gap-2 items-center my-3 text-base'>
-            <p>-- Default Speak</p>
+            <p>Default Speak</p>
             <input type="checkbox" ref={checkbox} className="toggle toggle-info" defaultChecked />
           </div>
           <div className={`${checkbox.current?.checked ? "min-h-40" : "min-h-0"} duration-300`}>
             {checkbox.current?.checked && (
               DefaultSpeakMap.map((e: ResponseAi, index: number) => (
-                <div key={index} className="flex max-md:flex-col max-md:items-stretch gap-2 my-1 p-2 items-start rounded-md">
+                <div key={index} className="flex max-md:flex-col max-md:items-stretch gap-2 my-2  items-start rounded-md">
                   <Input Inputsize="sm" onChange={(el) => handleChange(e.response, index, el.target.value)} placeholder="Word" className='w-full' defaultValue={e.response} />
                   <CustomSelect
                     placeholder="Animation"
@@ -134,7 +134,7 @@ function ChatDisplay() {
                     onClick={() => handleDeleteInteraction(index)}
                   >
                     <FaTrash />
-                    <p className='md:hidden'>Delete</p>
+                    <p className='md:hidden max-md:text-sm'>Delete</p>
                   </button>
                 </div>
               ))

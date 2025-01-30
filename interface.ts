@@ -31,6 +31,13 @@ export interface MusicType {
   audio: string;
   title: string;
   thumbnails: string;
+  uniqueId: string;
+}
+
+export interface ReqMusic {
+  Title: string;
+  img: string;
+  uniqueId: string;
 }
 
 export interface Interaction {

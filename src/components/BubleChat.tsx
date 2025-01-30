@@ -108,20 +108,23 @@ export default function BubleChat() {
 
     if (message.comment !== "" || showBubble)
         return (
-            <div className='absolute  w-96 mx-auto rounded-lg   bg-black/60'>
-                <div className='w-full h-10 -translate-y-5 top-0 relative'>
-                    <Image fill src={`/border/${BubbleChat.TypeBorder}.png`} alt='Border' />
-                </div>
-                <div className={`p-4 w-full break-before-auto  ${BubbleChat.ResponsePosition}`}>
-                    <h1 className={`text-white text-lg ${BubbleChat.CommentPosition} mb-4`}>{message.comment || "hello world"}</h1>
-                    <h1 className={`text-orange-200 ${BubbleChat.usernamePosition}  mb-2`}>{message.user || "pilcotech"}</h1>
-                    <ReactTyped
-                        strings={[(message.response || "lorem ipsum dolor siamet constrectur, dolor siamet constrectur dolor, siamet constrectur dolor siamet constrectur, dolor siamet constrectur")]}
-                    >
-                    </ReactTyped>
-                </div>
-                <div className='w-full h-10 rotate-180 translate-y-5 bottom-0 relative'>
-                    <Image fill src={`/border/${BubbleChat.TypeBorder}.png`} alt='Border' />
+            <div className='absolute  max-w-96 max-md:mx-2 mx-auto rounded-lg top-1/4   bg-black/60'>
+                <div className='w-96'>
+                    <div className='w-full h-10 -translate-y-5 top-0 relative'>
+                        <Image fill src={`/border/${BubbleChat.TypeBorder}.png`} alt='Border' />
+                    </div>
+                    <div className={`p-4 w-full break-before-auto max-sm:text-base ${BubbleChat.ResponsePosition}`}>
+                        <h1 className={`text-white text-lg ${BubbleChat.CommentPosition} mb-4`}>{message.comment || "hello world"}</h1>
+                        <h1 className={`text-orange-200 ${BubbleChat.usernamePosition}  mb-2`}>{message.user || "pilcotech"}</h1>
+                        <ReactTyped
+                            strings={[(message.response || "lorem ipsum dolor siamet constrectur, dolor siamet constrectur dolor, siamet constrectur dolor siamet constrectur, dolor siamet constrectur")]}
+                            className='max-sm:text-sm'
+                        >
+                        </ReactTyped>
+                    </div>
+                    <div className='w-full h-10 rotate-180 translate-y-5 bottom-0 relative'>
+                        <Image fill src={`/border/${BubbleChat.TypeBorder}.png`} alt='Border' />
+                    </div>
                 </div>
             </div>
         )

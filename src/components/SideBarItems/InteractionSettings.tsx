@@ -9,7 +9,7 @@ import { Interaction, ResorceType, InteractionQueue } from '../../../interface'
 import { useCharacter } from '@/hooks/useCharacter'
 
 function IntercationSettings() {
-  const { Intercation, SetInteraction, Gift, SetAnimation, Follow, Share, SetToast, setIsGiftAnimation, setShare, setFollow } = useInteraction()
+  const { Intercation, SetInteraction, Gift, SetAnimation, Follow, Share, checkbox, SetToast, setIsGiftAnimation, setShare, setFollow } = useInteraction()
   const { Resource } = useCharacter()
   const [InteractionQueue, setInteractionQueue] = useState<InteractionQueue[]>([])
   const [currentInteraction, setCurrentInteraction] = useState<InteractionQueue | null>(null);
@@ -57,8 +57,9 @@ function IntercationSettings() {
     const audioResource = Resource.filter((el: ResorceType) => el.name === currentInteraction?.audio)
 
     if (audioResource) {
-      const audio = new Audio(`data:${audioResource[0].type};base64,` + audioResource[0].Base64);
-      audio.volume = 0.5;
+      checkbox.checked = false;
+      const audio = new Audio(`data:${audioResource[0]?.type};base64,` + audioResource[0]?.Base64);
+      audio.volume = 0.3;
       audioRef.current = audio;
       audio.play();
       setIsPlay(true)
@@ -79,6 +80,7 @@ function IntercationSettings() {
       return () => {
         audio.removeEventListener("ended", handleEnded);
         audio.pause();
+        checkbox.checked = true;
         audio.src = "";
         audioRef.current = null;
       }
@@ -103,7 +105,7 @@ function IntercationSettings() {
       setInteractionQueue((prev: any) => [...prev, { ...Intercation[IntercationFollow], uniqueId: Follow.uniqueId }])
       setFollow(null)
     }
-  }, [Gift, Share, Follow])
+  }, [Share, Follow])
 
   useEffect(() => {
     if (Gift) {
@@ -114,7 +116,7 @@ function IntercationSettings() {
           }
         })
     }
-  }, [Follow])
+  }, [Gift])
 
 
 
@@ -136,7 +138,7 @@ function IntercationSettings() {
         {
           IntercationMap.filter((e) => e.type !== "gift").map((e, index) => (
             <div key={index}>
-              <h1 className='text-base mb-1 '>-- {e.type}</h1>
+              <h1 className='text-base mb-1 '>{e.type}</h1>
               <div className='flex max-md:flex-col  border-2  max-md:items-stretch  gap-2 my-1 p-2 items-stretch  rounded-md'>
                 <CustomSelect
                   placeholder="Animation"
@@ -160,7 +162,7 @@ function IntercationSettings() {
         }
       </div>
       <div className='my-3'>
-        <h1 className='text-base '>-- Gift</h1>
+        <h1 className='text-base '>Gift</h1>
         {
           IntercationMap.filter((e) => e.type === "gift").map((e: any, index: number) => (
             <div key={index} className='flex max-md:flex-col max-md:items-stretch  gap-2 mb-2 p-2 items-start  rounded-md'>

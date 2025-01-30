@@ -2,9 +2,11 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import Input from '../Ui/input';
-import Image from 'next/image';
-import { useResponse } from '@/hooks/useResponse';
-import { MusicType } from '../../../interface';
+import { MusicType, ReqMusic } from '../../../interface';
+import CustomSelect from '../Ui/select';
+import GiftList from "../../../gift.json"
+import { useMusic } from '@/hooks/useMusic';
+import RequsetMusic from '../RequsetMusic';
 
 
 const port = process.env.NEXT_PUBLIC_IS_PRODUCTION === "production"
@@ -12,29 +14,42 @@ const port = process.env.NEXT_PUBLIC_IS_PRODUCTION === "production"
   : "http://localhost:8000"
 
 function Music() {
-  const { MusicTitle, setMusicTitle } = useResponse();
+  const { QuequeMusic, setQuequeMusic, MusicTitle, setMusicTitle, isPlay, setIsPlay, skip, GiftReqMusic, checkboxMusic, setGiftReqMusic } = useMusic();
   const [inputMusic, setinputMusic] = useState("");
+  const [giftReq, setGiftReq] = useState<string | null>(null);
+  const [musicVolume, setMusicVolume] = useState("0.5");
+
   const [loading, setLoading] = useState(false);
-  const [QuequeMusic, setQuequeMusic] = useState<MusicType[]>([]);
   const [currentTrack, setCurrentTrack] = useState<MusicType | null>(null);
-  const [isPlay, setIsPlay] = useState(false);
-  const [skip, setSkip] = useState("");
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const ReqMusic = async () => {
-    setLoading(true);
-    setMusicTitle((prev: any) => [...prev, inputMusic]);
+    setLoading(true)
+    if (inputMusic !== "") {
+      setMusicTitle((prev: ReqMusic[]) => [...prev, { uniqueId: "Author", Title: `Processing ${inputMusic}`, img: "/imgChar/PilBot.png" }]);
+    }
   };
+
+
+  useEffect(() => {
+    if (GiftReqMusic) {
+      console.log("✅ Setting state after mount:", GiftReqMusic);
+      setGiftReq(GiftReqMusic);
+    }
+  }, [GiftReqMusic]);
+
+
 
   useEffect(() => {
     if (currentTrack && !isPlay) {
       const audio = new Audio("data:audio/mp3;base64," + currentTrack.audio);
-      audio.volume = 0.3;
+      audio.volume = Number(musicVolume);
       audioRef.current = audio;
 
       const handleEnded = () => {
         setIsPlay(false);
-        setQuequeMusic((prev) => prev.slice(1));
+        setQuequeMusic((prev: any) => prev.slice(1));
         setCurrentTrack(null);
       };
 
@@ -47,7 +62,7 @@ function Music() {
         audio.pause();
         setIsPlay(false);
         setCurrentTrack(null);
-        setQuequeMusic((prev) => prev.slice(1));
+        setQuequeMusic((prev: any) => prev.slice(1));
       }
 
       return () => {
@@ -60,6 +75,12 @@ function Music() {
   }, [currentTrack, skip]);
 
   useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = Number(musicVolume);
+    }
+  }, [musicVolume])
+
+  useEffect(() => {
     if (!isPlay && QuequeMusic.length > 0) {
       const nextTrack = QuequeMusic[0];
       setCurrentTrack(nextTrack);
@@ -68,61 +89,43 @@ function Music() {
 
   useEffect(() => {
     if (MusicTitle.length === 0) return;
-    const Queque = MusicTitle.shift();
-    const getMusic = async () => {
-      try {
-        const randomIP = generateRandomIP()
-        const res = await axios.get(`${port}/reqMusic?title=${Queque}`, {
-          headers: {
-            'X-Forwarded-For': randomIP,
-          },
-        });
-        const data = await res.data;
-        if (data) {
-          setinputMusic("")
-          setQuequeMusic((prev) => [...prev, data]);
+    const index = MusicTitle.findIndex((e: any) => e.Title !== "");
+    if (index !== -1) {
+      const Queque = MusicTitle[index];
+      const Title = Queque.Title.replace("Processing", " ")
+      const getMusic = async () => {
+        try {
+          const res = await axios.get(`${port}/reqMusic?title=${Title}`);
+          const data = await res.data;
+
+          if (data) {
+            setMusicTitle((prev: ReqMusic[]) => [...prev.slice(0, index), ...prev.slice(index + 1)]);
+            setQuequeMusic((prev: ReqMusic[]) => [...prev, { audio: data.audio, title: data.title, thumbnails: data.thumbnails, uniqueId: Queque.uniqueId }]);
+            setinputMusic("")
+            setLoading(false);
+          }
+        } catch (error) {
           setLoading(false);
+          console.log(error);
         }
-      } catch (error) {
-        setLoading(false);
-        console.log(error);
-      }
-    };
-    getMusic();
+      };
+      getMusic();
+    }
+
   }, [MusicTitle]);
 
   return (
     <div className="p-4">
       <p className={`${loading ? "" : "hidden"}`}>Please Wait...</p>
-      <div className={`flex w-full my-3 gap-4 overflow-x-scroll ${QuequeMusic.length === 0 ? "hidden" : ""}`}>
-        {QuequeMusic.map((e, index) => (
-          <div
-            key={index}
-            className={`flex flex-shrink-0 gap-2 w-96 my-2 bg-gray-400 relative p-2 rounded-md items-center`}
-          >
-            <div className="w-20 h-20 relative flex-shrink-0">
-              <Image
-                className="rounded-full object-fill"
-                fill
-                src={e.thumbnails || "/imgChar/PilKia.png"}
-                alt="thumbnails"
-              />
-            </div>
-            <p
-              onClick={() => {
-                setSkip(e.title);
-                setIsPlay(false);
-              }}
-              className="absolute text-red-500 w-6 h-6 flex justify-center items-center  right-2 top-2 border border-red-500 rounded-full"
-            >
-              X
-            </p>
-            <p className="text-sm">{index === 0 ? "Playing" : "Waiting"} : {e.title}</p>
-          </div>
-        ))}
+      <RequsetMusic in='sidebar' />
+      <div className='text-sm my-2'>
+        <h1>Volume</h1>
+        <div className='flex gap-2 items-center'>
+          <input defaultValue={musicVolume} onChange={(e) => setMusicVolume(e.target.value)} type="range" min={0} max="1" className="range" step="0.1" />
+          <p>{musicVolume}</p>
+        </div>
       </div>
-
-      <div className="flex gap-2">
+      <div className="flex gap-2 mt-3">
         <Input
           Inputsize={"sm"}
           placeholder="Title || Creator"
@@ -137,12 +140,23 @@ function Music() {
           Play
         </button>
       </div>
+      <div className='flex p-2 gap-2 items-center my-3 text-base'>
+        <p>Req Musiq</p>
+        <input type="checkbox" ref={checkboxMusic} className="toggle toggle-info" />
+      </div>
+      <div className={`flex max-md:flex-col max-md:items-stretch gap-2 my-1  items-start rounded-md ${checkboxMusic.current?.checked ? "" : "hidden"}`}>
+        <CustomSelect
+          placeholder="OnGift"
+          options={GiftList}
+          className="text-xs"
+          defaultValue={giftReq || ""}
+          displayKey="name"
+          onSelect={(selectOption) => { setGiftReqMusic(selectOption.name) }}
+        />
+      </div>
     </div>
   );
 }
 
-function generateRandomIP() {
-  return Array.from({ length: 4 }, () => Math.floor(Math.random() * 256)).join('.');
-}
 
 export default Music;
