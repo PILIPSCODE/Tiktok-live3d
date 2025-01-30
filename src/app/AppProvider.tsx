@@ -39,7 +39,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const checkbox = useRef<HTMLInputElement>(null)
 
     // Response 
-    const [BubbleChat, setBubbleChat] = useLocalStorage<BubbleSettings>("BubbleSettings", { TypeBorder: "Border3", CommentPosition: "text-center", ResponsePosition: "text-justify", usernamePosition: "text-left" });
+    const [BubbleChat, setBubbleChat] = useLocalStorage<BubbleSettings>("BubbleSettings", { TypeBorder: "Border3", CommentPosition: "text-center", ResponsePosition: "text-justify", usernamePosition: "text-left", TextSpeed: "5" });
     const [Airesponse, SetAiResponse] = useState<ResponseAi[]>([]);
     const [showBubble, setShowBubble] = useState(false);
 

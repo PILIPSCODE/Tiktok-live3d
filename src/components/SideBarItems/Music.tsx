@@ -27,14 +27,13 @@ function Music() {
   const ReqMusic = async () => {
     setLoading(true)
     if (inputMusic !== "") {
-      setMusicTitle((prev: ReqMusic[]) => [...prev, { uniqueId: "Author", Title: `Processing ${inputMusic}`, img: "/imgChar/PilBot.png" }]);
+      setMusicTitle((prev: ReqMusic[]) => [...prev, { uniqueId: "Creator", Title: `Processing ${inputMusic}`, img: "/imgChar/PilBot.png" }]);
     }
   };
 
 
   useEffect(() => {
     if (GiftReqMusic) {
-      console.log("✅ Setting state after mount:", GiftReqMusic);
       setGiftReq(GiftReqMusic);
     }
   }, [GiftReqMusic]);
@@ -128,7 +127,7 @@ function Music() {
       <div className="flex gap-2 mt-3">
         <Input
           Inputsize={"sm"}
-          placeholder="Title || Creator"
+          placeholder="Title || Author"
           value={inputMusic}
           onChange={(e) => setinputMusic(e.target.value)}
           className="w-full"

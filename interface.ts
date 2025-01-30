@@ -18,6 +18,7 @@ export interface Hooks {
 export interface BubbleSettings {
   TypeBorder: string;
   CommentPosition: string;
+  TextSpeed: string;
   usernamePosition: string;
   ResponsePosition: string;
 }

@@ -110,7 +110,13 @@ function ChatDisplay() {
             </div>
           </div>
         </div>
-
+        <div className='text-sm my-2 p-2'>
+          <h1>Text Speed</h1>
+          <div className='flex gap-2 items-center'>
+            <input defaultValue={BubbleChatMap?.TextSpeed} onChange={(e) => { setBubbleChat({ ...BubbleChatMap, TextSpeed: e.target.value }) }} type="range" min={1} max="5" className="range" step="1" />
+            <p>{BubbleChatMap?.TextSpeed}X</p>
+          </div>
+        </div>
         <div >
           <div className='flex p-2 gap-2 items-center my-3 text-base'>
             <p>Default Speak</p>

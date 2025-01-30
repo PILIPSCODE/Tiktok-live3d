@@ -117,6 +117,7 @@ export default function BubleChat() {
                         <h1 className={`text-white text-lg ${BubbleChat.CommentPosition} mb-4`}>{message.comment || "hello world"}</h1>
                         <h1 className={`text-orange-200 ${BubbleChat.usernamePosition}  mb-2`}>{message.user || "pilcotech"}</h1>
                         <ReactTyped
+                            typeSpeed={Number(50 - BubbleChat.TextSpeed * 10)}
                             strings={[(message.response || "lorem ipsum dolor siamet constrectur, dolor siamet constrectur dolor, siamet constrectur dolor siamet constrectur, dolor siamet constrectur")]}
                             className='max-sm:text-sm'
                         >

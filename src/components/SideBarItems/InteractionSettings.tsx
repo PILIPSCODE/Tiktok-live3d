@@ -198,7 +198,7 @@ function IntercationSettings() {
               </div>
               <button
                 className="bg-red-500 text-white p-2 flex justify-center items-center gap-2 rounded-md mt-1"
-                onClick={() => handleDeleteInteraction(index)}
+                onClick={() => handleDeleteInteraction(index + 2)}
               >
                 <FaTrash />
                 <p className='md:hidden'>Delete</p>
