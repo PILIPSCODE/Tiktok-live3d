@@ -1,6 +1,6 @@
 "use client";
 import { TiktokConnectionContext } from "@/hooks/UseTiktokConnection";
-import { BubbleSettings, Interaction, MusicType, ReqMusic, ResorceType, ResponseAi, VoiceSettings } from "../../interface";
+import { BubbleSettings, Interaction, MusicType, ReqMusic, ResorceType, ResponseAi, setAnimation, VoiceSettings } from "../../interface";
 import { socket } from '@/utils/socket';
 import React, { useState, useEffect, useRef } from 'react';
 import { ResponseContext } from "@/hooks/useResponse";
@@ -27,7 +27,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     // Interaction
     const [Toast, SetToast] = useState({ text: "", uniqueId: "" })
     const [arrConsole, SetarrConsole] = useState("")
-    const [Animation, SetAnimation] = useState<String>("Idle")
+    const [Animation, SetAnimation] = useState<setAnimation>({ animation: "Idle", playOn: "" })
     const [Join, setJoin] = useState<string>();
     const [Gift, setGift] = useState();
     const [Share, setShare] = useState();
@@ -37,6 +37,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [Intercation, SetInteraction] = useLocalStorage<Interaction[]>("interaction", []);
     const [DefaultSpeak, SetDefaultSpeak] = useLocalStorage<ResponseAi[]>("DefaultSpeak", []);
     const checkbox = useRef<HTMLInputElement>(null)
+    const [prevAnimation, setPrevAnimation] = useState<setAnimation>({ animation: "Idle", playOn: "" })
+    const prevAnimationRef = useRef(prevAnimation);
 
     // Response 
     const [BubbleChat, setBubbleChat] = useLocalStorage<BubbleSettings>("BubbleSettings", { TypeBorder: "Border3", CommentPosition: "text-center", ResponsePosition: "text-justify", usernamePosition: "text-left", TextSpeed: "5" });
@@ -101,7 +103,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
 
         function handleChat(data: any) {
-            if (data.comment.includes("!play")) {
+            if (data.comment?.includes("!play")) {
                 const Title = data.comment.replace("!play", " ")
                 setMusicTitle((prev: any) =>
                     prev.map((item: ReqMusic, i: number) =>
@@ -193,7 +195,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     return (
         <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection, TiktokConnection, UserConncetion, isConnected }}>
-            <InteractionContext.Provider value={{ Gift, setShare, setFollow, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold, SetHold, isGiftAnimation, setIsGiftAnimation, DefaultSpeak, SetDefaultSpeak, checkbox }}>
+            <InteractionContext.Provider value={{ Gift, setShare, setFollow, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold, SetHold, isGiftAnimation, setIsGiftAnimation, DefaultSpeak, SetDefaultSpeak, checkbox, prevAnimation, prevAnimationRef, setPrevAnimation }}>
                 <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings, setVoiceSettings, Resource, setResource }}>
                     <ResponseContext.Provider value={{ Airesponse, arrConsole, BubbleChat, SetAiResponse, setBubbleChat, setShowBubble, showBubble }}>
                         <MusicContext.Provider value={{ setSkip, skip, setIsPlay, isPlay, QuequeMusic, setQuequeMusic, MusicTitle, setMusicTitle, checkboxMusic, GiftReqMusic, setGiftReqMusic }}>

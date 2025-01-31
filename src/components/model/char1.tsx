@@ -4,15 +4,18 @@ import { useInteraction } from "@/hooks/useInteraction"
 import { useAnimations, useGLTF } from "@react-three/drei"
 import { useEffect, useRef, useState } from "react"
 import { Group } from "three"
+import { setAnimation } from "../../../interface"
 
 
 export default function Model1() {
     const group = useRef<Group>(null)
-    const { Animation, SetAnimation, Intercation, setIsGiftAnimation } = useInteraction();
-    const animate = Animation !== "" ? Animation : "Idle"
+    const { Animation, prevAnimation, setPrevAnimation, prevAnimationRef } = useInteraction();
+
+    const animate = Animation.animation !== "" ? Animation.animation : "Idle"
 
     const { Character } = useCharacter();
     const [CharacterMap, setCharacterMap] = useState("")
+
 
 
     const defaultCharacther = "/3d/PilKun.glb"
@@ -33,6 +36,7 @@ export default function Model1() {
         }, 1000)
     }, [Character])
 
+
     useEffect(() => {
         useGLTF.preload(Char)
         actions[animate]?.reset().fadeIn(0.5).play();
@@ -41,7 +45,16 @@ export default function Model1() {
                 actions[animate].fadeOut(0.5);
             }
         };
-    }, [Animation, animate, CharacterMap, Intercation, actions]);
+
+    }, [animate, CharacterMap, actions]);
+
+    useEffect(() => {
+        prevAnimationRef.current = prevAnimation;
+    }, [prevAnimation]);
+
+    useEffect(() => {
+        setPrevAnimation(Animation)
+    }, [Animation])
 
 
 

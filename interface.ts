@@ -15,6 +15,11 @@ export interface Hooks {
   isConnected: boolean;
 }
 
+export interface setAnimation {
+  animation: string;
+  playOn: string;
+}
+
 export interface BubbleSettings {
   TypeBorder: string;
   CommentPosition: string;

@@ -19,7 +19,7 @@ const data = {
 const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F\uDE80-\uDEFF]|[\u2600-\u27BF]/g;
 export default function BubleChat() {
     const { SetChatEnd } = useTiktokConnection();
-    const { SetAnimation, Animation, hold, SetHold, Intercation, isGiftAnimation, } = useInteraction();
+    const { SetAnimation, Animation, hold, SetHold, prevAnimationRef } = useInteraction();
     const { Airesponse, showBubble, BubbleChat } = useResponse();
     const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
     const { voiceSettings } = useCharacter()
@@ -38,8 +38,8 @@ export default function BubleChat() {
             if (msg.comment !== "") {
                 setMessage(msg);
             }
-            if (Animation !== "Idle") return
-            SetAnimation(msg.animation)
+            if (Animation.animation !== "Idle") return
+            SetAnimation({ animation: msg.animation, playOn: "ChatResponse" })
         }
 
     }
@@ -61,16 +61,11 @@ export default function BubleChat() {
         utterance.onend = () => {
             isSpeaking.current = false;
             setMessage(data)
-            if (Intercation.length === 0 && isGiftAnimation === false) {
-                SetAnimation("Idle")
+
+            if (prevAnimationRef.current.animation === "Interaction" && prevAnimationRef.current.playOn !== "Idle") {
+                console.log("oke")
+                SetAnimation({ animation: "Idle", playOn: "ChatResponse" })
             }
-            Intercation.map((e: any) => {
-                if (animation !== e.animation && isGiftAnimation === false) {
-                    SetAnimation("Idle")
-                }
-            })
-
-
             SetChatEnd(true)
             SetHold(false)
         };

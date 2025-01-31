@@ -59,20 +59,21 @@ function IntercationSettings() {
     if (audioResource) {
       checkbox.checked = false;
       const audio = new Audio(`data:${audioResource[0]?.type};base64,` + audioResource[0]?.Base64);
-      audio.volume = 0.3;
+      audio.volume = 1;
       audioRef.current = audio;
       audio.play();
       setIsPlay(true)
       setIsGiftAnimation(true)
       SetToast({ text: String(currentInteraction?.type), uniqueId: currentInteraction?.uniqueId })
-      SetAnimation(currentInteraction?.animation)
+      SetAnimation({ animation: currentInteraction?.animation, playOn: "Interaction" })
 
       const handleEnded = () => {
         setTimeout(() => {
           setIsPlay(false)
           setInteractionQueue((prev) => prev.slice(1));
           setCurrentInteraction(null);
-          SetAnimation("Idle")
+          setIsGiftAnimation(false)
+          SetAnimation({ animation: "Idle", playOn: "Interaction" })
         }, 2000)
       }
       audio.addEventListener("ended", handleEnded)
