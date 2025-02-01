@@ -35,14 +35,13 @@ const Scene = () => {
       <directionalLight position={[0, 80, 180]} intensity={7} />
       <Suspense fallback={<Loader />}>
         {/* <Pet /> */}
-        <Char1 />
+        {/* <Char1 /> */}
         {/* <Char2 />
         <Char3 />
         <Char4 /> */}
         {/* <ModelGelud/> */}
-        {/* <Chair />
-        <Kapal /> */}
-        {/* <Earth /> */}
+        <Chair />
+        <Kapal />
         <Ground />
         <OrbitControls />
       </Suspense>

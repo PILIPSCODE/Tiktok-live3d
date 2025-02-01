@@ -4,9 +4,6 @@ import { useInteraction } from "@/hooks/useInteraction"
 import { useAnimations, useGLTF } from "@react-three/drei"
 import { useEffect, useRef, useState } from "react"
 import { Group } from "three"
-import { setAnimation } from "../../../interface"
-
-
 export default function Model1() {
     const group = useRef<Group>(null)
     const { Animation, prevAnimation, setPrevAnimation, prevAnimationRef } = useInteraction();

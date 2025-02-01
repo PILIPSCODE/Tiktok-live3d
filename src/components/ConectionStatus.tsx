@@ -1,5 +1,6 @@
 "use client"
 
+import { useMusic } from "@/hooks/useMusic";
 import { useTiktokConnection } from "@/hooks/UseTiktokConnection";
 import { useEffect, useRef } from "react";
 
@@ -7,32 +8,38 @@ import { useEffect, useRef } from "react";
 
 export default function Connection() {
     const { isConnected } = useTiktokConnection();
+    const { QuequeMusic } = useMusic()
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
 
     useEffect(() => {
         audioRef.current = new Audio("/music/sound.mp3");
         audioRef.current.loop = true;
-        audioRef.current.volume = 0.5;
-
-        audioRef.current.addEventListener('error', (e) => {
-            console.error("Kesalahan memuat audio:", e);
-        });
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.src = "";
+            }
+        };
     }, []);
 
-
-    const handlePlayAudio = async () => {
+    useEffect(() => {
         if (audioRef.current) {
-            try {
-                await audioRef.current.play();
-            } catch (error) {
-                console.error("Audio tidak bisa diputar:", error);
+            if (QuequeMusic.length > 0) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+                console.log("Audio stopped");
+            } else {
+                audioRef.current.play().catch(err => console.error("Playback error:", err));
+                console.log("Audio playing");
             }
         }
-    };
+    }, [QuequeMusic]);
+
+
 
     return (
-        <div onClick={handlePlayAudio} className="absolute left-2 bottom-2">
+        <div className="absolute left-2 bottom-2">
             {
                 isConnected ?
                     <div className="h-5 w-5 rounded-full bg-green-500"></div>
