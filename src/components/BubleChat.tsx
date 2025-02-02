@@ -34,10 +34,24 @@ export default function BubleChat() {
     const handleMessage = () => {
         const msg = Airesponse.shift()
         if (msg) {
-            speak(msg.response, msg.animation, msg.comment);
-            if (msg.comment !== "") {
-                setMessage(msg);
+            const splitedResponse: any[] = []
+            const word = msg.response.split(" ")
+
+            for (let i = 0; i < word.length; i += 28) {
+                splitedResponse.push(word.slice(i, i + 28).join(" "));
             }
+
+            const callback = () => {
+                console.log(splitedResponse)
+                const split = splitedResponse.shift()
+                speak(split, splitedResponse.length, callback);
+                if (msg.comment !== "") {
+                    setMessage({ ...msg, response: split });
+                }
+            }
+
+            callback();
+
             if (Animation.animation !== "Idle") return
             SetAnimation({ animation: msg.animation, playOn: "ChatResponse" })
         }
@@ -46,7 +60,7 @@ export default function BubleChat() {
 
 
 
-    const speak = (text: string, animation: string, comment: string) => {
+    const speak = (text: string, length: number, callback: () => void) => {
         if (!synth.current) return
         SetChatEnd(false)
         isSpeaking.current = true;
@@ -59,15 +73,18 @@ export default function BubleChat() {
         utterance.voice = TTS || null;
 
         utterance.onend = () => {
-            isSpeaking.current = false;
             setMessage(data)
 
-            if (prevAnimationRef.current.animation === "Interaction" && prevAnimationRef.current.playOn !== "Idle") {
-                console.log("oke")
-                SetAnimation({ animation: "Idle", playOn: "ChatResponse" })
+            if (length === 0) {
+                isSpeaking.current = false;
+                if (prevAnimationRef.current.animation === "Interaction" && prevAnimationRef.current.playOn !== "Idle") {
+                    SetAnimation({ animation: "Idle", playOn: "ChatResponse" })
+                }
+                SetChatEnd(true)
+                SetHold(false)
+            } else {
+                callback()
             }
-            SetChatEnd(true)
-            SetHold(false)
         };
         synth.current.speak(utterance);
     };

@@ -12,7 +12,7 @@ import useIndexedDB from "@/hooks/useIndexDB";
 import { FrameCommentDetector } from "@/utils/framerDetect";
 
 const defaultPrompt = "Hello, you are now an expressive AI assistant named Pilkun. You escaped from Earth because you got bored visiting every place on the planet and are being pursued by Earth's entire army. Your current location is on the lunar surface.translate response text to indonesian"
-const frammerDetection = new FrameCommentDetector(0, 1, 10000, 10000)
+const frammerDetection = new FrameCommentDetector(0, 1, 30000, 30000)
 frammerDetection.monitor()
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
