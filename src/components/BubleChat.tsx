@@ -35,19 +35,19 @@ export default function BubleChat() {
         const msg = Airesponse.shift()
         if (msg) {
             const splitedResponse: any[] = []
-            const word = msg.response.split(" ")
-
-            for (let i = 0; i < word.length; i += 28) {
-                splitedResponse.push(word.slice(i, i + 28).join(" "));
-            }
-
-            const callback = () => {
-                console.log(splitedResponse)
-                const split = splitedResponse.shift()
-                speak(split, splitedResponse.length, callback);
-                if (msg.comment !== "") {
-                    setMessage({ ...msg, response: split });
+            const words = msg.response.split(" ");
+            for (let i = 0; i < words.length; i += 28) {
+                let part = words.slice(i, i + 28).join(" ");
+                if (i + 28 < words.length) {
+                    part += ",";
                 }
+
+                splitedResponse.push(part);
+            }
+            const callback = () => {
+                const split = splitedResponse.shift()
+                speak(split, splitedResponse.length, callback, msg);
+
             }
 
             callback();
@@ -60,26 +60,30 @@ export default function BubleChat() {
 
 
 
-    const speak = (text: string, length: number, callback: () => void) => {
+    const speak = (text: string, length: number, callback: () => void, msg: ResponseAi) => {
         if (!synth.current) return
         SetChatEnd(false)
         isSpeaking.current = true;
-        const utterance = new SpeechSynthesisUtterance(text.slice(0, 300).replace(emojiRegex, ''));
+        const utterance = new SpeechSynthesisUtterance(text.replace(emojiRegex, ''));
         utterance.rate = Number(voiceSettingsLocal.rate);
         utterance.volume = Number(voiceSettingsLocal.volume);
         utterance.pitch = Number(voiceSettingsLocal.pitch);
+        setTimeout(() => {
+            setMessage({ ...msg, response: text });
+        }, 1000)
+
         const TTS = voices.find(voice => voice.voiceURI === voiceSettingsLocal.voice);
 
         utterance.voice = TTS || null;
 
         utterance.onend = () => {
-            setMessage(data)
 
-            if (length === 0) {
+            if (length <= 1) {
                 isSpeaking.current = false;
                 if (prevAnimationRef.current.animation === "Interaction" && prevAnimationRef.current.playOn !== "Idle") {
                     SetAnimation({ animation: "Idle", playOn: "ChatResponse" })
                 }
+                setMessage(data)
                 SetChatEnd(true)
                 SetHold(false)
             } else {

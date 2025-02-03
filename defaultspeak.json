@@ -1,17 +1,18 @@
+
 [
-    {
-      "comment": "",
-      "prev": false,
-      "response": "apakah ada yang mau ditanyakan? langsung tanyakan saja ya!!",
-      "animation": "Talking",
-      "user": ""
-    },
-    {
-      "comment": "",
-      "prev": false,
-      "response": "hallo semuanya jangan lupa follow share dan tap-tapnya ya",
-      "animation": "Waving",
-      "user": ""
-    }
+  {
+    "comment": "",
+    "prev": false,
+    "response": "apakah ada yang mau ditanyakan? langsung tanyakan saja ya!!",
+    "animation": "Talking",
+    "user": ""
+  },
+  {
+    "comment": "",
+    "prev": false,
+    "response": "hallo semuanya jangan lupa follow share dan tap-tapnya ya",
+    "animation": "Waving",
+    "user": ""
+  }
   ]
   
