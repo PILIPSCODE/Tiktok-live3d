@@ -7,6 +7,7 @@ import { useTiktokConnection } from '@/hooks/UseTiktokConnection';
 import { useInteraction } from '@/hooks/useInteraction';
 import { useResponse } from '@/hooks/useResponse';
 import { useCharacter } from '@/hooks/useCharacter';
+import { useInteraction2d } from '@/hooks/useInteraction2d';
 
 
 const data = {
@@ -20,6 +21,7 @@ const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\uD83C[\uDF00-\uDFFF]|\uD83D[
 export default function BubleChat() {
     const { SetChatEnd } = useTiktokConnection();
     const { SetAnimation, Animation, hold, SetHold, prevAnimationRef } = useInteraction();
+    const { SetIsSpeak } = useInteraction2d()
     const { Airesponse, showBubble, BubbleChat } = useResponse();
     const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
     const { voiceSettings } = useCharacter()
@@ -63,6 +65,7 @@ export default function BubleChat() {
     const speak = (text: string, length: number, callback: () => void, msg: ResponseAi) => {
         if (!synth.current) return
         SetChatEnd(false)
+        SetIsSpeak(true)
         isSpeaking.current = true;
         const utterance = new SpeechSynthesisUtterance(text.replace(emojiRegex, ''));
         utterance.rate = Number(voiceSettingsLocal.rate);
@@ -84,6 +87,7 @@ export default function BubleChat() {
                     SetAnimation({ animation: "Idle", playOn: "ChatResponse" })
                 }
                 setMessage(data)
+                SetIsSpeak(false)
                 SetChatEnd(true)
                 SetHold(false)
             } else {
@@ -124,7 +128,7 @@ export default function BubleChat() {
 
     if (message.comment !== "" || showBubble)
         return (
-            <div className='absolute  max-w-96 max-md:mx-2 mx-auto rounded-lg top-1/4   bg-black/60'>
+            <div className='absolute z-50  max-w-96 max-md:mx-2 mx-auto rounded-lg top-1/4   bg-black/50'>
                 <div className='w-96'>
                     <div className='w-full h-10 -translate-y-5 top-0 relative'>
                         <Image fill src={`/border/${BubbleChat.TypeBorder}.png`} alt='Border' />
@@ -135,7 +139,7 @@ export default function BubleChat() {
                         <ReactTyped
                             typeSpeed={Number(50 - BubbleChat.TextSpeed * 10)}
                             strings={[(message.response || "lorem ipsum dolor siamet constrectur, dolor siamet constrectur dolor, siamet constrectur dolor siamet constrectur, dolor siamet constrectur")]}
-                            className='max-sm:text-sm'
+                            className='max-sm:text-sm text-white'
                         >
                         </ReactTyped>
                     </div>

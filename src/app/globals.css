@@ -3,32 +3,530 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: black;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+#chat {
+  font-weight: 400;
+}
+
+.emoji-container {
+  height: 10rem;
+  width: 10rem;
+  position: relative;
+  border-radius: 50%;
+  border: 2px solid black;
+  /* background-color: #ff5bdb;
+    background-color: #555254; */
+
+  background: radial-gradient(circle at 50% 50%,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(240, 240, 240, 1) 40%,
+      rgba(200, 200, 200, 1) 70%,
+      rgba(150, 150, 150, 1) 85%,
+      rgba(100, 100, 100, 1) 100%);
+
+
+  /* Pale Violet Red */
+
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), inset 0 -3px 10px rgba(0, 0, 0, 0.3);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.eyes {
+  position: absolute;
+  top: 2.5rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+}
+
+.eye {
+  height: 2.5rem;
+  transition: all 1s;
+  width: 2rem;
+  border-radius: 50%;
+  background-color: black;
+}
+
+
+
+.smile {
+  position: absolute;
+  bottom: 2.5rem;
+  width: 3rem;
+  height: 1.5rem;
+  border-bottom: 5px solid black;
+  border-radius: 0 0 50% 50%;
+  transform: scaleY(0);
+}
+
+.zzz {
+  position: absolute;
+  top: 1rem;
+  right: -2rem;
+  font-size: 2rem;
+  color: black;
+}
+
+.hand-container {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  top: 20px;
+  justify-content: center;
+}
+
+.hand {
+  height: 80px;
+  position: relative;
+  width: 15px;
+  /* background-color: #555254; */
+  /* background-color: #ff5bdb; */
+
+  background: radial-gradient(circle at 50% 50%,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(240, 240, 240, 1) 40%,
+      rgba(200, 200, 200, 1) 70%,
+      rgba(150, 150, 150, 1) 85%,
+      rgba(100, 100, 100, 1) 100%);
+
+
+  /* background: radial-gradient(circle at 50% 50%,
+    rgba(255, 255, 255, 1) 0%,         
+    rgba(255, 182, 193, 1) 30%,         
+    rgba(255, 105, 180, 1) 50%,        
+    rgba(255, 20, 147, 1) 70%,        
+    rgba(200, 0, 100, 1) 85%,
+    rgba(150, 0, 75, 1) 100%);         */
+
+  /* Pale Violet Red */
+
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), inset 0 -3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hand-left {
+  transform: rotate(22deg);
+  left: -10px;
+  animation: hand-left 1s infinite;
+  border-radius: 50%;
+}
+
+.hand-right {
+  transform: rotate(-22deg);
+  right: -10px;
+  transition: all 1s;
+  border-radius: 50%;
+  animation: hand-Right 1s infinite;
+
+}
+
+.AnimRotate {
+  animation: rotateMusic 30s infinite;
+}
+
+@keyframes rotateMusic {
+  0% {
+    transform: rotate(0deg);
   }
+
+  100% {
+    transform: rotate(360deg);
+  }
+
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    scale: 0rem;
+  }
+
+  50% {
+    height: 2rem;
+  }
+}
+
+
+@keyframes sleep {
+
+  0%,
+  100% {
+    height: 1rem;
+  }
+
+  50% {
+    height: 0.1rem;
+  }
+}
+
+@keyframes zzz {
+
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateY(-1rem) translateX(1rem);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-3rem) translateX(2rem);
+  }
+}
+
+@keyframes hand-left {
+  0% {
+    transform: rotate(22deg);
+  }
+
+  50% {
+    transform: rotate(50deg);
+  }
+
+  100% {
+    transform: rotate(22deg);
+  }
+}
+
+@keyframes hand-Right {
+  0% {
+    transform: rotate(-22deg);
+  }
+
+  50% {
+    transform: rotate(-50deg);
+  }
+
+  100% {
+    transform: rotate(-22deg);
+  }
+}
+
+/* Specific animations for sleeping, talking, and quiet emojis */
+.sleeping .eye {
+  height: 1rem;
+  animation: sleep 2s infinite;
+}
+
+.sleeping .zzz {
+  display: block;
+  animation: zzz 2s infinite;
+}
+
+.sleeping .hand-left,
+.cry .hand-left {
+  animation: hand-left 3s infinite;
+
+}
+
+.sleeping .hand-right {
+  animation: hand-Right 3s infinite;
+
+}
+
+.sleeping .mouth-shape {
+  animation: talk 3s infinite;
+}
+
+.talking .eye {
+  animation: blink 4s infinite;
+}
+
+.talking {
+  animation: talk 2s infinite;
+  width: 6rem;
+}
+
+.talking .smile {
+  /* animation: smile 1s infinite; */
+  transform: scaleY(1);
+}
+
+.wave {
+  position: relative;
+  bottom: 55px;
+  right: -10px;
+  animation: hand-left 1s infinite;
+}
+
+
+
+.quiet .eye {
+  animation: blink 3s infinite;
+}
+
+.quiet .mouth-shape {
+  width: 4rem;
+
+  height: 1rem;
+}
+
+.quiet .smile {
+  display: none;
+}
+
+.quiet .zzz {
+  display: none;
+}
+
+
+.anoyed .eye {
+  width: 2rem;
+  margin-top: 15px;
+  border-radius: 0px;
+  animation: blink 3s infinite;
+  border-bottom-right-radius: 100%;
+  border-bottom-left-radius: 100%;
+  height: 1rem;
+}
+
+.cry .eye {
+  position: relative;
+  /* animation: blink 3s infinite; */
+  width: 2rem;
+  margin-top: 10px;
+  border-radius: 50%;
+  height: 2rem;
+}
+
+.cry .eye2::before {
+  content: '';
+  position: relative;
+  border: 8px solid aqua;
+  z-index: 10;
+  height: 5px;
+  left: 27%;
+  top: 35px;
+  background-color: aqua;
+}
+
+.cry .eye1::before {
+  content: '';
+  position: relative;
+  z-index: 10;
+  border: 8px solid aqua;
+  height: 5px;
+  left: 28%;
+  top: 35px;
+  background-color: aqua;
+}
+
+.cry .mouth-shape {
+  width: 6rem;
+  height: 1rem;
+  border-top-right-radius: 60%;
+  border-top-left-radius: 60%;
+  border-bottom-right-radius: 0%;
+  border-bottom-left-radius: 0%;
+}
+
+
+
+.anoyed .mouth-shape {
+  width: 4rem;
+  height: 1rem;
+  border-bottom-right-radius: 0%;
+  border-bottom-left-radius: 0%;
+  border-top-right-radius: 60%;
+  border-top-left-radius: 60%;
+}
+
+/* Specific class for waving emoji */
+
+/* talk */
+@keyframes talk {
+
+  0%,
+  5% {
+    transform: scaleY(1) scaleX(1);
+  }
+
+  /* a */
+  10%,
+  15% {
+    transform: scaleY(0.5) scaleX(0.2);
+  }
+
+  /* i */
+  20%,
+  25% {
+    transform: scaleY(1) scaleX(0.5);
+  }
+
+  /* u */
+  30%,
+  35% {
+    transform: scaleY(0.5) scaleX(0.7);
+  }
+
+  /* e */
+  40%,
+  45% {
+    transform: scaleY(1) scaleX(1.2);
+  }
+
+  /* o */
+  50%,
+  55% {
+    transform: scaleY(1) scaleX(1);
+  }
+
+  /* back to a */
+  60%,
+  65% {
+    transform: scaleY(0.5) scaleX(0.2);
+  }
+
+  /* i */
+  70%,
+  75% {
+    transform: scaleY(1) scaleX(0.5);
+  }
+
+  /* u */
+  80%,
+  85% {
+    transform: scaleY(0.5) scaleX(0.7);
+  }
+
+  /* e */
+  90%,
+  95% {
+    transform: scaleY(1) scaleX(1.2);
+  }
+
+  /* o */
+  100% {
+    transform: scaleY(1) scaleX(1);
+  }
+
+  /* back to a */
+}
+
+.mouth {
+  position: absolute;
+  bottom: 2rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.mouth-shape {
+  height: 2rem;
+  width: 2rem;
+  transition: all 0.5s;
+  border-bottom-left-radius: 360%;
+  border-bottom-right-radius: 360%;
+  background-color: black;
+  transform-origin: bottom;
+}
+
+.talking .mouth-shape {
+  animation: talk 0.5s infinite;
+  /* Set to 0.1s for very fast animation */
+}
+
+
+/* Ngakak */
+
+.lol .eye {
+  width: 2rem;
+  margin-top: 5px;
+  border-radius: 0px;
+  animation: blink 3s infinite;
+  border-top-right-radius: 100%;
+  border-top-left-radius: 100%;
+  height: 1rem;
+  position: relative;
+}
+
+.lol .eye1::before {
+  content: '';
+  position: absolute;
+  z-index: 10;
+  width: 20px;
+  height: 50px;
+  background-color: aqua;
+  rotate: 60deg;
+  border-radius: 50%;
+  top: 100%;
+  /* Position the tear below the eye */
+  left: -35px;
+  /* Center the tear horizontally */
+  transform: translateX(-50%);
+  /* Center the tear precisely */
+  animation: tear-drop 1s infinite;
+  /* Add a simple drop animation */
+}
+
+.lol .eye2::before {
+  content: '';
+  position: absolute;
+  z-index: 10;
+  width: 20px;
+  height: 50px;
+  background-color: aqua;
+  rotate: -60deg;
+  border-radius: 50%;
+  top: 100%;
+  /* Position the tear below the eye */
+  right: -35px;
+  /* Center the tear horizontally */
+  transform: translateX(50%);
+  /* Center the tear precisely */
+  animation: tear-drop 1s infinite;
+  /* Add a simple drop animation */
+}
+
+.lol .mouth-shape {
+  width: 6rem;
+  height: 2.5rem;
+  border-bottom-right-radius: 60%;
+  border-bottom-left-radius: 60%;
+}
+
+
+/* Love */
+
+.love .eye {
+  position: relative;
+  animation: blink 3s infinite;
+  width: 2rem;
+  background: red;
+  height: 2rem;
+}
+
+.love .eye::before,
+.love .eye::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 2rem;
+  height: 3rem;
+  border-radius: 2rem 2rem 0 0;
+  background: red;
+}
+
+.love .eye::before {
+  left: 1rem;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+
+.love .eye::after {
+  left: 0;
+  transform: rotate(45deg);
+
+  transform-origin: 85% 65%;
 }

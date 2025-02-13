@@ -21,6 +21,7 @@ import { useTiktokConnection } from '@/hooks/UseTiktokConnection';
 import { useResponse } from '@/hooks/useResponse';
 import Resource from './SideBarItems/Resource';
 import { FaFolder } from 'react-icons/fa';
+import Image from 'next/image';
 
 
 type prop = {
@@ -33,7 +34,7 @@ type list = {
     JSX: React.JSX.Element
 }
 function Navbar(props: prop) {
-    const { SetUserConnection, TiktokConnection, SetUserNameDisconnected, UserConncetion } = useTiktokConnection();
+    const { SetUserConnection, TiktokConnection, SetUserNameDisconnected, UserConncetion, setVersion } = useTiktokConnection();
     const { setShowBubble, showBubble } = useResponse();
     const [inputUser, setInputUser] = useState("")
     const [loading, setLoading] = useState(false)
@@ -146,6 +147,23 @@ function Navbar(props: prop) {
         <section className={`relative z-50 ${props.open ? "w-96 max-xl:w-screen" : "w-0"}   flex-grow h-screen  duration-1000`}>
             <label className={`${props.open ? "max-xl:text-black " : "text-white"} absolute top-3 right-3 z-50  xl:-left-10 text-4xl`}><IoIosSettings onClick={() => props.setOpen(!props.open)} className={`${props.open ? "max-xl:bg-white rounded-md shadow-md" : ""}`} /></label>
             <div className={`h-screen bg-white overflow-y-scroll text-xl p-8 flex flex-col  text-black`}>
+
+                <div className='flex justify-end gap-4 text-white '>
+                    <div onClick={() => setVersion("2d")} className='rounded-md bg-gray-500'>
+                        <div className='pointer-events-none flex items-center gap-2 p-1'>
+                            <Image src={"/imgChar/2dPilkun.png"} alt='' width={25} height={25} className='rounded-sm' />
+                            <p>2d</p>
+                        </div>
+                    </div>
+                    <div onClick={() => setVersion("3d")} className='rounded-md bg-gray-500'>
+                        <div className='pointer-events-none flex items-center gap-2 p-1'>
+                            <Image src={"/imgChar/PilBot.png"} alt='' width={25} height={25} className='rounded-sm' />
+                            <p>3d</p>
+                        </div>
+                    </div>
+                </div>
+
+
                 <label className='text-4xl mb-4'>
                     <h1>Settings</h1>
                 </label>

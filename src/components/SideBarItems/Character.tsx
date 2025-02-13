@@ -1,10 +1,12 @@
 "use client"
 import { useCharacter } from '@/hooks/useCharacter'
+import { useTiktokConnection } from '@/hooks/UseTiktokConnection'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
 function Character() {
   const { setCharacter, Character } = useCharacter()
+  const { version } = useTiktokConnection()
   const [CharacterMap, setCharacterMap] = useState("")
 
 
@@ -39,7 +41,10 @@ function Character() {
   ]
   return (
     <div className='flex p-3 gap-2 overflow-x-scroll'>
-      {
+
+      {version === "2d" ?
+        <></>
+        :
         arrChar.map((e, index) => (
           <div key={index}>
             <div className='h-32 w-32   relative' onClick={() => handleClick(e)}>

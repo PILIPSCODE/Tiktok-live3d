@@ -1,0 +1,22 @@
+[
+    {
+        "command":"pilkun_ganteng",
+        "expresion":"quiet"
+    },
+    {
+        "command":"pilkun_jelek",
+        "expresion":"anoyed"
+    },
+    {
+        "command":"😭",
+        "expresion":"cry"
+    },
+    {
+        "command":"😂",
+        "expresion":"lol"
+    },
+    {
+        "command":"🥰",
+        "expresion":"love"
+    }
+]

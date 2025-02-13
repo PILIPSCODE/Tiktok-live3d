@@ -1,6 +1,6 @@
 "use client";
 import { TiktokConnectionContext } from "@/hooks/UseTiktokConnection";
-import { BubbleSettings, Interaction, MusicType, ReqMusic, ResorceType, ResponseAi, setAnimation, VoiceSettings } from "../../interface";
+import { BubbleSettings, Interaction, Interaction2d, MusicType, ReqMusic, ResorceType, ResponseAi, setAnimation, VoiceSettings } from "../../interface";
 import { socket } from '@/utils/socket';
 import React, { useState, useEffect, useRef } from 'react';
 import { ResponseContext } from "@/hooks/useResponse";
@@ -10,6 +10,7 @@ import { MusicContext } from "@/hooks/useMusic";
 import useLocalStorage from "@/hooks/LocalStorage";
 import useIndexedDB from "@/hooks/useIndexDB";
 import { FrameCommentDetector } from "@/utils/framerDetect";
+import { InteractionContext2d } from "@/hooks/useInteraction2d";
 
 
 
@@ -24,6 +25,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [TiktokConnection, setTiktokConnection] = useState("");
     const [isConnected, setIsConnected] = useState(false);
     const [ChatEnd, SetChatEnd] = useState(true)
+    const [version, setVersion] = useLocalStorage("version", "3d");
     const [UserConncetion, SetUserConnection] = useLocalStorage("Connection", { username: "", prompt: defaultPrompt, model: "", apikey: "" })
 
     // Interaction
@@ -41,6 +43,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const checkbox = useRef<HTMLInputElement>(null)
     const [prevAnimation, setPrevAnimation] = useState<setAnimation>({ animation: "Idle", playOn: "" })
     const prevAnimationRef = useRef(prevAnimation);
+
+    // Interaction2d
+    const [Intercation2d, SetInteraction2d] = useLocalStorage<Interaction2d[]>("interaction2d", []);
+    const [gifInteraction, SetGifInteraction] = useState("")
+    const [onchat, setOnchat] = useState("")
+    const [isSpeak, SetIsSpeak] = useState(false)
+    const [expresion, setExpresion] = useState("quiet")
+
 
     // Response 
     const [BubbleChat, setBubbleChat] = useLocalStorage<BubbleSettings>("BubbleSettings", { TypeBorder: "Border3", CommentPosition: "text-center", ResponsePosition: "text-justify", usernamePosition: "text-left", TextSpeed: "5" });
@@ -91,13 +101,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
         function handleShare(data: any) {
             setShare(data)
+
         }
         function handleFollow(data: any) {
             setFollow(data)
         }
 
         function handleGift(data: any) {
-            console.log(data)
             setGift(data)
             if (data.giftName === GiftReqMusic) {
                 setMusicTitle((prev) => [...prev, { uniqueId: data.uniqueId, Title: "", img: data.profilePictureUrl }]);
@@ -116,6 +126,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                     )
                 );
             }
+            setOnchat(data.comment);
         }
 
         function handleJoin() {
@@ -197,15 +208,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
 
     return (
-        <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection, TiktokConnection, UserConncetion, isConnected }}>
+        <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection, TiktokConnection, UserConncetion, isConnected, setVersion, version }}>
             <InteractionContext.Provider value={{ Gift, setShare, setFollow, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold, SetHold, isGiftAnimation, setIsGiftAnimation, DefaultSpeak, SetDefaultSpeak, checkbox, prevAnimation, prevAnimationRef, setPrevAnimation }}>
-                <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings, setVoiceSettings, Resource, setResource }}>
-                    <ResponseContext.Provider value={{ Airesponse, arrConsole, BubbleChat, SetAiResponse, setBubbleChat, setShowBubble, showBubble }}>
-                        <MusicContext.Provider value={{ setSkip, skip, setIsPlay, isPlay, QuequeMusic, setQuequeMusic, MusicTitle, setMusicTitle, checkboxMusic, GiftReqMusic, setGiftReqMusic }}>
-                            {children}
-                        </MusicContext.Provider>
-                    </ResponseContext.Provider>
-                </CharacterContext.Provider>
+                <InteractionContext2d.Provider value={{ version, Intercation2d, SetInteraction2d, gifInteraction, SetGifInteraction, isSpeak, SetIsSpeak, onchat, expresion, setExpresion }}>
+                    <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings, setVoiceSettings, Resource, setResource }}>
+                        <ResponseContext.Provider value={{ Airesponse, arrConsole, BubbleChat, SetAiResponse, setBubbleChat, setShowBubble, showBubble }}>
+                            <MusicContext.Provider value={{ setSkip, skip, setIsPlay, isPlay, QuequeMusic, setQuequeMusic, MusicTitle, setMusicTitle, checkboxMusic, GiftReqMusic, setGiftReqMusic }}>
+                                {children}
+                            </MusicContext.Provider>
+                        </ResponseContext.Provider>
+                    </CharacterContext.Provider>
+                </InteractionContext2d.Provider>
             </InteractionContext.Provider>
         </TiktokConnectionContext.Provider>
     );

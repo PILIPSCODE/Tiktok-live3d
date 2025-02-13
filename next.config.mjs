@@ -37,6 +37,7 @@ const nextConfig = {
       "p19-sign.tiktokcdn.com",
       "p16-sign-va.tiktokcdn.com",
       "p77-sign-sg.tiktokcdn.com",
+      "storage.streamdps.com",
       "p77-sign-va.tiktokcdn.com",
       "lf16-tiktok-web.ttwstatic.com",
       "lf16-tiktok-web.tiktokcdn.com",

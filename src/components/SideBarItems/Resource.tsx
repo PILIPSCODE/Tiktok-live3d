@@ -20,14 +20,12 @@ export default function UploadToLocalStorage(): JSX.Element {
 
         if (!file) {
             setMessage('Please select a file.');
-            console.log("handled file change")
             return;
         }
 
 
-        if (!(file.type === "audio/mpeg" || file.type === "video/mp4" || file.type === "audio/wav")) {//+
-            setMessage('Please select a valid audio file (mp3, mp4, wav).');
-            console.log("oke")
+        if (!(file.type === "audio/mpeg" || file.type === "audio/wav" || file.type === "image/gif")) {
+            setMessage('Please select a valid audio file (mp3, mp4, wav, gif).');
             return;
         }
 
@@ -80,7 +78,7 @@ export default function UploadToLocalStorage(): JSX.Element {
                 <div key={index} className='relative'>
                     <FaCircleXmark onClick={() => handleDelete(e)} className='absolute z-50 -right-1 -top-2' />
                     <div onClick={() => setCurrentTrack(e)} data-tip={`${e.name.slice(0, 7)}...`} className='tooltip-bottom text-sm tooltip-open tooltip h-14 w-14 relative bg-slate-500'>
-                        <Image src={e.type === "audio/mpeg" ? "/mp3.avif" : (e.type === "video/mp4" ? "/mp4.jpg" : "/wav.png")} fill alt={'img'} />
+                        <Image src={e.type === "audio/mpeg" ? "/mp3.avif" : (e.type === "image/gif" ? "/gifico.jpeg" : "/wav.png")} fill alt={'img'} />
                     </div>
                 </div>
 

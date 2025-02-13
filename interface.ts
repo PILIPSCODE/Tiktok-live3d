@@ -52,10 +52,17 @@ export interface Interaction {
   audio: string;
   gift: string;
 }
+export interface Interaction2d {
+  type: string;
+  gif: string;
+  audio: string;
+  gift: string;
+}
 export interface InteractionQueue {
   type: string;
   animation: string;
   uniqueId: string;
+  gif: string;
   audio: string;
   gift: string;
 }

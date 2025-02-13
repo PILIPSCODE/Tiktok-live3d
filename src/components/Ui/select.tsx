@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from './input';
 
 interface CustomSelectProps<T> {
@@ -15,12 +15,16 @@ const CustomSelect = <T,>({
   placeholder,
   className = '',
   options,
-  defaultValue,
+  defaultValue = "",
   displayKey,
   onSelect,
 }: CustomSelectProps<T>) => {
-  const [input, setInput] = useState(defaultValue || "");
+  const [input, setInput] = useState(defaultValue);
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    setInput(defaultValue);
+  }, [defaultValue])
 
   const handleClickOption = (option: T) => {
     setInput(option[displayKey] as string);
@@ -50,10 +54,9 @@ const CustomSelect = <T,>({
         className={`${show ? 'h-32 opacity-100' : 'h-0 opacity-0'
           } w-full mt-2 p-2 bg-white border overflow-y-scroll  duration-300 absolute z-50`}
       >
-        {options
-          .filter((option: any) =>
-            (option[displayKey] as string).toLowerCase().includes(input.toLowerCase())
-          )
+        {options?.filter((option: any) =>
+          (option[displayKey] as string).toLowerCase().includes(input.toLowerCase())
+        )
           .sort((a, b) =>
             (a[displayKey] as string).localeCompare(b[displayKey] as string)
           )
