@@ -9,7 +9,7 @@ const Timer = () => {
     const { Share, Gift } = useInteraction();
     const { SetChatEnd } = useTiktokConnection();
 
-    const [remainingTime, setRemainingTime] = useState(2400);
+    const [remainingTime, setRemainingTime] = useState(240000);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
 
