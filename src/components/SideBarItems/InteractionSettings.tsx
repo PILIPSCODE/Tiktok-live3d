@@ -81,7 +81,9 @@ function IntercationSettings() {
       setIsPlay(true)
       setIsGiftAnimation(true)
       SetToast({ text: String(currentInteraction?.type), uniqueId: currentInteraction?.uniqueId })
-      SetGifInteraction(gifResource[0]?.Base64)
+      if (currentInteraction.type === "gift") {
+        SetGifInteraction(gifResource[0]?.Base64)
+      }
       SetAnimation({ animation: currentInteraction?.animation, playOn: "Interaction" })
 
       const handleEnded = () => {
@@ -92,7 +94,7 @@ function IntercationSettings() {
           setIsGiftAnimation(false)
           SetGifInteraction("")
           SetAnimation({ animation: "Idle", playOn: "Interaction" })
-        }, 2000)
+        }, version === "2d" ? 0 : 2000)
       }
       audio.addEventListener("ended", handleEnded)
 

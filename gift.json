@@ -179,6 +179,7 @@
     {"name": "Fire Phoenix", "value": 41999},
     {"name": "Magic Marcia", "value": 42999},
     {"name": "Pegasus", "value": 42999},
-    {"name": "TikTok Universe", "value": 44999}
+    {"name": "TikTok Universe", "value": 44999},
+    {"name": "", "value": 44999}
   ]
   

@@ -12,8 +12,6 @@ const Timer = () => {
     const [remainingTime, setRemainingTime] = useState(240000);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-
-
     useEffect(() => {
         const startCountDown = () => {
             if (intervalRef.current) clearInterval(intervalRef.current);
@@ -24,6 +22,7 @@ const Timer = () => {
                         clearInterval(intervalRef.current!);
                         setExpresion("sleeping");
                         SetChatEnd(false)
+
                         return 0;
                     }
                     return prev - 1000;
@@ -31,7 +30,13 @@ const Timer = () => {
             }, 1000);
         };
 
+
         startCountDown();
+
+        if (Share || Gift) {
+            setRemainingTime(240000)
+            setExpresion("quiet");
+        }
 
         return () => {
             if (intervalRef.current) clearInterval(intervalRef.current);
@@ -47,10 +52,10 @@ const Timer = () => {
                     </span>
                     :
                     <span>
-                        Share/Gift Untuk Membangunkan
+                        Tidur Dulu Coy !!
                     </span>
                 }
-                <span className="text-black p-3 bg-white rounded-md">Follow Ganti Warna</span>
+                {/* <span className="text-black p-3 bg-white rounded-md">Follow Ganti Warna</span> */}
             </div>
         </div>
     );

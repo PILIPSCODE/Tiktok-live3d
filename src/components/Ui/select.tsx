@@ -55,7 +55,7 @@ const CustomSelect = <T,>({
           } w-full mt-2 p-2 bg-white border overflow-y-scroll  duration-300 absolute z-50`}
       >
         {options?.filter((option: any) =>
-          (option[displayKey] as string).toLowerCase().includes(input.toLowerCase())
+          (option[displayKey] as string)?.toLowerCase().includes(input?.toLowerCase())
         )
           .sort((a, b) =>
             (a[displayKey] as string).localeCompare(b[displayKey] as string)
@@ -69,6 +69,12 @@ const CustomSelect = <T,>({
               {option[displayKey] as string}
             </div>
           ))}
+        <div
+          onClick={() => handleClickOption({} as T)}
+          className="cursor-pointer hover:bg-gray-100 p-2"
+        >
+          Hapus
+        </div>
       </div>
     </div>
   );

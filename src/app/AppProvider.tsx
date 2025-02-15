@@ -187,7 +187,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }, [ChatEnd])
 
     useEffect(() => {
-        if (!checkbox.current?.checked || TiktokConnection !== "Connected") return;
+        if (!checkbox.current?.checked || TiktokConnection !== "Connected" || expresion === "sleeping") return;
 
         const handleStateChange = (newState: string) => {
             if (newState === "active") return

@@ -150,7 +150,7 @@ body {
 
   0%,
   100% {
-    scale: 0rem;
+    scale: 1;
   }
 
   50% {
@@ -529,4 +529,19 @@ body {
   transform: rotate(45deg);
 
   transform-origin: 85% 65%;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+.animate-typing {
+  display: inline-block;
+  animation: typing 2s steps(40, end) forwards;
 }

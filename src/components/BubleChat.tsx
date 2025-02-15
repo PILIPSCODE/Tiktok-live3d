@@ -21,6 +21,7 @@ const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\uD83C[\uDF00-\uDFFF]|\uD83D[
 export default function BubleChat() {
     const { SetChatEnd } = useTiktokConnection();
     const { SetAnimation, Animation, hold, SetHold, prevAnimationRef } = useInteraction();
+    const { expresion } = useInteraction2d();
     const { SetIsSpeak } = useInteraction2d()
     const { Airesponse, showBubble, BubbleChat } = useResponse();
     const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
@@ -81,7 +82,7 @@ export default function BubleChat() {
 
         utterance.onend = () => {
 
-            if (length <= 1) {
+            if (length === 0) {
                 isSpeaking.current = false;
                 if (prevAnimationRef.current.animation === "Interaction" && prevAnimationRef.current.playOn !== "Idle") {
                     SetAnimation({ animation: "Idle", playOn: "ChatResponse" })
@@ -109,7 +110,7 @@ export default function BubleChat() {
         if (typeof window !== "undefined") {
             synth.current = window.speechSynthesis;
         }
-        if (isSpeaking.current || hold === false) {
+        if (isSpeaking.current || hold === false || expresion === "sleeping") {
             return
         }
         handleMessage();
@@ -136,12 +137,13 @@ export default function BubleChat() {
                     <div className={`p-4 w-full break-before-auto max-sm:text-base ${BubbleChat.ResponsePosition}`}>
                         <h1 className={`text-white text-lg ${BubbleChat.CommentPosition} mb-4`}>{message.comment || "hello world"}</h1>
                         <h1 className={`text-orange-200 ${BubbleChat.usernamePosition}  mb-2`}>{message.user || "pilcotech"}</h1>
-                        <ReactTyped
+                        {/* <ReactTyped
                             typeSpeed={Number(50 - BubbleChat.TextSpeed * 10)}
                             strings={[(message.response || "lorem ipsum dolor siamet constrectur, dolor siamet constrectur dolor, siamet constrectur dolor siamet constrectur, dolor siamet constrectur")]}
                             className='max-sm:text-sm text-white'
                         >
-                        </ReactTyped>
+                        </ReactTyped> */}
+                        <p className='text-green-400'>{message.response}</p>
                     </div>
                     <div className='w-full h-10 rotate-180 translate-y-5 bottom-0 relative'>
                         <Image fill src={`/border/${BubbleChat.TypeBorder}.png`} alt='Border' />

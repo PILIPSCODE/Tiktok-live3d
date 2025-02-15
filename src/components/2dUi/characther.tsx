@@ -11,9 +11,8 @@ const Characther2D = () => {
     let randomColor = create3DGradient(warna)
 
     useEffect(() => {
-        console.log(onchat)
         dummycommand.map((e) => {
-            if (e.command === onchat) {
+            if (onchat.includes(e.command)) {
                 setExpresion(e.expresion)
             }
         })
@@ -35,8 +34,8 @@ const Characther2D = () => {
                 <div style={{ background: randomColor }} className={`emoji-container ${expresion}  z-10  mb-20 block relative`} id="emoji1">
                     {/* <!-- <img src="pics/pita.webp" alt="pita" class="w-16 -rotate-30 absolute h-16 right-0 top-0 z-20"> --> */}
                     <div className="eyes">
-                        <div className="eye eye1"></div>
-                        <div className="eye eye2"></div>
+                        <div className="eye eye1 bg-black"></div>
+                        <div className="eye eye2 bg-black"></div>
                     </div>
                     <div className={`mouth ${isSpeak ? "talking" : ""}`}>
                         <div className="mouth-shape"></div>
