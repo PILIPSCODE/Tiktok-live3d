@@ -4,6 +4,7 @@
 @tailwind utilities;
 
 
+html,
 body {
   background-color: transparent !important;
   -webkit-font-smoothing: antialiased;
