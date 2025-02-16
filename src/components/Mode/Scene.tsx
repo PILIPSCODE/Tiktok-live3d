@@ -42,7 +42,7 @@ const Scene = () => {
         {/* <ModelGelud/> */}
         {/* <Chair /> */}
         <Kapal />
-        <Ground />
+        {/* <Ground /> */}
         <OrbitControls />
       </Suspense>
     </Canvas>
