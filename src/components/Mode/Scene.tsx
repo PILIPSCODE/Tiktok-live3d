@@ -27,7 +27,8 @@ function Loader() {
 const Scene = () => {
   return (
     <Canvas
-      gl={{ antialias: true }}
+      gl={{ antialias: true, alpha: true }}
+      style={{ background: "transparent" }}
       camera={{ position: [0, 1.5, 5], fov: 65 }}
       dpr={[1, 4]}
       className="relative h-svh"
