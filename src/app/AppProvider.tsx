@@ -23,9 +23,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     // TIktok Connection
     const [UserNameDisconnected, SetUserNameDisconnected] = useState("")
     const [TiktokConnection, setTiktokConnection] = useState("");
+    const [inputUser, setInputUser] = useState("")
     const [isConnected, setIsConnected] = useState(false);
     const [ChatEnd, SetChatEnd] = useState(true)
-    const [version, setVersion] = useLocalStorage("version", "2d");
+    const [version, setVersion] = useLocalStorage("version", "3d");
     const [UserConncetion, SetUserConnection] = useLocalStorage("Connection", { username: "", prompt: defaultPrompt, model: "", apikey: "" })
 
     // Interaction
@@ -208,7 +209,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
 
     return (
-        <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection, TiktokConnection, UserConncetion, isConnected, setVersion, version }}>
+        <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection, TiktokConnection, UserConncetion, isConnected, setVersion, version, inputUser, setInputUser }}>
             <InteractionContext.Provider value={{ Gift, setShare, setFollow, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold, SetHold, isGiftAnimation, setIsGiftAnimation, DefaultSpeak, SetDefaultSpeak, checkbox, prevAnimation, prevAnimationRef, setPrevAnimation }}>
                 <InteractionContext2d.Provider value={{ version, Intercation2d, SetInteraction2d, gifInteraction, SetGifInteraction, isSpeak, SetIsSpeak, onchat, expresion, setExpresion }}>
                     <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings, setVoiceSettings, Resource, setResource }}>

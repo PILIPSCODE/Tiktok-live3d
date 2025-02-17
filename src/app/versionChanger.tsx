@@ -1,8 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect } from 'react'
 import dynamic from "next/dynamic"
 import { useTiktokConnection } from '@/hooks/UseTiktokConnection'
-const Scene = dynamic(() => import("@/components/Mode/Scene"), { ssr: false })
-const Scene2D = dynamic(() => import("@/components/Mode/2dScene"), { ssr: false })
+const Scene = dynamic(() => import("@/components/Mode"), { ssr: false })
 
 type props = {
     showScene: boolean,
@@ -26,7 +25,7 @@ const VersionChanger = (props: props) => {
             return () => clearTimeout(timer);
         }
     }, [version]);
-    return props.showScene ? version === "2d" ? <Scene2D /> : <Scene /> : "Loading..."
+    return props.showScene ? version === "2d" ? <Scene widget={false} /> : <Scene widget={false} /> : "Loading..."
 }
 
 export default VersionChanger

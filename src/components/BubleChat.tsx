@@ -143,7 +143,7 @@ export default function BubleChat() {
                             className='max-sm:text-sm text-white'
                         >
                         </ReactTyped> */}
-                        <p className='text-green-400'>{message.response}</p>
+                        <p className='text-green-400'>{message.response || "lorem ipsum dolor siamet constrectur, dolor siamet constrectur dolor, siamet constrectur dolor siamet constrectur, dolor siamet constrectur"}</p>
                     </div>
                     <div className='w-full h-10 rotate-180 translate-y-5 bottom-0 relative'>
                         <Image fill src={`/border/${BubbleChat.TypeBorder}.png`} alt='Border' />

@@ -34,9 +34,8 @@ type list = {
     JSX: React.JSX.Element
 }
 function Navbar(props: prop) {
-    const { SetUserConnection, TiktokConnection, SetUserNameDisconnected, UserConncetion, setVersion } = useTiktokConnection();
+    const { SetUserConnection, TiktokConnection, SetUserNameDisconnected, UserConncetion, setVersion, inputUser, setInputUser } = useTiktokConnection();
     const { setShowBubble, showBubble } = useResponse();
-    const [inputUser, setInputUser] = useState("")
     const [loading, setLoading] = useState(false)
     const itemRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
     const text = TiktokConnection === "Connected" ? "Disconnect" : "Connect"
@@ -169,10 +168,11 @@ function Navbar(props: prop) {
                 </label>
                 <div className='flex text-white w-full gap-2 max-md:text-xs'>
                     <Input
-                        onChange={(e) => setInputUser(e.target.value)}
-                        value={inputUser} type="text"
+                        onChange={(e) => { setInputUser(e.target.value) }}
+                        value={inputUser}
+                        type="text"
                         Inputsize={"sm"}
-                        className='w-full'
+                        className={`w-full ${TiktokConnection === "Connected" ? "pointer-events-none" : "pointer-events-auto"}`}
                         placeholder='@Tiktok Username
                     '/>
                     <button onClick={handleClick} className='bg-black text-white p-3 rounded-md transition-transform duration-300 transform hover:scale-105'>{text}</button>
