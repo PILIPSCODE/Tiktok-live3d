@@ -26,7 +26,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [inputUser, setInputUser] = useState("")
     const [isConnected, setIsConnected] = useState(false);
     const [ChatEnd, SetChatEnd] = useState(true)
-    const [version, setVersion] = useLocalStorage("version", "3d");
+    const [version, setVersion] = useLocalStorage("version", "2d");
     const [UserConncetion, SetUserConnection] = useLocalStorage("Connection", { username: "", prompt: defaultPrompt, model: "", apikey: "" })
 
     // Interaction
