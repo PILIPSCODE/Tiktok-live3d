@@ -25,8 +25,6 @@ export default function Home() {
 
     useEffect(() => {
         socket.emit("EmbedJoin", params.username)
-        setVoiceSettings({ voice: "Microsoft Jajang Online (Natural) - Sundanese (Indonesia)", rate: "1.5", pitch: "1", volume: "1" })
-        router.reload()
     }, [])
     useEffect(() => {
         setVoiceSettings({ voice: "Microsoft Jajang Online (Natural) - Sundanese (Indonesia)", rate: "1.5", pitch: "1", volume: "1" })
