@@ -9,7 +9,6 @@ const Scene = dynamic(() => import("@/components/Mode"), { ssr: false })
 import BubleChat from "@/components/BubleChat";
 import { useCharacter } from '@/hooks/useCharacter';
 import { useInteraction2d } from '@/hooks/useInteraction2d';
-import { useRouter } from 'next/router';
 
 const RequestMusic = dynamic(() => import("@/components/RequsetMusic"), { ssr: false })
 const Navbar = dynamic(() => import("@/components/SideBar"), { ssr: false })
@@ -21,7 +20,6 @@ export default function Home() {
     const params = useParams();
     const { setVoiceSettings } = useCharacter()
     const { onchat } = useInteraction2d()
-    const router = useRouter()
 
     useEffect(() => {
         socket.emit("EmbedJoin", params.username)
