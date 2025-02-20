@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Gifinteraction from "@/components/Gifinteraction";
 const Scene = dynamic(() => import("@/components/Mode"), { ssr: false })
 import BubleChat from "@/components/BubleChat";
+import { useCharacter } from '@/hooks/useCharacter';
 
 const RequestMusic = dynamic(() => import("@/components/RequsetMusic"), { ssr: false })
 const Navbar = dynamic(() => import("@/components/SideBar"), { ssr: false })
@@ -16,9 +17,11 @@ const Connection = dynamic(() => import("@/components/ConectionStatus"), { ssr: 
 
 export default function Home() {
     const params = useParams();
+    const { setVoiceSettings } = useCharacter()
 
     useEffect(() => {
         socket.emit("EmbedJoin", params.username)
+        setVoiceSettings({ voice: "Microsoft Jajang Online (Natural) - Sundanese (Indonesia)", rate: "1.5", pitch: "1", volume: "1" })
     }, [])
     const [open, setOpen] = useState(false)
 
@@ -32,7 +35,6 @@ export default function Home() {
                     <Gifinteraction />
                     <BubleChat />
                     <div className='hidden'>
-
                         <Navbar open={open} setOpen={setOpen} />
                     </div>
                     <Connection />
