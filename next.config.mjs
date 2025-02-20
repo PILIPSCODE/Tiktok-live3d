@@ -41,6 +41,7 @@ const nextConfig = {
       "p77-sign-va.tiktokcdn.com",
       "lf16-tiktok-web.ttwstatic.com",
       "lf16-tiktok-web.tiktokcdn.com",
+      "p16-common-sign-va.tiktokcdn-us.com",
     ],
   },
 };

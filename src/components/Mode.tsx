@@ -3,7 +3,6 @@
 import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useProgress, Html } from "@react-three/drei";
-import dynamic from "next/dynamic";
 import Char1 from "@/components/model/char1";
 import Ground from "@/components/model/ground";
 import Kapal from "@/components/model/Ship";
@@ -11,8 +10,6 @@ import Timer from "@/components/2dUi/Timer";
 import Rules from "@/components/2dUi/Rules";
 import Characther2D from "@/components/2dUi/characther";
 import { useTiktokConnection } from "@/hooks/UseTiktokConnection";
-
-const BubleChat = dynamic(() => import("@/components/BubleChat"), { ssr: false });
 
 type Props = {
     widget: boolean;
@@ -31,8 +28,6 @@ const Mode2D: React.FC<{ widget: boolean }> = ({ widget }) => (
                 <Rules />
             </>
         )}
-        <Timer />
-        <Rules />
         <Characther2D />
     </div>
 );
@@ -62,7 +57,6 @@ const Mode: React.FC<Props> = ({ widget }) => {
                     <Mode2D widget={widget} /> :
                     <Mode3D widget={widget} />
             }
-            <BubleChat />
         </>
     )
 };

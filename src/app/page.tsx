@@ -4,7 +4,8 @@ import Toast from "@/components/Toast";
 import { useEffect, useState } from "react";
 import Gifinteraction from "@/components/Gifinteraction";
 import { useTiktokConnection } from "@/hooks/UseTiktokConnection";
-
+const Scene = dynamic(() => import("@/components/Mode"), { ssr: false })
+import BubleChat from "@/components/BubleChat";
 
 const RequestMusic = dynamic(() => import("@/components/RequsetMusic"), { ssr: false })
 const Connection = dynamic(() => import("@/components/ConectionStatus"), { ssr: false })
@@ -21,11 +22,13 @@ export default function Home() {
       <div className="h-screen flex items-center font-Archivo relative ">
         <section className={`h-screen  relative ${open ? "w-96 max-xl:w-0" : "w-screen"} flex justify-center items-center  duration-500 flex-grow`}>
           <Toast />
-          <iframe src={`/${inputUser || "default"}`} className="w-full h-full rounded-lg shadow-lg" />
+          {/* <iframe src={`/${inputUser || "default"}`} className="w-full h-full rounded-lg shadow-lg" /> */}
+          <Scene widget={false} />
           <div className="bottom-16 z-10 absolute max-w-80">
             <RequestMusic in="display" />
           </div>
           <Gifinteraction />
+          <BubleChat />
           <Connection />
         </section>
         <Navbar open={open} setOpen={setOpen} />
