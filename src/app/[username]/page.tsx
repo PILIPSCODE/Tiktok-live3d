@@ -53,13 +53,16 @@
 import { useEffect, useState } from "react";
 
 export default function VoiceDebugger() {
-    const [voices, setVoices] = useState<string[]>([]);
+    const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+
 
     useEffect(() => {
-        setTimeout(() => {
-            const availableVoices = speechSynthesis.getVoices().map(voice => `${voice.name} (${voice.lang})`);
-            setVoices(availableVoices);
-        }, 3000); // Delay untuk memastikan voice list sudah dimuat
+        if (typeof window !== "undefined" && speechSynthesis) {
+            const loadVoices = () => setVoices(speechSynthesis.getVoices());
+            loadVoices();
+
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
     }, []);
 
     return (
@@ -67,7 +70,7 @@ export default function VoiceDebugger() {
             <h2 className="text-lg font-bold">Available Voices:</h2>
             <ul>
                 {voices.length > 0 ? voices.map((voice, index) => (
-                    <li key={index}>{voice}</li>
+                    <li key={index}>{voice.voiceURI}</li>
                 )) : <li>Loading voices...</li>}
             </ul>
         </div>
