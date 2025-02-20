@@ -8,6 +8,8 @@ import Gifinteraction from "@/components/Gifinteraction";
 const Scene = dynamic(() => import("@/components/Mode"), { ssr: false })
 import BubleChat from "@/components/BubleChat";
 import { useCharacter } from '@/hooks/useCharacter';
+import { useInteraction2d } from '@/hooks/useInteraction2d';
+import { useRouter } from 'next/router';
 
 const RequestMusic = dynamic(() => import("@/components/RequsetMusic"), { ssr: false })
 const Navbar = dynamic(() => import("@/components/SideBar"), { ssr: false })
@@ -18,11 +20,17 @@ const Connection = dynamic(() => import("@/components/ConectionStatus"), { ssr: 
 export default function Home() {
     const params = useParams();
     const { setVoiceSettings } = useCharacter()
+    const { onchat } = useInteraction2d()
+    const router = useRouter()
 
     useEffect(() => {
         socket.emit("EmbedJoin", params.username)
         setVoiceSettings({ voice: "Microsoft Jajang Online (Natural) - Sundanese (Indonesia)", rate: "1.5", pitch: "1", volume: "1" })
+        router.reload()
     }, [])
+    useEffect(() => {
+        setVoiceSettings({ voice: "Microsoft Jajang Online (Natural) - Sundanese (Indonesia)", rate: "1.5", pitch: "1", volume: "1" })
+    }, [onchat])
     const [open, setOpen] = useState(false)
 
     return (
