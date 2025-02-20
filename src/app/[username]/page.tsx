@@ -57,16 +57,14 @@ export default function VoiceDebugger() {
 
     useEffect(() => {
         setTimeout(() => {
-            const availableVoices = speechSynthesis.getVoices()
-                .filter(voice => voice.lang.startsWith("id-")) // Filter hanya suara bahasa Indonesia
-                .map(voice => `${voice.name} (${voice.lang})`);
+            const availableVoices = speechSynthesis.getVoices().map(voice => `${voice.name} (${voice.lang})`);
             setVoices(availableVoices);
-        }, 3000); // Tunggu 3 detik agar suara bisa dimuat
+        }, 3000); // Delay untuk memastikan voice list sudah dimuat
     }, []);
 
     return (
         <div className="absolute top-5 left-5 bg-black text-white p-4 rounded-lg z-50">
-            <h2 className="text-lg font-bold">Available Indonesian Voices:</h2>
+            <h2 className="text-lg font-bold">Available Voices:</h2>
             <ul>
                 {voices.length > 0 ? voices.map((voice, index) => (
                     <li key={index}>{voice}</li>
