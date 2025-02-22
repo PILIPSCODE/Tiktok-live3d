@@ -14,6 +14,7 @@ const Navbar = dynamic(() => import("@/components/SideBar"), { ssr: false })
 
 export default function Home() {
   const [open, setOpen] = useState(false)
+
   const { inputUser } = useTiktokConnection()
 
   return (
