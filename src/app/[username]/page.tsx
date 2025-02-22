@@ -16,7 +16,7 @@ const page = () => {
 
     useEffect(() => {
         socket.emit("EmbedJoin", params.username)
-        setVoiceSettings({ voice: "", rate: "1.6", pitch: "1", volume: "1" })
+        setVoiceSettings({ voice: "", rate: "1.6", pitch: "1", volume: "0" })
     }, [])
 
     return (
