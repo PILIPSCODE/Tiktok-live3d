@@ -24,7 +24,7 @@ const page = () => {
             <Mode widget={true} />
             <BubleChat />
             <div className='hidden'>
-                <Navbar open={open} setOpen={setOpen} />
+                {/* <Navbar open={open} setOpen={setOpen} /> */}
             </div>
         </div>
     )
