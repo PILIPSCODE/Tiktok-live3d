@@ -29,7 +29,7 @@ const ItemSelector: React.FC<ItemSelectorProps> = ({ items, defaults, imageKey, 
             {items.map((e, index) => (
                 <div key={index}>
                     <div className='h-20 w-20 relative bg-white shadow-lg rounded-lg' onClick={() => handleClick(e)}>
-                        <Image fill alt='img-char' className={`${defaults === `${e[nameKey]}` ? " blur-sm" : ""} duration-300 rounded-lg object-cover`} src={e[imageKey]} />
+                        <Image sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" fill alt='img-char' className={`${defaults === `${e[nameKey]}` ? " blur-sm" : ""} duration-300 rounded-lg object-cover`} src={e[imageKey]} />
                     </div>
                 </div>
             ))}

@@ -78,7 +78,7 @@ export default function UploadToLocalStorage(): JSX.Element {
                 <div key={index} className='relative'>
                     <FaCircleXmark onClick={() => handleDelete(e)} className='absolute z-50 -right-1 -top-2' />
                     <div onClick={() => setCurrentTrack(e)} data-tip={`${e.name.slice(0, 7)}...`} className='tooltip-bottom text-sm tooltip-open tooltip h-14 w-14 relative bg-slate-500'>
-                        <Image src={e.type === "audio/mpeg" ? "/mp3.avif" : (e.type === "image/gif" ? "/gifico.jpeg" : "/wav.png")} fill alt={'img'} />
+                        <Image sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" src={e.type === "audio/mpeg" ? "/mp3.avif" : (e.type === "image/gif" ? "/gifico.jpeg" : "/wav.png")} fill alt={'img'} />
                     </div>
                 </div>
 

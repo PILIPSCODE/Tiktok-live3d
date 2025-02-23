@@ -9,10 +9,9 @@ import { hairStyle } from '../../../interface'
 const Characther2D = () => {
     const { gifInteraction, isSpeak, onchat, expresion, setExpresion } = useInteraction2d()
     const { Follow } = useInteraction()
-    const [warna, setWarna] = useState('');
     const { hairStyle, color, setColor } = useCharacter()
     const [hairStyleMap, setHairStyleMap] = useState<hairStyle>({ position: "", hairImg: "/", scale: "" });
-    let randomColor = create3DGradient(warna)
+    let randomColor = create3DGradient(color)
 
     useEffect(() => {
         dummycommand.map((e) => {
@@ -38,10 +37,10 @@ const Characther2D = () => {
     if (gifInteraction === "")
         return (
             <div className='w-full h-full flex justify-center  items-center'>
-                <div style={{ background: color }} className={`emoji-container ${expresion} z-10  mb-20 block relative`} id="emoji1">
+                <div style={{ background: randomColor }} className={`emoji-container ${expresion} z-10  mb-20 block relative`} id="emoji1">
                     {hairStyleMap?.position !== "" ?
                         <div className={`absolute w-full h-full ${hairStyleMap?.position}`}>
-                            <Image fill src={`${hairStyleMap?.hairImg}`} className={`object-cover z-20 ${hairStyleMap?.scale}`} alt="hair" />
+                            <Image fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" src={`${hairStyleMap?.hairImg}`} className={`object-cover z-20 ${hairStyleMap?.scale}`} alt="hair" />
                         </div>
                         :
                         <></>
@@ -56,11 +55,11 @@ const Characther2D = () => {
                     <div className="zzz bg-white hidden">Zzz</div>
                 </div>
                 <div className="hand-container  -translate-y-10 z-0">
-                    <div style={{ background: color }} className="hand hand-left "></div>
+                    <div style={{ background: randomColor }} className="hand hand-left "></div>
                     <div className='w-32 h-32 opacity-0'>
 
                     </div>
-                    <div style={{ background: color }} className="hand hand-right"></div>
+                    <div style={{ background: randomColor }} className="hand hand-right"></div>
                 </div>
             </div>
         )

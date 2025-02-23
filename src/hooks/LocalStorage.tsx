@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function useLocalStorage<T>(key: string, initialValue: T) {
   const [storedValue, setStoredValue] = useState<T>(() => {
@@ -14,19 +14,24 @@ function useLocalStorage<T>(key: string, initialValue: T) {
     }
   });
 
-  const setValue = (value: T | ((val: T) => T)) => {
-    try {
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      if (typeof window !== "undefined") {
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+  useEffect(() => {
+    const saveToLocalStorage = () => {
+      try {
+        if (typeof window !== "undefined") {
+          window.localStorage.setItem(key, JSON.stringify(storedValue));
+        }
+      } catch (error) {
+        console.error("Error writing to localStorage", error);
       }
-    } catch (error) {
-      console.error("Error writing to localStorage", error);
-    }
-  };
+    };
 
-  return [storedValue, setValue] as const;
+    window.addEventListener("beforeunload", saveToLocalStorage);
+    return () => {
+      window.removeEventListener("beforeunload", saveToLocalStorage);
+    };
+  }, [storedValue, key]);
+
+  return [storedValue, setStoredValue] as const;
 }
 
 export default useLocalStorage;
