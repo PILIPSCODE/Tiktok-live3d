@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import dummycommand from "../../../dumycommand.json"
 import { useInteraction2d } from '@/hooks/useInteraction2d'
+import hair from "../../../hair.json"
 import { useInteraction } from '@/hooks/useInteraction'
-
+import { useCharacter } from '@/hooks/useCharacter'
+import { hairStyle } from '../../../interface'
 const Characther2D = () => {
     const { gifInteraction, isSpeak, onchat, expresion, setExpresion } = useInteraction2d()
     const { Follow } = useInteraction()
     const [warna, setWarna] = useState('');
+    const { hairStyle, color, setColor } = useCharacter()
+    const [hairStyleMap, setHairStyleMap] = useState<hairStyle>({ position: "", hairImg: "/", scale: "" });
     let randomColor = create3DGradient(warna)
 
     useEffect(() => {
@@ -19,21 +23,30 @@ const Characther2D = () => {
 
     }, [onchat])
 
+    useEffect(() => {
+        setHairStyleMap(hairStyle)
+    }, [hairStyle])
 
 
     useEffect(() => {
         if (Follow) {
             let newColor = getRandomColor();
-            setWarna(newColor);
+            setColor(newColor);
         }
     }, [Follow]);
 
     if (gifInteraction === "")
         return (
             <div className='w-full h-full flex justify-center  items-center'>
-                <div style={{ background: randomColor }} className={`emoji-container ${expresion}  z-10  mb-20 block relative`} id="emoji1">
-                    {/* <!-- <img src="pics/pita.webp" alt="pita" class="w-16 -rotate-30 absolute h-16 right-0 top-0 z-20"> --> */}
-                    <div className="eyes">
+                <div style={{ background: color }} className={`emoji-container ${expresion} z-10  mb-20 block relative`} id="emoji1">
+                    {hairStyleMap?.position !== "" ?
+                        <div className={`absolute w-full h-full ${hairStyleMap?.position}`}>
+                            <Image fill src={`${hairStyleMap?.hairImg}`} className={`object-cover z-20 ${hairStyleMap?.scale}`} alt="hair" />
+                        </div>
+                        :
+                        <></>
+                    }
+                    <div className="eyes ">
                         <div className="eye eye1 bg-black"></div>
                         <div className="eye eye2 bg-black"></div>
                     </div>
@@ -43,11 +56,11 @@ const Characther2D = () => {
                     <div className="zzz bg-white hidden">Zzz</div>
                 </div>
                 <div className="hand-container  -translate-y-10 z-0">
-                    <div style={{ background: randomColor }} className="hand hand-left "></div>
+                    <div style={{ background: color }} className="hand hand-left "></div>
                     <div className='w-32 h-32 opacity-0'>
 
                     </div>
-                    <div style={{ background: randomColor }} className="hand hand-right"></div>
+                    <div style={{ background: color }} className="hand hand-right"></div>
                 </div>
             </div>
         )

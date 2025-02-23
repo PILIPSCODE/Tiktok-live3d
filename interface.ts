@@ -20,6 +20,12 @@ export interface setAnimation {
   playOn: string;
 }
 
+export interface hairStyle {
+  position: string;
+  hairImg: string;
+  scale: string;
+}
+
 export interface BubbleSettings {
   TypeBorder: string;
   CommentPosition: string;

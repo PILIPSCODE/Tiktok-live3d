@@ -22,6 +22,7 @@ import { useResponse } from '@/hooks/useResponse';
 import Resource from './SideBarItems/Resource';
 import { FaFolder } from 'react-icons/fa';
 import Image from 'next/image';
+import SidebarMenu from './Ui/Collapse';
 
 
 type prop = {
@@ -39,8 +40,6 @@ function Navbar(props: prop) {
     const [loading, setLoading] = useState(false)
     const itemRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
     const text = TiktokConnection === "Connected" ? "Disconnect" : "Connect"
-    const [itemNav, setitemNav] = useState<string>("")
-    const activeItemRef = useRef<string | null>(null);
 
     const handleClick = () => {
         setLoading(true)
@@ -116,10 +115,6 @@ function Navbar(props: prop) {
 
 
     const handleClickItems = (item: any) => {
-        const newItemNav = itemNav === item.value ? "" : item.value;
-        setitemNav(newItemNav);
-        activeItemRef.current = newItemNav;
-
         if (item.value === "Chat Settings") {
             setShowBubble(!showBubble);
         } else {
@@ -127,19 +122,7 @@ function Navbar(props: prop) {
         }
     };
 
-    useEffect(() => {
-        if (activeItemRef.current) {
-            const targetElement = itemRefs.current[activeItemRef.current];
-            if (targetElement) {
-                setTimeout(() => {
-                    targetElement.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                    });
-                }, 300);
-            }
-        }
-    }, [itemNav]);
+
 
 
     return (
@@ -178,23 +161,7 @@ function Navbar(props: prop) {
                     <button onClick={handleClick} className='bg-black text-white p-3 rounded-md transition-transform duration-300 transform hover:scale-105'>{text}</button>
                 </div>
                 <p className='font-sans mb-8  text-sm'>{loading ? `${text}ing...` : TiktokConnection}</p>
-                <ul className='flex flex-col gap-6'>
-                    {
-                        nav_list.map((item: list, index) => (
-                            <li className="flex flex-col" key={index}>
-                                <span className='flex gap-2 items-center' onClick={() => handleClickItems(item)}>{item.icons}{item.value}</span>
-                                <div className={`flex-grow ${itemNav === item.value ? " opacity-100  bg-gray-200 overflow-y-scroll max-h-screen" : " max-h-0 opacity-0  overflow-hidden"} text-gray-700  rounded-md transition-all duration-700`}
-                                    ref={(el) => {
-                                        itemRefs.current[item.value] = el;
-                                    }}
-                                >
-                                    {item.JSX}
-                                </div>
-                            </li>
-                        ))
-                    }
-
-                </ul>
+                <SidebarMenu style='' items={nav_list} onItemClick={handleClickItems} />
             </div>
         </section>
     )

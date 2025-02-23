@@ -138,6 +138,10 @@ body {
   animation: rotateMusic 30s infinite;
 }
 
+.custom-top {
+  top: -79px;
+}
+
 @keyframes rotateMusic {
   0% {
     transform: rotate(0deg);

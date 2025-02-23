@@ -67,9 +67,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [skip, setSkip] = useState("");
 
     // Character
+
+    // 3d
     const [Resource, setResource] = useIndexedDB<ResorceType[]>("Resource", []);
     const [Character, setCharacter] = useLocalStorage("Character", "/PilKun.glb");
     const [voiceSettings, setVoiceSettings] = useLocalStorage<VoiceSettings>("VoiceSettings", { voice: "", rate: "1", pitch: "1", volume: "1" });
+
+    // 2d
+    const [hairStyle, setHairStyle] = useLocalStorage("hairStyle2d", {
+        position: "",
+        hairImg: "/",
+        scale: ""
+    });
+    const [color, setColor] = useLocalStorage("color2d", "");
 
 
 
@@ -212,7 +222,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection, TiktokConnection, UserConncetion, isConnected, setVersion, version, inputUser, setInputUser }}>
             <InteractionContext.Provider value={{ Gift, setShare, setFollow, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold, SetHold, isGiftAnimation, setIsGiftAnimation, DefaultSpeak, SetDefaultSpeak, checkbox, prevAnimation, prevAnimationRef, setPrevAnimation }}>
                 <InteractionContext2d.Provider value={{ version, Intercation2d, SetInteraction2d, gifInteraction, SetGifInteraction, isSpeak, SetIsSpeak, onchat, expresion, setExpresion }}>
-                    <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings, setVoiceSettings, Resource, setResource }}>
+                    <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings, setVoiceSettings, Resource, setResource, hairStyle, setHairStyle, color, setColor }}>
                         <ResponseContext.Provider value={{ Airesponse, arrConsole, BubbleChat, SetAiResponse, setBubbleChat, setShowBubble, showBubble }}>
                             <MusicContext.Provider value={{ setSkip, skip, setIsPlay, isPlay, QuequeMusic, setQuequeMusic, MusicTitle, setMusicTitle, checkboxMusic, GiftReqMusic, setGiftReqMusic }}>
                                 {children}

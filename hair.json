@@ -1,0 +1,126 @@
+{
+    "man": [
+        {
+            "position": "-top-7",
+            "hairImg": "/hairstyle/man/setman1.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-4",
+            "hairImg": "/hairstyle/man/setman3.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-6",
+            "hairImg": "/hairstyle/man/setman4.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-7",
+            "hairImg": "/hairstyle/man/setman5.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-5",
+            "hairImg": "/hairstyle/man/setman6.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-6 -left-2",
+            "hairImg": "/hairstyle/man/setman7.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-6 -left-1",
+            "hairImg": "/hairstyle/man/setman8.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-7",
+            "hairImg": "/hairstyle/man/setman9.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-4",
+            "hairImg": "/hairstyle/man/setman10.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-7",
+            "hairImg": "/hairstyle/man/setman11.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-7 -left-2",
+            "hairImg": "/hairstyle/man/setman13.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-7",
+            "hairImg": "/hairstyle/man/setman15.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-7",
+            "hairImg": "/hairstyle/man/setman16.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-2",
+            "hairImg": "/hairstyle/man/setman17.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-5 -left-2",
+            "hairImg": "/hairstyle/man/setman18.png",
+            "scale": "scale-125"
+        }
+    ],
+    "girl": [
+        {
+            "position": "-top-9 left-1",
+            "hairImg": "/hairstyle/girl/setgirl1.png",
+            "scale": "scale-150"
+        },
+        {
+            "position": "-top-14 left-1",
+            "hairImg": "/hairstyle/girl/setgirl2.png",
+            "scale": "scale-110"
+        },
+        {
+            "position": "-top-16",
+            "hairImg": "/hairstyle/girl/setgirl3.png",
+            "scale": "scale-125"
+        },
+        {
+            "position": "-top-9 left-1",
+            "hairImg": "/hairstyle/girl/setgirl4.png",
+            "scale": "scale-150"
+        },
+        {
+            "position": "-top-7",
+            "hairImg": "/hairstyle/girl/setgirl5.png",
+            "scale": "scale-150"
+        },
+        {
+            "position": "-top-3 left-2",
+            "hairImg": "/hairstyle/girl/setgirl6.png",
+            "scale": "scale-150"
+        },
+        {
+            "position": "-top-8",
+            "hairImg": "/hairstyle/girl/setgirl8.png",
+            "scale": "scale-150"
+        },
+        {
+            "position": "-top-10 left-1",
+            "hairImg": "/hairstyle/girl/setgirl10.png",
+            "scale": "scale-150"
+        },
+        {
+            "position": "custom-top",
+            "hairImg": "/hairstyle/girl/setgirl11.png",
+            "scale": "scale-125"
+        }
+    ]
+}

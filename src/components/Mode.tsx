@@ -3,12 +3,12 @@
 import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useProgress, Html } from "@react-three/drei";
-import Char1 from "@/components/model/char1";
-import Ground from "@/components/model/ground";
-import Kapal from "@/components/model/Ship";
-import Timer from "@/components/2dUi/Timer";
-import Rules from "@/components/2dUi/Rules";
-import Characther2D from "@/components/2dUi/characther";
+import Char1 from "@/components/model3D/char1";
+import Ground from "@/components/model3D/ground";
+import Kapal from "@/components/model3D/Ship";
+import Timer from "@/components/model2D/Timer";
+import Rules from "@/components/model2D/Rules";
+import Characther2D from "@/components/model2D/characther";
 import { useTiktokConnection } from "@/hooks/UseTiktokConnection";
 
 type Props = {
