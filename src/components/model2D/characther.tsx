@@ -8,8 +8,8 @@ import { useCharacter } from '@/hooks/useCharacter'
 import { hairStyle } from '../../../interface'
 const Characther2D = () => {
     const { gifInteraction, isSpeak, onchat, expresion, setExpresion } = useInteraction2d()
-    const { Follow } = useInteraction()
-    const { hairStyle, color, setColor } = useCharacter()
+    const { Follow, Share } = useInteraction()
+    const { hairStyle, color, setColor, ColorInteraction, ExpressionInteraction } = useCharacter()
     const [hairStyleMap, setHairStyleMap] = useState<hairStyle>({ position: "", hairImg: "/", scale: "" });
     let randomColor = create3DGradient(color)
 
@@ -28,11 +28,21 @@ const Characther2D = () => {
 
 
     useEffect(() => {
-        if (Follow) {
-            let newColor = getRandomColor();
-            setColor(newColor);
+        if (ColorInteraction === "Follow") {
+            if (Follow) {
+                let newColor = getRandomColor();
+                setColor(newColor);
+            }
+        } else {
+            if (Share) {
+                let newColor = getRandomColor();
+                setColor(newColor);
+            }
         }
-    }, [Follow]);
+
+
+    }, [Follow, Share]);
+
 
     if (gifInteraction === "")
         return (
@@ -40,7 +50,8 @@ const Characther2D = () => {
                 <div style={{ background: randomColor }} className={`emoji-container ${expresion} z-10  mb-20 block relative`} id="emoji1">
                     {hairStyleMap?.position !== "" ?
                         <div className={`absolute w-full h-full ${hairStyleMap?.position}`}>
-                            <Image fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" src={`${hairStyleMap?.hairImg}`} className={`object-cover z-20 ${hairStyleMap?.scale}`} alt="hair" />
+                            <Image fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                src={`${hairStyleMap?.hairImg}`} className={`object-cover z-20 ${hairStyleMap?.scale}`} alt="hair" />
                         </div>
                         :
                         <></>

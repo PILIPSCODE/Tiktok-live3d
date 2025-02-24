@@ -9,6 +9,9 @@ import ItemSelector from '../Ui/simpleGallery'
 import { FaFemale, FaMale } from 'react-icons/fa'
 import { hairStyle } from '../../../interface'
 import ColorWheel from '../colorWheell'
+import CustomSelect from '../Ui/select'
+import expression from "../../../dumycommand.json"
+import { useInteraction2d } from '@/hooks/useInteraction2d'
 
 
 
@@ -35,7 +38,8 @@ const arrChar = [
   },
 ]
 function Character() {
-  const { setCharacter, Character, hairStyle, setHairStyle } = useCharacter()
+  const { setCharacter, Character, hairStyle, setHairStyle, setColorInteraction, ColorInteraction } = useCharacter()
+  const { expresion, setExpresion } = useInteraction2d()
   const { version } = useTiktokConnection()
   const [CharacterMap, setCharacterMap] = useState("")
   const [hairStyleMap, setHairStyleMap] = useState<hairStyle>({
@@ -44,6 +48,13 @@ function Character() {
     scale: ""
   });
 
+
+  const handleSelectExpression = (selectedOption: any, index: number) => {
+    setExpresion(selectedOption.expresion)
+  };
+  const handleSelectRandomColor = (selectedOption: any, index: number) => {
+    setColorInteraction(selectedOption.type)
+  };
 
   useEffect(() => {
     setHairStyleMap(hairStyle)
@@ -83,9 +94,17 @@ function Character() {
       {version === "2d" ?
         <div className='flex flex-col gap-2 py-2'>
           <h1 className='text-lg '>Hair Style</h1>
-          <SidebarMenu style='text-base' items={hairStyles} />
-          <h1 className='text-lg '>Color</h1>
+          <div className='px-3'>
+            <SidebarMenu style='text-sm' items={hairStyles} />
+          </div>
+          <h1 className='text-lg mt-2 '>Color</h1>
           <ColorWheel />
+          <h1 className='text-lg mt-2 '>Auto Change Color</h1>
+          <CustomSelect className='text-xs' displayKey={"type"} placeholder='on interaction?' onSelect={(selectedOption) => handleSelectRandomColor(selectedOption, 0)} defaultValue={ColorInteraction} options={[{ type: "Share" }, { type: "Follow" }]} />
+          <h1 className='text-lg mt-2 '>Expression</h1>
+          <CustomSelect className='text-xs' displayKey={"expresion"} placeholder='Select Expression' onSelect={(selectedOption) => handleSelectExpression(selectedOption, 0)} defaultValue={expresion} options={expression} />
+          <h1 className='text-lg mt-2 '>Command Change Expression</h1>
+
         </div>
         :
         <ItemSelector defaults={CharacterMap} imageKey='img' nameKey='glb' items={arrChar} onClick={handleClick} />

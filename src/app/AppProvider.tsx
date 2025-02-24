@@ -50,7 +50,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [gifInteraction, SetGifInteraction] = useState("")
     const [onchat, setOnchat] = useState("")
     const [isSpeak, SetIsSpeak] = useState(false)
-    const [expresion, setExpresion] = useState("quiet")
+    const [expresion, setExpresion] = useLocalStorage("expression", "quiet")
 
 
     // Response 
@@ -80,6 +80,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         scale: ""
     });
     const [color, setColor] = useLocalStorage("color2d", "");
+    const [ColorInteraction, setColorInteraction] = useLocalStorage("randomColorInteraction", "");
+    const [ExpressionInteraction, setExpressionInteraction] = useLocalStorage("commandExpressionInteraction", []);
 
 
 
@@ -222,7 +224,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         <TiktokConnectionContext.Provider value={{ SetUserConnection, SetChatEnd, SetUserNameDisconnected, setTiktokConnection, TiktokConnection, UserConncetion, isConnected, setVersion, version, inputUser, setInputUser }}>
             <InteractionContext.Provider value={{ Gift, setShare, setFollow, Animation, Share, Join, Toast, SetToast, Follow, Intercation, SetInteraction, SetAnimation, setGift, hold, SetHold, isGiftAnimation, setIsGiftAnimation, DefaultSpeak, SetDefaultSpeak, checkbox, prevAnimation, prevAnimationRef, setPrevAnimation }}>
                 <InteractionContext2d.Provider value={{ version, Intercation2d, SetInteraction2d, gifInteraction, SetGifInteraction, isSpeak, SetIsSpeak, onchat, expresion, setExpresion }}>
-                    <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings, setVoiceSettings, Resource, setResource, hairStyle, setHairStyle, color, setColor }}>
+                    <CharacterContext.Provider value={{ Character, setCharacter, voiceSettings, setVoiceSettings, Resource, setResource, hairStyle, setHairStyle, color, setColor, ExpressionInteraction, ColorInteraction, setExpressionInteraction, setColorInteraction }}>
                         <ResponseContext.Provider value={{ Airesponse, arrConsole, BubbleChat, SetAiResponse, setBubbleChat, setShowBubble, showBubble }}>
                             <MusicContext.Provider value={{ setSkip, skip, setIsPlay, isPlay, QuequeMusic, setQuequeMusic, MusicTitle, setMusicTitle, checkboxMusic, GiftReqMusic, setGiftReqMusic }}>
                                 {children}

@@ -25,7 +25,7 @@ const ItemSelector: React.FC<ItemSelectorProps> = ({ items, defaults, imageKey, 
     };
 
     return (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-6 gap-4 max-h-[500px] overflow-y-auto">
+        <div className="grid grid-cols-3 max-[341px]:grid-cols-2 sm:grid-cols-5 2xl:grid-cols-6 gap-4 max-h-[500px] overflow-y-auto">
             {items.map((e, index) => (
                 <div key={index}>
                     <div className='h-20 w-20 relative bg-white shadow-lg rounded-lg' onClick={() => handleClick(e)}>
