@@ -14,7 +14,6 @@ export default function Model1() {
     const [CharacterMap, setCharacterMap] = useState("")
 
 
-
     const defaultCharacther = "/3d/PilKun.glb"
 
     const Char = CharacterMap === "" ? defaultCharacther : CharacterMap

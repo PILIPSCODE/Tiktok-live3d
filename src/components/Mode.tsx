@@ -43,7 +43,6 @@ const Mode3D: React.FC<{ widget: boolean }> = ({ widget }) => (
                 </>
             )}
             <Char1 />
-            <OrbitControls />
         </Suspense>
     </Canvas>
 );
