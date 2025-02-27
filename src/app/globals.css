@@ -188,7 +188,7 @@ body {
 
   50% {
     opacity: 1;
-    transform: translateY(-3rem) translateX(2rem);
+    transform: translateY(-4rem) translateX(3rem);
   }
 }
 

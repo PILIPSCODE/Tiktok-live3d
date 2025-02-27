@@ -1,6 +1,6 @@
 "use client";
 import { TiktokConnectionContext } from "@/hooks/UseTiktokConnection";
-import { BubbleSettings, Interaction, Interaction2d, MusicType, ReqMusic, ResorceType, ResponseAi, setAnimation, VoiceSettings } from "../../interface";
+import { BubbleSettings, commandInteraction, Interaction, Interaction2d, MusicType, ReqMusic, ResorceType, ResponseAi, setAnimation, VoiceSettings } from "../../interface";
 import { socket } from '@/utils/socket';
 import React, { useState, useEffect, useRef } from 'react';
 import { ResponseContext } from "@/hooks/useResponse";
@@ -81,7 +81,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
     const [color, setColor] = useLocalStorage("color2d", "");
     const [ColorInteraction, setColorInteraction] = useLocalStorage("randomColorInteraction", "");
-    const [ExpressionInteraction, setExpressionInteraction] = useLocalStorage("commandExpressionInteraction", []);
+    const [ExpressionInteraction, setExpressionInteraction] = useLocalStorage<commandInteraction[]>("commandExpressionInteraction", []);
 
 
 

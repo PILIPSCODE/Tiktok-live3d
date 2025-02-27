@@ -24,7 +24,7 @@ const Mode2D: React.FC<{ widget: boolean }> = ({ widget }) => (
     <div className="flex h-screen justify-center">
         {!widget && (
             <>
-                <Timer />
+                {/* <Timer /> */}
                 <Rules />
             </>
         )}

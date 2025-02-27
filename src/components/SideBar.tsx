@@ -128,7 +128,7 @@ function Navbar(props: prop) {
     return (
         <section className={`relative z-50 ${props.open ? "w-96 max-xl:w-screen" : "w-0"}   flex-grow h-screen  duration-1000`}>
 
-            <div className='flex justify-end gap-4 text-white absolute top-3 right-3 '>
+            <div className='flex justify-end gap-4 text-white z-50 absolute top-3 right-3 '>
                 <div className={props.open ? "flex gap-2" : "hidden"}>
                     <div onClick={() => setVersion("2d")} className='rounded-md bg-gray-500'>
                         <div className='pointer-events-none flex items-center gap-2 p-1 '>

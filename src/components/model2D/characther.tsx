@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import dummycommand from "../../../dumycommand.json"
 import { useInteraction2d } from '@/hooks/useInteraction2d'
-import hair from "../../../hair.json"
 import { useInteraction } from '@/hooks/useInteraction'
 import { useCharacter } from '@/hooks/useCharacter'
-import { hairStyle } from '../../../interface'
+import { commandInteraction, hairStyle } from '../../../interface'
 const Characther2D = () => {
     const { gifInteraction, isSpeak, onchat, expresion, setExpresion } = useInteraction2d()
     const { Follow, Share } = useInteraction()
@@ -14,12 +12,13 @@ const Characther2D = () => {
     let randomColor = create3DGradient(color)
 
     useEffect(() => {
-        dummycommand.map((e) => {
-            if (onchat.includes(e.command)) {
-                setExpresion(e.expresion)
-            }
-        })
-
+        if (expresion !== "sleeping") {
+            ExpressionInteraction.map((e: commandInteraction) => {
+                if (onchat.includes(e.command)) {
+                    setExpresion(e.expression)
+                }
+            })
+        }
     }, [onchat])
 
     useEffect(() => {

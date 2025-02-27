@@ -15,6 +15,11 @@ export interface Hooks {
   isConnected: boolean;
 }
 
+export interface commandInteraction {
+  command: string;
+  expression: string;
+}
+
 export interface setAnimation {
   animation: string;
   playOn: string;
