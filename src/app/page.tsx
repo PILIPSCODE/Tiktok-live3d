@@ -3,13 +3,12 @@ import dynamic from "next/dynamic"
 import Toast from "@/components/Toast";
 import { useEffect, useState } from "react";
 import Gifinteraction from "@/components/Gifinteraction";
-import { useTiktokConnection } from "@/hooks/UseTiktokConnection";
 const Scene = dynamic(() => import("@/components/Mode"), { ssr: false })
-import BubleChat from "@/components/BubleChat";
 import VersionChanger from "./versionChanger";
 
 const RequestMusic = dynamic(() => import("@/components/RequsetMusic"), { ssr: false })
 const Connection = dynamic(() => import("@/components/ConectionStatus"), { ssr: false })
+const BubleChat = dynamic(() => import("@/components/BubleChat"), { ssr: false })
 const Navbar = dynamic(() => import("@/components/SideBar"), { ssr: false })
 
 

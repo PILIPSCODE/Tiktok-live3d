@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import { useInteraction2d } from '@/hooks/useInteraction2d';
-import { useTiktokConnection } from '@/hooks/UseTiktokConnection';
 import { useInteraction } from '@/hooks/useInteraction';
+import { useCharacter } from '@/hooks/useCharacter';
 
 const Timer = () => {
     const { expresion, setExpresion } = useInteraction2d();
     const { Share, Gift } = useInteraction();
-    const { SetChatEnd } = useTiktokConnection();
+    const { setVoiceSettings, voiceSettings } = useCharacter();
 
     const [remainingTime, setRemainingTime] = useState(240000);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -21,7 +21,7 @@ const Timer = () => {
                     if (prev <= 1000) {
                         clearInterval(intervalRef.current!);
                         setExpresion("sleeping");
-                        SetChatEnd(false)
+                        setVoiceSettings({ ...voiceSettings, volume: 0 })
 
                         return 0;
                     }
@@ -35,6 +35,7 @@ const Timer = () => {
 
         if (Share || Gift) {
             setRemainingTime(240000)
+            setVoiceSettings({ ...voiceSettings, volume: 1 })
             setExpresion("quiet");
         }
 
@@ -55,7 +56,6 @@ const Timer = () => {
                         Tidur Dulu Coy !!
                     </span>
                 }
-                {/* <span className="text-black p-3 bg-white rounded-md">Follow Ganti Warna</span> */}
             </div>
         </div>
     );

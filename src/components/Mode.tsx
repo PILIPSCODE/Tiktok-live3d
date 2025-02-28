@@ -2,14 +2,16 @@
 
 import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, useProgress, Html } from "@react-three/drei";
+import { useProgress, Html } from "@react-three/drei";
 import Char1 from "@/components/model3D/char1";
 import Ground from "@/components/model3D/ground";
 import Kapal from "@/components/model3D/Ship";
-import Timer from "@/components/model2D/Timer";
 import Rules from "@/components/model2D/Rules";
 import Characther2D from "@/components/model2D/characther";
 import { useTiktokConnection } from "@/hooks/UseTiktokConnection";
+import dynamic from "next/dynamic";
+import BarGift from "./model2D/BarGift";
+const Timer = dynamic(() => import("@/components/model2D/Timer"), { ssr: false })
 
 type Props = {
     widget: boolean;
@@ -26,6 +28,7 @@ const Mode2D: React.FC<{ widget: boolean }> = ({ widget }) => (
             <>
                 {/* <Timer /> */}
                 <Rules />
+                <BarGift />
             </>
         )}
         <Characther2D />
