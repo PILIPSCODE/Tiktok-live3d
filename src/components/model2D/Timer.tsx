@@ -8,7 +8,7 @@ const Timer = () => {
     const { Share, Gift } = useInteraction();
     const { setVoiceSettings, voiceSettings } = useCharacter();
 
-    const [remainingTime, setRemainingTime] = useState(20000);
+    const [remainingTime, setRemainingTime] = useState(240000);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
