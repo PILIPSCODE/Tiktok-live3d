@@ -127,7 +127,7 @@ export default function BubleChat() {
         }
     }, [voiceSettingsLocal.voice, voiceSettingsLocal.rate, voiceSettingsLocal.volume, voiceSettingsLocal.pitch])
 
-    if (message.comment !== "" || showBubble)
+    if (message.comment !== "" || showBubble && voiceSettingsLocal.volume !== "0")
         return (
             <div className='absolute z-50  max-w-96 max-md:mx-2 mx-auto rounded-lg top-1/4   bg-black/50'>
                 <div className='w-96'>

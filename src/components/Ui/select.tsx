@@ -34,7 +34,7 @@ const CustomSelect = <T,>({
   const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
     // Delay closing to allow click event to register
     if (!e.currentTarget.contains(e.relatedTarget)) {
-      setTimeout(() => setShow(false), 100);
+      setTimeout(() => setShow(false), 300);
     }
   };
 
