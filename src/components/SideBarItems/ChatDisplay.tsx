@@ -120,7 +120,7 @@ function ChatDisplay() {
         <div >
           <div className='flex p-2 gap-2 items-center my-3 text-base'>
             <p>Default Speak</p>
-            <input type="checkbox" ref={checkbox} className="toggle toggle-info" defaultChecked />
+            <input type="checkbox" ref={checkbox} className="toggle toggle-info" />
           </div>
           <div className={`${checkbox.current?.checked ? "min-h-40" : "min-h-0"} duration-300`}>
             {checkbox.current?.checked && (

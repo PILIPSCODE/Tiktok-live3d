@@ -216,7 +216,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             frammerDetection.off("stateChange", handleStateChange);
         };
 
-    }, [DefaultSpeak, checkbox.current?.checked, TiktokConnection]);
+    }, [DefaultSpeak, checkbox.current?.checked, TiktokConnection, expresion]);
 
 
 
