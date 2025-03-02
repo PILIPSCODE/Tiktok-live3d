@@ -20,8 +20,6 @@ const Timer = () => {
                     if (prev <= 1000) {
                         clearInterval(intervalRef.current!);
                         setExpresion("sleeping");
-                        setVoiceSettings({ ...voiceSettings, volume: 0 })
-
                         return 0;
                     }
                     return prev - 1000;
@@ -34,7 +32,6 @@ const Timer = () => {
 
         if (Share || Gift) {
             setRemainingTime(240000)
-            setVoiceSettings({ ...voiceSettings, volume: 1 })
             setExpresion("quiet");
         }
 
