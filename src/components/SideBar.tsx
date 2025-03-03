@@ -5,7 +5,7 @@ import { GoTerminal } from "react-icons/go";
 import { RiFilePaper2Line, RiMusic2Fill, RiUserVoiceFill } from "react-icons/ri";
 import { TbApi, TbBackground } from "react-icons/tb";
 import { IoFlower } from "react-icons/io5";
-import { GiCharacter } from "react-icons/gi";
+import { GiCharacter, GiPerson } from "react-icons/gi";
 import { IoChatbox } from 'react-icons/io5';
 import Console from './SideBarItems/Console';
 import Prompt from './SideBarItems/Prompt';
@@ -23,6 +23,7 @@ import Resource from './SideBarItems/Resource';
 import { FaFolder } from 'react-icons/fa';
 import Image from 'next/image';
 import SidebarMenu from './Ui/Collapse';
+import Profile from './SideBarItems/Profile';
 
 
 type prop = {
@@ -62,6 +63,11 @@ function Navbar(props: prop) {
 
     const nav_list: list[] = [
         {
+            value: "Profile",
+            icons: <GiCharacter />,
+            JSX: <Profile />
+        },
+        {
             value: "Console",
             icons: <GoTerminal />,
             JSX: <Console />
@@ -73,7 +79,7 @@ function Navbar(props: prop) {
         },
         {
             value: "Character",
-            icons: <GiCharacter />,
+            icons: <GiPerson />,
             JSX: <Character />
         },
         {
