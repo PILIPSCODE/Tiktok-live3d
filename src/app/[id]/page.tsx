@@ -11,12 +11,10 @@ import React, { useEffect, useState } from 'react'
 const page = () => {
     const params = useParams()
     const [open, setOpen] = useState(false)
-    const { setVoiceSettings } = useCharacter()
 
 
     useEffect(() => {
-        socket.emit("EmbedJoin", params.username)
-        setVoiceSettings({ voice: "", rate: "1.6", pitch: "1", volume: "0" })
+        socket.emit("EmbedJoin", params.id)
     }, [])
 
     return (
