@@ -10,7 +10,6 @@ import Rules from "@/components/model2D/Rules";
 import Characther2D from "@/components/model2D/characther";
 import { useTiktokConnection } from "@/hooks/UseTiktokConnection";
 import dynamic from "next/dynamic";
-import BarGift from "./model2D/BarGift";
 const Timer = dynamic(() => import("@/components/model2D/Timer"), { ssr: false })
 
 type Props = {
@@ -28,7 +27,6 @@ const Mode2D: React.FC<{ widget: boolean }> = ({ widget }) => (
             <>
                 <Timer />
                 <Rules />
-                <BarGift />
             </>
         )}
         <Characther2D />
