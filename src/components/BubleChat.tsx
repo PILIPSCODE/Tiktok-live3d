@@ -13,6 +13,7 @@ import { useInteraction2d } from '@/hooks/useInteraction2d';
 const data = {
     comment: "",
     prev: false,
+    playOn: "",
     response: "",
     animation: "",
     user: "",
@@ -20,7 +21,7 @@ const data = {
 const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F\uDE80-\uDEFF]|[\u2600-\u27BF]/g;
 export default function BubleChat() {
     const { SetChatEnd } = useTiktokConnection();
-    const { SetAnimation, Animation, hold, SetHold, prevAnimationRef } = useInteraction();
+    const { safeRemoveAndSet, hold, SetHold } = useInteraction();
     const { expresion } = useInteraction2d();
     const { SetIsSpeak } = useInteraction2d()
     const { Airesponse, showBubble, BubbleChat } = useResponse();
@@ -54,9 +55,7 @@ export default function BubleChat() {
             }
 
             callback();
-
-            if (Animation.animation !== "Idle") return
-            SetAnimation({ animation: msg.animation, playOn: "ChatResponse" })
+            safeRemoveAndSet({ animation: msg.animation, playOn: "ChatResponse" })
         }
 
     }
@@ -84,9 +83,7 @@ export default function BubleChat() {
 
             if (length === 0) {
                 isSpeaking.current = false;
-                if (prevAnimationRef.current.animation === "Interaction" && prevAnimationRef.current.playOn !== "Idle") {
-                    SetAnimation({ animation: "Idle", playOn: "ChatResponse" })
-                }
+                safeRemoveAndSet({ animation: "Idle", playOn: "IdleSpeak" })
                 setMessage(data)
                 SetIsSpeak(false)
                 SetChatEnd(true)
@@ -96,6 +93,7 @@ export default function BubleChat() {
             }
         };
         synth.current.speak(utterance);
+
     };
 
 
@@ -137,13 +135,12 @@ export default function BubleChat() {
                     <div className={`p-4 w-full break-before-auto max-sm:text-base ${BubbleChat.ResponsePosition}`}>
                         <h1 className={`text-white text-lg ${BubbleChat.CommentPosition} mb-4`}>{message.comment || "hello world"}</h1>
                         <h1 className={`text-orange-200 ${BubbleChat.usernamePosition}  mb-2`}>{message.user || "pilcotech"}</h1>
-                        {/* <ReactTyped
+                        <ReactTyped
                             typeSpeed={Number(50 - BubbleChat.TextSpeed * 10)}
                             strings={[(message.response || "lorem ipsum dolor siamet constrectur, dolor siamet constrectur dolor, siamet constrectur dolor siamet constrectur, dolor siamet constrectur")]}
                             className='max-sm:text-sm text-white'
                         >
-                        </ReactTyped> */}
-                        <p className='text-green-400'>{message.response || "lorem ipsum dolor siamet constrectur, dolor siamet constrectur dolor, siamet constrectur dolor siamet constrectur, dolor siamet constrectur"}</p>
+                        </ReactTyped>
                     </div>
                     <div className='w-full h-10 rotate-180 translate-y-5 bottom-0 relative'>
                         <Image fill src={`/border/${BubbleChat.TypeBorder}.png`} alt='Border' />

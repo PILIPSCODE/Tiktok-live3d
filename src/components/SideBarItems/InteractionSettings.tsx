@@ -11,7 +11,7 @@ import { useTiktokConnection } from '@/hooks/UseTiktokConnection'
 import { useInteraction2d } from '@/hooks/useInteraction2d'
 
 function IntercationSettings() {
-  const { Intercation, SetInteraction, Gift, SetAnimation, Follow, Share, checkbox, SetToast, setIsGiftAnimation, setShare, setFollow } = useInteraction()
+  const { Intercation, SetInteraction, Gift, safeRemoveAndSet, Follow, Share, checkbox, SetToast, setIsGiftAnimation, setShare, setFollow } = useInteraction()
   const { Intercation2d, SetInteraction2d, SetGifInteraction } = useInteraction2d()
   const { Resource } = useCharacter()
   const { version } = useTiktokConnection()
@@ -70,7 +70,6 @@ function IntercationSettings() {
     if (isPlay || !currentInteraction) return
     const audioResource = Resource?.filter((el: ResorceType) => el.name === currentInteraction?.audio)
     const gifResource = Resource?.filter((el: ResorceType) => el.name === currentInteraction?.gif)
-    console.log(gifResource)
 
     if (audioResource) {
       checkbox.checked = false;
@@ -84,17 +83,17 @@ function IntercationSettings() {
       if (currentInteraction.type === "gift") {
         SetGifInteraction(gifResource[0]?.Base64)
       }
-      SetAnimation({ animation: currentInteraction?.animation, playOn: "Interaction" })
+      safeRemoveAndSet({ animation: currentInteraction?.animation, playOn: "Interaction" })
 
       const handleEnded = () => {
-        setTimeout(() => {
-          setIsPlay(false)
-          setInteractionQueue((prev) => prev.slice(1));
-          setCurrentInteraction(null);
-          setIsGiftAnimation(false)
-          SetGifInteraction("")
-          SetAnimation({ animation: "Idle", playOn: "Interaction" })
-        }, version === "2d" ? 0 : 2000)
+
+        setIsPlay(false)
+        setInteractionQueue((prev) => prev.slice(1));
+        setCurrentInteraction(null);
+        setIsGiftAnimation(false)
+        SetGifInteraction("")
+        safeRemoveAndSet({ animation: "Idle", playOn: "IdleInteraction" })
+
       }
       audio.addEventListener("ended", handleEnded)
 

@@ -39,7 +39,6 @@ function Navbar(props: prop) {
     const { SetUserConnection, TiktokConnection, SetUserNameDisconnected, UserConncetion, setVersion, inputUser, setInputUser } = useTiktokConnection();
     const { setShowBubble, showBubble } = useResponse();
     const [loading, setLoading] = useState(false)
-    const itemRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
     const text = TiktokConnection === "Connected" ? "Disconnect" : "Connect"
 
     const handleClick = () => {
@@ -153,7 +152,7 @@ function Navbar(props: prop) {
                         </div>
                     </div>
                 </div>
-                <label className={`${props.open ? "text-black " : "text-white"} z-50   xl:-left-10 text-4xl`}><IoIosSettings onClick={() => props.setOpen(!props.open)} className={`${props.open ? "max-xl:bg-white rounded-md shadow-md" : ""}`} /></label>
+                <label className={`${props.open ? "text-black " : "text-white"} z-50    xl:-left-10 text-4xl`}><IoIosSettings onClick={() => props.setOpen(!props.open)} className={`${props.open ? "max-xl:bg-white rounded-md shadow-md" : ""}`} /></label>
             </div>
             <div className={`h-screen bg-white overflow-y-scroll text-xl p-8 flex flex-col  text-black`}>
 

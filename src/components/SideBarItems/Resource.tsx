@@ -8,7 +8,7 @@ import { useInteraction } from '@/hooks/useInteraction';
 
 export default function UploadToLocalStorage(): JSX.Element {
     const [message, setMessage] = useState<string>('');
-    const { SetInteraction, Intercation } = useInteraction();
+    const { SetInteraction } = useInteraction();
     const [ResourceMap, setResourceMap] = useState<ResorceType[]>([]);
     const { Resource, setResource } = useCharacter()
     const [currentTrack, setCurrentTrack] = useState<ResorceType>({ type: "", Base64: "", name: "" });

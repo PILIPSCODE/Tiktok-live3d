@@ -3,6 +3,7 @@
   {
     "comment": "",
     "prev": false,
+    "playOn" :"DefaultSpeak",
     "response": "apakah ada yang mau ditanyakan? langsung tanyakan saja ya!!",
     "animation": "Talking",
     "user": ""
@@ -10,6 +11,7 @@
   {
     "comment": "",
     "prev": false,
+    "playOn" :"DefaultSpeak",
     "response": "hallo semuanya jangan lupa follow share dan tap-tapnya ya",
     "animation": "Waving",
     "user": ""

@@ -3,16 +3,16 @@ import { useResponse } from "@/hooks/useResponse";
 import React, { useEffect, useRef, useState } from "react";
 
 function Console() {
-  const { arrConsole } = useResponse(); 
-  const [consoleLogs, setConsoleLogs] = useState<string[]>([]); 
+  const { arrConsole } = useResponse();
+  const [consoleLogs, setConsoleLogs] = useState<string[]>([]);
   const consoleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if(consoleLogs.length > 20 ){
+    if (consoleLogs.length > 20) {
       consoleLogs.shift()
     }
     setConsoleLogs((prevLogs) => [...prevLogs, arrConsole]);
-  }, [arrConsole]); 
+  }, [arrConsole]);
 
   useEffect(() => {
     if (consoleRef.current) {
@@ -26,7 +26,7 @@ function Console() {
     >
       <div>Console</div>
       {consoleLogs.map((log, index) => (
-         <div key={index}>{String(log)}</div>
+        <div key={index}>{String(log)}</div>
       ))}
     </div>
   );

@@ -3,7 +3,6 @@ import dynamic from "next/dynamic"
 import Toast from "@/components/Toast";
 import { useEffect, useState } from "react";
 import Gifinteraction from "@/components/Gifinteraction";
-const Scene = dynamic(() => import("@/components/Mode"), { ssr: false })
 import VersionChanger from "./versionChanger";
 
 const RequestMusic = dynamic(() => import("@/components/RequsetMusic"), { ssr: false })

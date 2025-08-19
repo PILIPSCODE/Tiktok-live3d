@@ -6,9 +6,9 @@ import { useEffect, useRef, useState } from "react"
 import { Group } from "three"
 export default function Model1() {
     const group = useRef<Group>(null)
-    const { Animation, prevAnimation, setPrevAnimation, prevAnimationRef } = useInteraction();
+    const { Animation } = useInteraction();
 
-    const animate = Animation.animation !== "" ? Animation.animation : "Idle"
+    const animate = Animation.length !== 0 ? Animation[0].animation : "Idle"
 
     const { Character } = useCharacter();
     const [CharacterMap, setCharacterMap] = useState("")
@@ -44,13 +44,8 @@ export default function Model1() {
 
     }, [animate, CharacterMap, actions]);
 
-    useEffect(() => {
-        prevAnimationRef.current = prevAnimation;
-    }, [prevAnimation]);
 
-    useEffect(() => {
-        setPrevAnimation(Animation)
-    }, [Animation])
+
 
 
 
