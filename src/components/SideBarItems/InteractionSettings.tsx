@@ -29,6 +29,9 @@ function IntercationSettings() {
   const onversionShare = version === "2d" ? IntercationShare2d : IntercationShare
   const onversionFollow = version === "2d" ? IntercationFollow2d : IntercationFollow
   const setOnVersion = version === "2d" ? SetInteraction2d : SetInteraction
+  const property = version === "2d" ? "type" : "animation"
+  const detectmissingShare = onversion[onversionShare][property]
+  const detectmissingFollow = onversion[onversionFollow][property]
 
 
   const handleDeleteInteraction = (index: number) => {
@@ -117,11 +120,13 @@ function IntercationSettings() {
 
 
   useEffect(() => {
-    if (Share) {
+
+    if (Share && (detectmissingShare !== undefined && detectmissingShare !== "")) {
+
       setInteractionQueue((prev: any) => [...prev, { ...onversion[onversionShare], uniqueId: Share.uniqueId }])
       setShare(null)
     }
-    if (Follow) {
+    if (Follow && (detectmissingFollow !== undefined && detectmissingFollow !== "")) {
       setInteractionQueue((prev: any) => [...prev, { ...onversion[onversionFollow], uniqueId: Follow.uniqueId }])
       setFollow(null)
     }
@@ -141,15 +146,13 @@ function IntercationSettings() {
 
   useEffect(() => {
     if (IntercationShare === -1 && IntercationFollow === -1) {
-      SetInteraction((prev: any) => [
-        ...prev,
-        { animation: "", audio: "", gift: "", type: "Share" },
-        { animation: "", audio: "", gift: "", type: "Follow" }
+      SetInteraction([
+        { animation: "Idle", audio: "", gift: "", type: "Share" },
+        { animation: "Idle", audio: "", gift: "", type: "Follow" }
       ]);
     }
     if (IntercationShare2d === -1 && IntercationFollow2d === -1) {
-      SetInteraction2d((prev: any) => [
-        ...prev,
+      SetInteraction2d([
         { video: "", audio: "", gift: "", type: "Share" },
         { video: "", audio: "", gift: "", type: "Follow" }
       ]);
@@ -260,7 +263,7 @@ function IntercationSettings() {
         ))
         }
         <div className='w-full flex p-2'>
-          <button className='bg-black text-white p-3 mb-2 w-full rounded-md transition-transform duration-300 transform hover:scale-105' onClick={() => setOnVersion((prev: any) => [...prev, { animation: "", audio: "", gift: "", type: "gift" }])}>Add More</button>
+          <button className='bg-black text-white p-3 mb-2 w-full rounded-md transition-transform duration-300 transform hover:scale-105' onClick={() => setOnVersion((prev: any) => [...prev, { animation: "Idle", audio: "", gift: "", type: "gift" }])}>Add More</button>
         </div>
       </div>
 
