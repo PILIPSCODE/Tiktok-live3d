@@ -29,7 +29,7 @@ function IntercationSettings() {
   const onversionShare = version === "2d" ? IntercationShare2d : IntercationShare
   const onversionFollow = version === "2d" ? IntercationFollow2d : IntercationFollow
   const setOnVersion = version === "2d" ? SetInteraction2d : SetInteraction
-  const property = version === "2d" ? "type" : "animation"
+  const property = version === "2d" ? "type" : "audio"
   const detectmissingShare = onversion[onversionShare][property]
   const detectmissingFollow = onversion[onversionFollow][property]
 
@@ -70,6 +70,7 @@ function IntercationSettings() {
 
 
   useEffect(() => {
+
     if (isPlay || !currentInteraction) return
     const audioResource = Resource?.filter((el: ResorceType) => el.name === currentInteraction?.audio)
     const gifResource = Resource?.filter((el: ResorceType) => el.name === currentInteraction?.gif)
@@ -77,7 +78,7 @@ function IntercationSettings() {
     if (audioResource) {
       checkbox.checked = false;
       const audio = new Audio(`data:${audioResource[0]?.type};base64,` + audioResource[0]?.Base64);
-      audio.volume = 1;
+      audio.volume = 0.5;
       audioRef.current = audio;
       audio.play();
       setIsPlay(true)
