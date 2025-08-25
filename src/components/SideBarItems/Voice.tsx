@@ -51,21 +51,21 @@ function Voice() {
       <div className='mt-5 text-sm'>
         <div className='flex gap-3 w-full'>
           <div className='w-full'>
-            <input defaultValue={voiceSettingsLocal?.rate} onChange={(e) => handleChangeRate(e)} type="range" min={0} max="2" className="range" step="0.1" />
+            <input defaultValue={voiceSettingsLocal?.rate} onChange={(e) => handleChangeRate(e)} type="range" min={0} max="2" className="range w-full" step="0.1" />
             <h1>Rate</h1>
           </div>
           <p>{voiceSettingsLocal?.rate}</p>
         </div>
         <div className='flex gap-3 w-full'>
           <div className='w-full'>
-            <input defaultValue={voiceSettingsLocal?.volume} onChange={(e) => handleChangeVolume(e)} type="range" min={0} max="1" className="range" step="0.1" />
+            <input defaultValue={voiceSettingsLocal?.volume} onChange={(e) => handleChangeVolume(e)} type="range" min={0} max="1" className="range w-full" step="0.1" />
             <h1>Volume</h1>
           </div>
           <p>{voiceSettingsLocal?.volume}</p>
         </div>
         <div className='flex gap-3 w-full'>
           <div className='w-full'>
-            <input defaultValue={voiceSettingsLocal?.pitch} onChange={(e) => handleChangePitch(e)} type="range" min={0} max="1" className="range" step="0.1" />
+            <input defaultValue={voiceSettingsLocal?.pitch} onChange={(e) => handleChangePitch(e)} type="range" min={0} max="1" className="range w-full" step="0.1" />
             <h1>Pitch</h1>
           </div>
           <p>{voiceSettingsLocal?.pitch}</p>

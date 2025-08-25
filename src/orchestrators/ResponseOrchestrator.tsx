@@ -50,7 +50,7 @@ export const ResponseOrchestrator = () => {
 
 
     useEffect(() => {
-        if (!checkbox.current?.checked || TiktokConnection !== "Connected" || expresion === "sleeping") return;
+        if (!checkbox || TiktokConnection !== "Connected" || expresion === "sleeping") return;
 
         const handleStateChange = (newState: string) => {
             if (newState === "active") return
@@ -66,7 +66,7 @@ export const ResponseOrchestrator = () => {
             frammerDetection.off("stateChange", handleStateChange);
         };
 
-    }, [DefaultSpeak, checkbox.current?.checked, TiktokConnection, expresion]);
+    }, [DefaultSpeak, checkbox, TiktokConnection, expresion]);
 
 
     return null;

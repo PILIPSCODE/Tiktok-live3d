@@ -121,7 +121,7 @@ function Music() {
       <div className='text-sm my-2'>
         <h1>Volume</h1>
         <div className='flex gap-2 items-center'>
-          <input defaultValue={musicVolume} onChange={(e) => setMusicVolume(e.target.value)} type="range" min={0} max="1" className="range" step="0.1" />
+          <input defaultValue={musicVolume} onChange={(e) => setMusicVolume(e.target.value)} type="range" min={0} max="1" className="range w-full" step="0.1" />
           <p>{musicVolume}</p>
         </div>
       </div>

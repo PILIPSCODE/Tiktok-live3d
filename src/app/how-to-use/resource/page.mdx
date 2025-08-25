@@ -1,0 +1,49 @@
+# Resource
+
+The **Resource** feature allows you to import and manage external files inside the platform.  
+Currently, only the following file types are supported:
+
+---
+
+## Supported File Types
+
+- **Audio (MP3)**  
+  Import `.mp3` files for background music, sound effects, or voice interaction.
+
+- **Animated Image (GIF)**  
+  Import `.gif` files to display looping animations or reaction images.
+
+---
+
+## File Size Limit
+
+- Maximum file size allowed: **5 MB**  
+- Larger files will be rejected during upload.  
+
+---
+
+## Storage
+
+- All resources are stored in **indexedDb** of the application.  
+- This ensures quick access and offline availability.  
+- Resources will not be uploaded to external servers.  
+
+---
+
+## Usage
+
+1. Navigate to the **Resource** settings in your dashboard.  
+2. Select **Upload Resource**.  
+3. Choose either:
+   - `.mp3` file for audio  
+   - `.gif` file for animated image  
+4. Confirm the upload.  
+5. The file will be saved into **local storage** and can be used instantly.  
+
+---
+
+## Notes
+
+- Only `.mp3` and `.gif` formats are supported.  
+- Files must be **smaller than 5 MB**.  
+- All files are stored locally in the browser’s **local storage**.  

@@ -1,8 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "daisyui";
 
+@theme {
+  --font-archivo: var(--font-archivo);
+  --background-gradient-radial: radial-gradient(var(--tw-gradient-stops));
+  --background-gradient-conic: conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops));
+}
+
+@layer base {
+  html {
+    font-family: var(--font-Archivo);
+  }
+}
+
+@layer utilities {
+  .font-Archivo {
+    font-family: var(--font-Archivo);
+  }
+}
 
 html,
 body {

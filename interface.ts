@@ -2,6 +2,7 @@ export interface ResponseAi {
   comment: string;
   prev: boolean;
   response: string;
+  img: string;
   playOn: string;
   animation: string;
   user: string;

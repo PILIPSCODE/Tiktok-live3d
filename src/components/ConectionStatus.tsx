@@ -5,7 +5,7 @@ import { useTiktokConnection } from "@/hooks/UseTiktokConnection";
 import { useEffect, useRef } from "react";
 
 export default function Connection() {
-    const { isConnected } = useTiktokConnection();
+    const { TiktokConnection } = useTiktokConnection();
     const { QuequeMusic } = useMusic()
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -22,20 +22,6 @@ export default function Connection() {
 
     }, []);
 
-    const getYouTubeCookies = () => {
-        const cookies = document.cookie
-            .split("; ")
-            .filter((cookie) =>
-                cookie.startsWith("LOGIN_INFO") ||
-                cookie.startsWith("PREF") ||
-                cookie.startsWith("VISITOR_INFO1_LIVE") ||
-                cookie.startsWith("YSC")
-            )
-            .map((cookie) => cookie.replace("=", "\t"))
-            .join("\n");
-
-        console.log(cookies)
-    };
 
     useEffect(() => {
         if (audioRef.current) {
@@ -53,9 +39,9 @@ export default function Connection() {
 
 
     return (
-        <div onClick={getYouTubeCookies} className="absolute left-2 bottom-2">
+        <div className="absolute left-2 bottom-2">
             {
-                isConnected ?
+                TiktokConnection === "Connected" ?
                     <div className="h-5 w-5 rounded-full bg-green-500"></div>
                     :
                     <div className="h-5 w-5 rounded-full bg-red-500"></div>

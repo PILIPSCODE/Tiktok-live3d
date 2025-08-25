@@ -15,6 +15,7 @@ const data = {
     prev: false,
     playOn: "",
     response: "",
+    img: "/",
     animation: "",
     user: "",
 }
@@ -133,6 +134,7 @@ export default function BubleChat() {
                         <Image fill src={`/border/${BubbleChat.TypeBorder}.png`} alt='Border' />
                     </div>
                     <div className={`p-4 w-full break-before-auto max-sm:text-base ${BubbleChat.ResponsePosition}`}>
+                        <Image src={message.img} alt='user-img' className='mx-auto my-3' width={100} height={100} />
                         <h1 className={`text-white text-lg ${BubbleChat.CommentPosition} mb-4`}>{message.comment || "hello world"}</h1>
                         <h1 className={`text-orange-200 ${BubbleChat.usernamePosition}  mb-2`}>{message.user || "pilcotech"}</h1>
                         <ReactTyped

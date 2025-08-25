@@ -15,7 +15,7 @@ export const InteractionProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const [isGiftAnimation, setIsGiftAnimation] = useState(false);
     const [Intercation, SetInteraction] = useLocalStorage<Interaction[]>("interaction", []);
     const [DefaultSpeak, SetDefaultSpeak] = useLocalStorage<ResponseAi[]>("DefaultSpeak", []);
-    const checkbox = useRef<HTMLInputElement>(null);
+    const [checkbox, setCheckbox] = useState(false)
 
     const safeRemoveAndSet = (newAnim: setAnimation) => {
         SetAnimation((prev) => {
@@ -61,6 +61,7 @@ export const InteractionProvider: React.FC<{ children: React.ReactNode }> = ({ c
                 DefaultSpeak,
                 SetDefaultSpeak,
                 checkbox,
+                setCheckbox
             }}
         >
             {children}

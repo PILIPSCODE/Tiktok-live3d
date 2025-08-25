@@ -133,7 +133,7 @@ function Character() {
             <h4 className='text-sm text-center border border-black p-4'>Expression Command Empty, Add More Command Expression</h4>
             :
             ExpressionInteraction.map((e: any, index: number) => (
-              <div className='flex gap-3 max-md:flex-col my-3'>
+              <div className='flex gap-3 max-md:flex-col my-3  items-start'>
                 <Input defaultValue={e.command} placeholder='Type Command' onChange={(e) => handleChange(e.target.value, index)} Inputsize={"sm"} />
                 <CustomSelect className='text-xs' displayKey={"expresion"} placeholder='Select Expression' onSelect={(selectedOption) => handleSelectExpressionList(selectedOption, index)} defaultValue={e.expression} options={expression} />
                 <button
@@ -146,7 +146,7 @@ function Character() {
             ))}
 
           <div className='w-full flex mt-2'>
-            <button className='bg-black text-white p-3 mb-2 w-full rounded-md transition-transform duration-300 transform hover:scale-105' onClick={handleAdd}>Add More</button>
+            <button className='bg-black text-white p-3 mb-2 w-full rounded-md transition-transform duration-300 transform ' onClick={handleAdd}>Add</button>
           </div>
         </div>
         :

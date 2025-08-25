@@ -20,10 +20,11 @@ import Input from './Ui/input';
 import { useTiktokConnection } from '@/hooks/UseTiktokConnection';
 import { useResponse } from '@/hooks/useResponse';
 import Resource from './SideBarItems/Resource';
-import { FaFolder } from 'react-icons/fa';
+import { FaBook, FaFolder } from 'react-icons/fa';
 import Image from 'next/image';
 import SidebarMenu from './Ui/Collapse';
 import Profile from './SideBarItems/Profile';
+import Link from 'next/link';
 
 
 type prop = {
@@ -64,7 +65,7 @@ function Navbar(props: prop) {
         {
             value: "Profile",
             icons: <GiCharacter />,
-            JSX: <Profile />
+            JSX: <BackGround />
         },
         {
             value: "Console",
@@ -109,7 +110,7 @@ function Navbar(props: prop) {
         {
             value: "Music",
             icons: <RiMusic2Fill />,
-            JSX: <Music />
+            JSX: <BackGround />
         },
         {
             value: "Interaction Setting",
@@ -135,6 +136,7 @@ function Navbar(props: prop) {
 
             <div className='flex justify-end gap-4 text-white z-50 absolute top-3 right-3 '>
                 <div className={props.open ? "flex gap-2" : "hidden"}>
+                    <Link href={"/how-to-use/getting-started"} className='bg-gray-500  gap-2 items-center px-2 rounded-md flex'><span><FaBook /></span>how to use?</Link>
                     <div onClick={() => setVersion("2d")} className='rounded-md bg-gray-500'>
                         <div className='pointer-events-none flex items-center gap-2 p-1 '>
                             <div className='w-7 h-7 relative'>

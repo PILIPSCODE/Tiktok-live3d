@@ -13,7 +13,7 @@ import Input from '../Ui/input'
 
 function ChatDisplay() {
   const { BubbleChat, setBubbleChat } = useResponse()
-  const { DefaultSpeak, SetDefaultSpeak, checkbox } = useInteraction()
+  const { DefaultSpeak, SetDefaultSpeak, checkbox, setCheckbox } = useInteraction()
   const [BubbleChatMap, setBubbleChatMap] = useState<BubbleSettings>()
   const [DefaultSpeakMap, setDefaultSpeakMap] = useState<ResponseAi[]>([])
 
@@ -75,6 +75,10 @@ function ChatDisplay() {
     );
   };
 
+  const hanldeChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckbox(e.target.checked)
+  }
+
   return (
     <div>
       <div className='p-3'>
@@ -113,17 +117,18 @@ function ChatDisplay() {
         <div className='text-sm my-2 p-2'>
           <h1>Text Speed</h1>
           <div className='flex gap-2 items-center'>
-            <input defaultValue={BubbleChatMap?.TextSpeed} onChange={(e) => { setBubbleChat({ ...BubbleChatMap, TextSpeed: e.target.value }) }} type="range" min={1} max="5" className="range" step="1" />
+            <input defaultValue={BubbleChatMap?.TextSpeed} onChange={(e) => { setBubbleChat({ ...BubbleChatMap, TextSpeed: e.target.value }) }} type="range" min={1} max="5" className="range w-full" step="1" />
             <p>{BubbleChatMap?.TextSpeed}X</p>
           </div>
         </div>
         <div >
           <div className='flex p-2 gap-2 items-center my-3 text-base'>
             <p>Default Speak</p>
-            <input type="checkbox" ref={checkbox} className="toggle toggle-info" />
+            <input type="checkbox" onChange={(e) => hanldeChecked(e)} className="toggle border-black text-black bg-white  checked:bg-black checked:text-white" />
+            <span className="text-red-500">(not stable)</span>
           </div>
-          <div className={`${checkbox.current?.checked ? "min-h-40" : "min-h-0"} duration-300`}>
-            {checkbox.current?.checked && (
+          <div className={`${checkbox ? "min-h-40" : "min-h-0"} duration-300`}>
+            {checkbox && (
               DefaultSpeakMap.map((e: ResponseAi, index: number) => (
                 <div key={index} className="flex max-md:flex-col max-md:items-stretch gap-2 my-2  items-start rounded-md">
                   <Input Inputsize="sm" onChange={(el) => handleChange(e.response, index, el.target.value)} placeholder="Word" className='w-full' defaultValue={e.response} />

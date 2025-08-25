@@ -11,7 +11,7 @@ import { useTiktokConnection } from '@/hooks/UseTiktokConnection'
 import { useInteraction2d } from '@/hooks/useInteraction2d'
 
 function IntercationSettings() {
-  const { Intercation, SetInteraction, Gift, safeRemoveAndSet, Follow, Share, checkbox, SetToast, setIsGiftAnimation, setShare, setFollow } = useInteraction()
+  const { Intercation, SetInteraction, Gift, safeRemoveAndSet, Follow, Share, setCheckbox, SetToast, setIsGiftAnimation, setShare, setFollow } = useInteraction()
   const { Intercation2d, SetInteraction2d, SetGifInteraction } = useInteraction2d()
   const { Resource } = useCharacter()
   const { version } = useTiktokConnection()
@@ -76,7 +76,7 @@ function IntercationSettings() {
     const gifResource = Resource?.filter((el: ResorceType) => el.name === currentInteraction?.gif)
 
     if (audioResource) {
-      checkbox.checked = false;
+      setCheckbox(false)
       const audio = new Audio(`data:${audioResource[0]?.type};base64,` + audioResource[0]?.Base64);
       audio.volume = 0.5;
       audioRef.current = audio;
@@ -104,7 +104,7 @@ function IntercationSettings() {
       return () => {
         audio.removeEventListener("ended", handleEnded);
         audio.pause();
-        checkbox.checked = true;
+        setCheckbox(true)
         audio.src = "";
         audioRef.current = null;
       }
@@ -173,7 +173,7 @@ function IntercationSettings() {
 
             <div key={index}>
               <h1 className='text-base mb-1 '>{e.type}</h1>
-              <div className='flex max-md:flex-col  border-2  max-md:items-stretch  gap-2 my-1 p-2 items-stretch  rounded-md'>
+              <div className='flex max-md:flex-col  max-md:items-stretch  gap-2 my-1 p-2 items-stretch  rounded-md'>
                 {version === "2d" ?
                   <CustomSelect
                     placeholder="ext.Gif"

@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+import nextra from "nextra";
+
 const nextConfig = {
   webpack: (
     config,
@@ -34,6 +36,7 @@ const nextConfig = {
       "p16-sign-va.tiktokcdn.com",
       "p16-tiktokcdn-com.akamaized.net",
       "p16-sign.tiktokcdn.com",
+      "p16-common-sign-useastred.tiktokcdn-eu.com",
       "p19-sign.tiktokcdn.com",
       "p16-sign-va.tiktokcdn.com",
       "p77-sign-sg.tiktokcdn.com",
@@ -46,4 +49,8 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+const withNextra = nextra({
+  // ... Add Nextra-specific options here
+});
+
+export default withNextra(nextConfig);

@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic"
 import Toast from "@/components/Toast";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Gifinteraction from "@/components/Gifinteraction";
 import VersionChanger from "./versionChanger";
 
@@ -11,10 +11,13 @@ const BubleChat = dynamic(() => import("@/components/BubleChat"), { ssr: false }
 const Navbar = dynamic(() => import("@/components/SideBar"), { ssr: false })
 
 
+
 export default function Home() {
   const [open, setOpen] = useState(false)
 
   const [showScene, setShowScene] = useState(true);
+
+
 
 
   useEffect(() => {
@@ -35,9 +38,9 @@ export default function Home() {
 
 
   return (
-    <main className="w-screen  overflow-x-hidden">
+    <main className="w-screen font-archivo ">
 
-      <div className="h-screen flex items-center font-Archivo relative ">
+      <div className="h-screen w-full overflow-x-hidden flex items-center font-Archivo relative ">
         <section className={`h-screen  relative ${open ? "w-96 max-xl:w-0" : "w-screen"} flex justify-center items-center  duration-500 flex-grow`}>
           <Toast />
           <VersionChanger setShowScene={setShowScene} showScene={showScene} />

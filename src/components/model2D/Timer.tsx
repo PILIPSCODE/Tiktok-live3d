@@ -48,7 +48,7 @@ const Timer = () => {
                         Tidur {`0${Math.floor(remainingTime / 60000)}:${String(Math.floor((remainingTime % 60000) / 1000)).padStart(2, '0')}`}
                     </span>
                     :
-                    <span>
+                    <span id='first'>
                         Tidur Dulu Coy !!
                     </span>
                 }
