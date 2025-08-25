@@ -8,12 +8,14 @@ import { FaTrash } from 'react-icons/fa'
 import { ResorceType, InteractionQueue } from '../../../interface'
 import { useCharacter } from '@/hooks/useCharacter'
 import { useTiktokConnection } from '@/hooks/UseTiktokConnection'
+import expression_list from "../../../dumycommand.json"
+import Input from '../Ui/input'
 import { useInteraction2d } from '@/hooks/useInteraction2d'
 
 function IntercationSettings() {
   const { Intercation, SetInteraction, Gift, safeRemoveAndSet, Follow, Share, setCheckbox, SetToast, setIsGiftAnimation, setShare, setFollow } = useInteraction()
-  const { Intercation2d, SetInteraction2d, SetGifInteraction } = useInteraction2d()
-  const { Resource } = useCharacter()
+  const { Intercation2d, SetInteraction2d, SetGifInteraction, expression } = useInteraction2d()
+  const { Resource, ExpressionInteraction, setExpressionInteraction } = useCharacter()
   const { version } = useTiktokConnection()
   const [InteractionQueue, setInteractionQueue] = useState<InteractionQueue[]>([])
   const [currentInteraction, setCurrentInteraction] = useState<InteractionQueue | null>(null);
@@ -67,6 +69,28 @@ function IntercationSettings() {
   };
 
 
+  const handleChange = (value: string, index: number) => {
+    setExpressionInteraction((prev: any) =>
+      prev.map((item: any, i: number) =>
+        i === index ? { ...item, command: value } : item
+      )
+    );
+  }
+  const handleSelectExpressionList = (selectedOption: any, index: number) => {
+    setExpressionInteraction((prev: any) =>
+      prev.map((item: any, i: number) =>
+        i === index ? { ...item, expression: selectedOption.expresion } : item
+      )
+    );
+  }
+
+  const handleDeleteCommand = (index: number) => {
+    setExpressionInteraction((prev: any) => prev.filter((_: any, i: number) => i !== index))
+  }
+
+  const handleAdd = () => {
+    setExpressionInteraction((prev: any) => [...prev, { expresion: "", command: "" }])
+  }
 
 
   useEffect(() => {
@@ -266,6 +290,33 @@ function IntercationSettings() {
         <div className='w-full flex p-2'>
           <button className='bg-black text-white p-3 mb-2 w-full rounded-md transition-transform duration-300 transform hover:scale-105' onClick={() => setOnVersion((prev: any) => [...prev, { animation: "Idle", audio: "", gift: "", type: "gift" }])}>Add More</button>
         </div>
+        {version === "2d" ?
+          <>
+            <h1 className='text-lg mt-2 '>Command Change Expression</h1>
+
+            {ExpressionInteraction.length === 0 ?
+              <h4 className='text-sm text-center border border-black p-4'>Expression Command Empty, Add More Command Expression</h4>
+              :
+              ExpressionInteraction.map((e: any, index: number) => (
+                <div className='flex gap-3 max-md:flex-col my-3  items-start'>
+                  <Input defaultValue={e.command} placeholder='Type Command' onChange={(e) => handleChange(e.target.value, index)} Inputsize={"sm"} />
+                  <CustomSelect className='text-xs' displayKey={"expresion"} placeholder='Select Expression' onSelect={(selectedOption) => handleSelectExpressionList(selectedOption, index)} defaultValue={e.expression} options={expression_list} />
+                  <button
+                    onClick={() => handleDeleteCommand(index)}
+                    className="bg-red-500 text-white p-2 flex justify-center items-center gap-2 rounded-md mt-1">
+                    <FaTrash />
+                    <p className='md:hidden'>Delete</p>
+                  </button>
+                </div>
+              ))}
+            <div className='w-full flex mt-2'>
+              <button className='bg-black text-white p-3 mb-2 w-full rounded-md transition-transform duration-300 transform ' onClick={handleAdd}>Add</button>
+            </div>
+          </>
+
+          :
+          <></>
+        }
       </div>
 
 

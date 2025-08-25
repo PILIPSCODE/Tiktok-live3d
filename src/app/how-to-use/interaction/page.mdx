@@ -5,7 +5,7 @@ import { Tabs } from 'nextra/components'
 Welcome to the interaction settings guide. Here, you'll learn how to configure both 3D and 2D interactions for your content.
 
 <div className="nx-bg-gray-100 nx-p-4 nx-rounded-md dark:nx-bg-gray-800">
-  <p>Important: All of these interaction settings can be configured through the user interface on your platform. This MDX file serves as a reference and technical documentation.</p>
+  <p>Important: All of these interaction settings can be configured through the user interface on your platform.</p>
 </div>
 
 <Tabs items={['3D Interaction', '2D Interaction']}>
@@ -18,16 +18,16 @@ Welcome to the interaction settings guide. Here, you'll learn how to configure b
 
     - **`Set audio resource`**
       This feature allows you to attach an audio file to a 3D interaction. This is useful for creating immersive sound effects or background music that is triggered when a user interacts with an object.
-
-      **Use Case Examples:**
-      - Footstep sounds when walking through a virtual environment.
-      - Sound effects when a 3D object is selected or clicked.
+      <a className="underline" href="/how-to-use/resource">Resource.</a>
 
     - **`Set Follow And Share`**
       Configures the 'Follow' and 'Share' functionality on a 3D element. This helps users follow content creators or share the interactive experience directly from the 3D scene.
 
     - **`Set Gift Interaction`**
       Defines the response that occurs when a user sends a virtual "Gift." This interaction can be a special visual effect, an animation, or even a sound that celebrates the gift.
+
+   <img src="/doc/Interaction3d.png" className="ml-5 mt-5" alt="Input Tiktok Username" width="600"/>
+    
   </Tabs.Tab>
   <Tabs.Tab>
     ## 2D Interaction Settings
@@ -36,19 +36,16 @@ Welcome to the interaction settings guide. Here, you'll learn how to configure b
 
     ### Key Features
 
-    - **`Add audio and gif resource`**
+    - **`Set audio and gif resource`**
       Unlike the 3D version, this feature allows you to attach **two** resources at once: an audio file and a GIF. This is ideal for adding fast visual animations and sound effects to 2D content.
-
-      **Use Case Examples:**
-      - An animated sticker with a clapping sound.
-      - A GIF that is triggered when a user swipes or taps on an image.
+      <a className="underline" href="/how-to-use/resource">Resource.</a>
 
     - **`Set Follow And Share`**
       Similar to the 3D version, this feature sets the 'Follow' and 'Share' functionality, but it is adapted for the 2D format.
 
     - **`Set Gift Interaction`**
       Determines the response to a virtual "Gift" on 2D content, such as the appearance of an animated sticker or a simple but eye-catching visual effect.
+   <img src="/doc/Interaction2d.png" className="ml-5 mt-5" alt="Input Tiktok Username" width="600"/>
   </Tabs.Tab>
 </Tabs>
 
-## Tutorial

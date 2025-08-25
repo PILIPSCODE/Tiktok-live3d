@@ -41,7 +41,7 @@ function Voice() {
   return (
     <div className='p-4  text-base '>
       <CustomSelect
-        placeholder="Select Google Voice"
+        placeholder="Select TTS Browsher Voice"
         options={voices}
         defaultValue={`${voiceSettings.voice}`}
         displayKey="voiceURI"

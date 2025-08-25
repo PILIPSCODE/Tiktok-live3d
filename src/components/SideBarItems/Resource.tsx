@@ -18,14 +18,19 @@ export default function UploadToLocalStorage(): JSX.Element {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const file = e.target.files?.[0];
 
+
         if (!file) {
             setMessage('Please select a file.');
             return;
         }
+        if (file?.size > 5 * 1024 * 1024) {
+            setMessage('Maximum file size 5mb');
+
+        }
 
 
         if (!(file.type === "audio/mpeg" || file.type === "audio/wav" || file.type === "image/gif")) {
-            setMessage('Please select a valid audio file (mp3, mp4, wav, gif).');
+            setMessage('Please select a valid audio file (mp3, wav, gif).');
             return;
         }
 
@@ -35,7 +40,7 @@ export default function UploadToLocalStorage(): JSX.Element {
             if (typeof reader.result === 'string') {
                 const base64String = reader.result.split(',')[1];
                 setResource((prev: any) => [...prev, { name: file.name, type: file.type, Base64: base64String }])
-                setMessage('File saved to local storage as Base64.');
+                setMessage('');
             } else {
                 setMessage('Failed to convert file to Base64.');
             }
@@ -74,6 +79,7 @@ export default function UploadToLocalStorage(): JSX.Element {
 
     return (
         <div className='p-6 relative flex flex-wrap items-center gap-10'>
+            <p className='absolute top-2 text-sm text-red-500 left-2'>{message}</p>
             {ResourceMap.map((e: ResorceType, index: number) => (
                 <div key={index} className='relative'>
                     <FaCircleXmark onClick={() => handleDelete(e)} className='absolute z-50 -right-1 -top-2' />
